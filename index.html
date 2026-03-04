@@ -1,8 +1,11 @@
 <!DOCTYPE html>
 <html>
+
 <head>
 <title>Smart Pest Monitoring System</title>
+
 <style>
+
 body{
 font-family: Arial;
 background:#f4f6f9;
@@ -12,7 +15,7 @@ padding:40px;
 .container{
 background:white;
 padding:25px;
-width:400px;
+width:420px;
 margin:auto;
 border-radius:8px;
 box-shadow:0 0 10px rgba(0,0,0,0.2);
@@ -21,6 +24,11 @@ box-shadow:0 0 10px rgba(0,0,0,0.2);
 h2{
 text-align:center;
 color:#2c3e50;
+}
+
+p{
+text-align:center;
+color:#555;
 }
 
 input, textarea, select{
@@ -35,17 +43,20 @@ border:1px solid #ccc;
 button{
 background:#2e86de;
 color:white;
-padding:10px;
+padding:12px;
 border:none;
 width:100%;
 border-radius:5px;
 font-size:16px;
+cursor:pointer;
 }
 
 button:hover{
 background:#1b4f72;
 }
+
 </style>
+
 </head>
 
 <body>
@@ -53,12 +64,14 @@ background:#1b4f72;
 <div class="container">
 
 <h2>Smart Pest Monitoring System</h2>
-<p>Farmers can report pest problems using this form.</p>
+
+<p>Farmers can report pest problems in crops using this portal.</p>
 
 <form action="https://webto.salesforce.com/servlet/servlet.WebToCase" method="POST">
 
-<input type=hidden name="orgid" value="00DdM00000iSfdB">
-<input type=hidden name="retURL" value="https://google.com">
+<input type="hidden" name="orgid" value="00DdM00000iSfdB">
+
+<input type="hidden" name="retURL" value="https://sruthivt.github.io/pest-report-portal/">
 
 <label>Farmer Name</label>
 <input type="text" name="name" required>
@@ -75,7 +88,7 @@ background:#1b4f72;
 <label>Pest Description</label>
 <textarea name="description" rows="4"></textarea>
 
-<label>Severity</label>
+<label>Severity Level</label>
 <select name="priority">
 <option value="Low">Low</option>
 <option value="Medium">Medium</option>
