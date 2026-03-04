@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html>
-
 <head>
-<title>Smart Pest Monitoring System</title>
+<title>பூச்சி கண்காணிப்பு அமைப்பு</title>
 
 <style>
 
@@ -56,46 +55,46 @@ background:#1b4f72;
 }
 
 </style>
-
 </head>
 
 <body>
 
 <div class="container">
 
-<h2>Smart Pest Monitoring System</h2>
+<h2>பூச்சி கண்காணிப்பு அமைப்பு</h2>
 
-<p>Farmers can report pest problems in crops using this portal.</p>
+<p>விவசாயிகள் தங்கள் பயிர்களில் உள்ள பூச்சி பிரச்சனைகளை இங்கு தெரிவிக்கலாம்.</p>
 
 <form action="https://webto.salesforce.com/servlet/servlet.WebToCase" method="POST">
 
 <input type="hidden" name="orgid" value="00DdM00000iSfdB">
-
 <input type="hidden" name="retURL" value="https://sruthivt.github.io/pest-report-portal/">
 
-<label>Farmer Name</label>
+<label>விவசாயியின் பெயர்</label>
 <input type="text" name="name" required>
 
-<label>Phone Number</label>
+<label>தொலைபேசி எண்</label>
 <input type="text" name="phone">
 
-<label>Email</label>
-<input type="email" name="email">
-
-<label>Village</label>
+<label>கிராமம்</label>
 <input type="text" name="subject">
 
-<label>Pest Description</label>
+<label>பூச்சி விவரம்</label>
 <textarea name="description" rows="4"></textarea>
 
-<label>Severity Level</label>
+<label>பாதிப்பு அளவு</label>
+
 <select name="priority">
-<option value="Low">Low</option>
-<option value="Medium">Medium</option>
-<option value="High">High</option>
+
+<option value="Low">குறைவு</option>
+
+<option value="Medium">நடுத்தரம்</option>
+
+<option value="High">அதிகம்</option>
+
 </select>
 
-<button type="submit">Submit Pest Report</button>
+<button type="submit">பூச்சி தகவலை அனுப்பவும்</button>
 
 </form>
 
