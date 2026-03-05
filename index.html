@@ -77,7 +77,10 @@ background:#1b5e20;
 <input type="text" id="village" required>
 
 <label>Phone Number / தொலைபேசி எண்</label>
-<input type="text" id="Phone Number" required>
+<input type="tel" id="phone" required>
+
+<label>Email / மின்னஞ்சல்</label>
+<input type="email" id="email" required>
 
 <label>Pest Type / பூச்சி வகை</label>
 <select id="pest">
@@ -107,10 +110,13 @@ function sendEmail(){
 
 var farmerName = document.getElementById("name").value;
 var village = document.getElementById("village").value;
+var phone = document.getElementById("phone").value;
+var email = document.getElementById("email").value;
 var pest = document.getElementById("pest").value;
-  
+
 /* Validation */
-if(!farmerName || !village || !phone){
+
+if(!farmerName || !village || !phone || !email){
 alert("Please fill all fields");
 return;
 }
@@ -119,6 +125,8 @@ emailjs.send("service_5be3jfq","template_retc0al",{
 
 farmer_name: farmerName,
 village: village,
+phone: phone,
+email: email,
 pest: pest
 
 })
@@ -140,3 +148,6 @@ alert("Error sending report");
 }
 
 </script>
+
+</body>
+</html>
