@@ -1,61 +1,51 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Smart Pest Monitoring System</title>
 
 <style>
 
 body{
-font-family: Arial, sans-serif;
-background:#f4f6f7;
-margin:0;
-padding:0;
+font-family: Arial;
+background:#f4f6f9;
+padding:40px;
 }
 
 .container{
-max-width:500px;
-margin:40px auto;
 background:white;
 padding:25px;
-border-radius:10px;
-box-shadow:0 0 10px rgba(0,0,0,0.1);
+width:420px;
+margin:auto;
+border-radius:8px;
+box-shadow:0 0 10px rgba(0,0,0,0.2);
 }
 
 h2{
 text-align:center;
-color:#2e7d32;
+color:#2c3e50;
 }
 
-label{
-font-weight:bold;
-display:block;
-margin-top:15px;
-}
-
-input,select{
+input, textarea, select{
 width:100%;
 padding:10px;
-margin-top:5px;
-border:1px solid #ccc;
+margin-top:8px;
+margin-bottom:15px;
 border-radius:5px;
+border:1px solid #ccc;
 }
 
 button{
-width:100%;
-padding:12px;
-margin-top:20px;
-background:#2e7d32;
+background:#2e86de;
 color:white;
+padding:10px;
 border:none;
+width:100%;
 border-radius:5px;
 font-size:16px;
-cursor:pointer;
 }
 
 button:hover{
-background:#1b5e20;
+background:#1b4f72;
 }
 
 </style>
@@ -66,24 +56,30 @@ background:#1b5e20;
 
 <div class="container">
 
-<h2>Smart Pest Monitoring System</h2>
+<h2>🌾 Smart Pest Monitoring System 🌾</h2>
 
-<form id="pestForm">
+<form id="pestForm"
+action="https://webto.salesforce.com/servlet/servlet.WebToCase"
+method="POST"
+onsubmit="sendEmail()">
+
+<input type="hidden" name="orgid" value="00DdM00000iSfdB">
+<input type="hidden" name="retURL" value="https://sruthivt.github.io/pest-report-portal/">
 
 <label>Farmer Name / விவசாயி பெயர்</label>
-<input type="text" id="name" required>
-
-<label>Village / கிராமம்</label>
-<input type="text" id="village" required>
-
-<label>Phone Number / தொலைபேசி எண்</label>
-<input type="tel" id="phone" required>
+<input type="text" id="name" name="name" required>
 
 <label>Email / மின்னஞ்சல்</label>
-<input type="email" id="email" required>
+<input type="email" id="email" name="email" required>
+
+<label>Phone Number / தொலைபேசி எண்</label>
+<input type="text" id="phone" name="phone" required>
+
+<label>Village / கிராமம்</label>
+<input type="text" id="village" name="subject" required>
 
 <label>Pest Type / பூச்சி வகை</label>
-<select id="pest">
+<select id="pest" name="description">
 
 <option value="Fall Armyworm">Fall Armyworm</option>
 <option value="Brown Plant Hopper">Brown Plant Hopper</option>
@@ -92,7 +88,7 @@ background:#1b5e20;
 
 </select>
 
-<button type="button" onclick="sendEmail()">Submit Report</button>
+<button type="submit">Submit Report</button>
 
 </form>
 
@@ -114,13 +110,6 @@ var phone = document.getElementById("phone").value;
 var email = document.getElementById("email").value;
 var pest = document.getElementById("pest").value;
 
-/* Validation */
-
-if(!farmerName || !village || !phone || !email){
-alert("Please fill all fields");
-return;
-}
-
 emailjs.send("service_5be3jfq","template_retc0al",{
 
 farmer_name: farmerName,
@@ -128,20 +117,6 @@ village: village,
 phone: phone,
 email: email,
 pest: pest
-
-})
-
-.then(function(response){
-
-alert("Report Submitted Successfully");
-
-document.getElementById("pestForm").reset();
-
-},
-
-function(error){
-
-alert("Error sending report");
 
 });
 
