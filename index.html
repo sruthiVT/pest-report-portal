@@ -1,107 +1,136 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>பூச்சி கண்காணிப்பு அமைப்பு</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Smart Pest Monitoring System</title>
 
 <style>
 
 body{
-font-family: Arial;
-background:#f4f6f9;
-padding:40px;
+font-family: Arial, sans-serif;
+background:#f4f6f7;
+margin:0;
+padding:0;
 }
 
 .container{
+max-width:500px;
+margin:40px auto;
 background:white;
 padding:25px;
-width:420px;
-margin:auto;
-border-radius:8px;
-box-shadow:0 0 10px rgba(0,0,0,0.2);
+border-radius:10px;
+box-shadow:0 0 10px rgba(0,0,0,0.1);
 }
 
 h2{
 text-align:center;
-color:#2c3e50;
+color:#2e7d32;
 }
 
-p{
-text-align:center;
-color:#555;
+label{
+font-weight:bold;
+display:block;
+margin-top:15px;
 }
 
-input, textarea, select{
+input,select{
 width:100%;
 padding:10px;
-margin-top:8px;
-margin-bottom:15px;
-border-radius:5px;
+margin-top:5px;
 border:1px solid #ccc;
+border-radius:5px;
 }
 
 button{
-background:#2e86de;
-color:white;
-padding:12px;
-border:none;
 width:100%;
+padding:12px;
+margin-top:20px;
+background:#2e7d32;
+color:white;
+border:none;
 border-radius:5px;
 font-size:16px;
 cursor:pointer;
 }
 
 button:hover{
-background:#1b4f72;
+background:#1b5e20;
 }
 
 </style>
+
 </head>
 
 <body>
 
 <div class="container">
 
-<h2>பூச்சி கண்காணிப்பு அமைப்பு</h2>
+<h2>Smart Pest Monitoring System</h2>
 
-<p>விவசாயிகள் தங்கள் பயிர்களில் உள்ள பூச்சி பிரச்சனைகளை இங்கு தெரிவிக்கலாம்.</p>
+<form id="pestForm">
 
-<form action="https://webto.salesforce.com/servlet/servlet.WebToCase" method="POST">
+<label>Farmer Name / விவசாயி பெயர்</label>
+<input type="text" id="name" required>
 
-<input type="hidden" name="orgid" value="00DdM00000iSfdB">
-<input type="hidden" name="retURL" value="https://sruthivt.github.io/pest-report-portal/">
+<label>Village / கிராமம்</label>
+<input type="text" id="village" required>
 
-<label>விவசாயியின் பெயர்</label>
-<input type="text" name="name" required>
+<label>Pest Type / பூச்சி வகை</label>
+<select id="pest">
 
-<label>தொலைபேசி எண்</label>
-<input type="text" name="phone">
-  
-<label>மின்னஞ்சல்</label>
-<input type="email" name="email">
-
-<label>கிராமம்</label>
-<input type="text" name="subject">
-
-<label>பூச்சி விவரம்</label>
-<textarea name="description" rows="4"></textarea>
-
-<label>பாதிப்பு அளவு</label>
-
-<select name="priority">
-
-<option value="Low">குறைவு</option>
-
-<option value="Medium">நடுத்தரம்</option>
-
-<option value="High">அதிகம்</option>
+<option value="Fall Armyworm">Fall Armyworm</option>
+<option value="Brown Plant Hopper">Brown Plant Hopper</option>
+<option value="Stem Borer">Stem Borer</option>
+<option value="Leaf Folder">Leaf Folder</option>
 
 </select>
 
-<button type="submit">பூச்சி தகவலை அனுப்பவும்</button>
+<button type="button" onclick="sendEmail()">Submit Report</button>
 
 </form>
 
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+
+<script>
+
+(function(){
+emailjs.init("3oTB5lj9pKw_10I6R");
+})();
+
+function sendEmail(){
+
+var farmerName = document.getElementById("name").value;
+var village = document.getElementById("village").value;
+var pest = document.getElementById("pest").value;
+
+emailjs.send("service_5be3jfq","template_retc0al",{
+
+farmer_name: farmerName,
+village: village,
+pest: pest
+
+})
+
+.then(function(response){
+
+alert("Report Submitted Successfully");
+
+document.getElementById("pestForm").reset();
+
+},
+
+function(error){
+
+alert("Error sending report");
+
+});
+
+}
+
+</script>
 
 </body>
 </html>
