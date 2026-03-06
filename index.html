@@ -58,10 +58,10 @@ background:#1b4f72;
 
 <h2>🌾 Smart Pest Monitoring System 🌾</h2>
 
-<form
+<form id="pestForm"
 action="https://webto.salesforce.com/servlet/servlet.WebToCase"
 method="POST"
-onsubmit="sendEmail()">
+onsubmit="submitForm(event)">
 
 <input type="hidden" name="orgid" value="00DdM00000iSfdB">
 <input type="hidden" name="retURL" value="https://sruthivt.github.io/pest-report-portal/">
@@ -115,7 +115,9 @@ onsubmit="sendEmail()">
 emailjs.init("3oTB5lj9pKw_10I6R");
 })();
 
-function sendEmail(){
+function submitForm(event){
+
+event.preventDefault(); // stop immediate submission
 
 var farmerName = document.getElementById("farmer_name").value;
 var village = document.getElementById("village").value;
@@ -124,10 +126,11 @@ var email = document.getElementById("email").value;
 var pest = document.getElementById("pest").value;
 var level = document.getElementById("level").value;
 
-/* Fix for Salesforce Contact Name */
+/* Salesforce name fix */
 document.getElementById("first_name").value = farmerName;
 document.getElementById("last_name").value = farmerName;
 
+/* Send email to farmer */
 emailjs.send("service_5be3jfq","template_retc0al",{
 
 farmer_name: farmerName,
@@ -137,9 +140,14 @@ email: email,
 pest: pest,
 level: level
 
-});
+}).then(function(){
 
 alert("Report submitted successfully!");
+
+/* submit to Salesforce after email sent */
+document.getElementById("pestForm").submit();
+
+});
 
 }
 
