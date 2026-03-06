@@ -25,7 +25,7 @@ text-align:center;
 color:#2c3e50;
 }
 
-input, textarea, select{
+input, select{
 width:100%;
 padding:10px;
 margin-top:8px;
@@ -42,6 +42,7 @@ border:none;
 width:100%;
 border-radius:5px;
 font-size:16px;
+cursor:pointer;
 }
 
 button:hover{
@@ -49,7 +50,6 @@ background:#1b4f72;
 }
 
 </style>
-
 </head>
 
 <body>
@@ -58,17 +58,21 @@ background:#1b4f72;
 
 <h2>🌾 Smart Pest Monitoring System 🌾</h2>
 
-<form id="pestForm"
+<form
 action="https://webto.salesforce.com/servlet/servlet.WebToCase"
 method="POST"
-onsubmit="sendEmail();return true;">
+onsubmit="sendEmail()">
 
 <input type="hidden" name="orgid" value="00DdM00000iSfdB">
 <input type="hidden" name="retURL" value="https://sruthivt.github.io/pest-report-portal/">
 
+<!-- Hidden fields for Salesforce -->
+<input type="hidden" name="first_name" id="first_name">
+<input type="hidden" name="last_name" id="last_name">
+
 <label>Farmer Name / விவசாயி பெயர்</label>
-<input type="text" name="last_name" id="farmer_name" required>
-  
+<input type="text" id="farmer_name" required>
+
 <label>Email / மின்னஞ்சல்</label>
 <input type="email" id="email" name="email" required>
 
@@ -77,7 +81,7 @@ onsubmit="sendEmail();return true;">
 
 <label>Village / கிராமம்</label>
 <input type="text" id="village" name="subject" required>
-  
+
 <label>Pest Type / பூச்சி வகை</label>
 <select id="pest" name="description">
 
@@ -85,6 +89,15 @@ onsubmit="sendEmail();return true;">
 <option value="Brown Plant Hopper">Brown Plant Hopper</option>
 <option value="Stem Borer">Stem Borer</option>
 <option value="Leaf Folder">Leaf Folder</option>
+
+</select>
+
+<label>Infected Level / பாதிப்பு அளவு</label>
+<select id="level">
+
+<option value="Low">Low</option>
+<option value="Medium">Medium</option>
+<option value="High">High</option>
 
 </select>
 
@@ -104,11 +117,16 @@ emailjs.init("3oTB5lj9pKw_10I6R");
 
 function sendEmail(){
 
-var farmerName = document.getElementById("name").value;
+var farmerName = document.getElementById("farmer_name").value;
 var village = document.getElementById("village").value;
 var phone = document.getElementById("phone").value;
 var email = document.getElementById("email").value;
 var pest = document.getElementById("pest").value;
+var level = document.getElementById("level").value;
+
+/* Fix for Salesforce Contact Name */
+document.getElementById("first_name").value = farmerName;
+document.getElementById("last_name").value = farmerName;
 
 emailjs.send("service_5be3jfq","template_retc0al",{
 
@@ -116,10 +134,11 @@ farmer_name: farmerName,
 village: village,
 phone: phone,
 email: email,
-pest: pest
+pest: pest,
+level: level
 
 });
-  
+
 alert("Report submitted successfully!");
 
 }
