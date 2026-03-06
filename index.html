@@ -61,18 +61,18 @@ background:#1b4f72;
 <form id="pestForm"
 action="https://webto.salesforce.com/servlet/servlet.WebToCase"
 method="POST"
-onsubmit="submitForm(event); return false;">
+onsubmit="submitForm(event)">
 
 <input type="hidden" name="orgid" value="00DdM00000iSfdB">
 <input type="hidden" name="retURL" value="https://sruthivt.github.io/pest-report-portal/">
 
-<!-- Hidden fields for Salesforce -->
+<!-- Salesforce Contact Fields -->
 <input type="hidden" name="first_name" id="first_name">
 <input type="hidden" name="last_name" id="last_name">
 
 <label>Farmer Name / விவசாயி பெயர்</label>
-<input type="text" id="farmer_name" name="farmer_name" required>
-  
+<input type="text" id="farmer_name" required>
+
 <label>Email / மின்னஞ்சல்</label>
 <input type="email" id="email" name="email" required>
 
@@ -107,19 +107,22 @@ onsubmit="submitForm(event); return false;">
 
 </div>
 
+
 <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 
 <script>
 
+/* Initialize EmailJS */
 (function(){
 emailjs.init("3oTB5lj9pKw_10I6R");
 })();
 
+
 function submitForm(event){
 
-event.preventDefault(); // stop immediate submission
+event.preventDefault();
 
-function sendEmail(){
+/* Get form values */
 
 var farmerName = document.getElementById("farmer_name").value;
 var village = document.getElementById("village").value;
@@ -127,6 +130,15 @@ var phone = document.getElementById("phone").value;
 var email = document.getElementById("email").value;
 var pest = document.getElementById("pest").value;
 var level = document.getElementById("level").value;
+
+
+/* Fix Salesforce Contact Name */
+
+document.getElementById("first_name").value = farmerName;
+document.getElementById("last_name").value = farmerName;
+
+
+/* Email Message */
 
 var message =
 "🌾 Smart Pest Monitoring System 🌾<br><br>" +
@@ -164,32 +176,20 @@ var message =
 "Thank you<br>" +
 "Agriculture Support Group";
 
+
+/* Send Email */
+
 emailjs.send("service_5be3jfq","template_retc0al",{
+
 email: email,
 message: message
-});
-
-}
-
-/* Salesforce name fix */
-document.getElementById("first_name").value = farmerName;
-document.getElementById("last_name").value = farmerName;
-
-/* Send email to farmer */
-emailjs.send("service_5be3jfq","template_retc0al",{
-
-farmer_name: farmerName,
-village: village,
-phone: phone,
-email: email,
-pest: pest,
-level: level
 
 }).then(function(){
 
 alert("Report submitted successfully!");
 
-/* submit to Salesforce after email sent */
+/* Submit form to Salesforce */
+
 document.getElementById("pestForm").submit();
 
 });
