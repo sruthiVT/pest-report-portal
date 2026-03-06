@@ -61,7 +61,7 @@ background:#1b4f72;
 <form id="pestForm"
 action="https://webto.salesforce.com/servlet/servlet.WebToCase"
 method="POST"
-onsubmit="submitForm(event)">
+onsubmit="sendEmail()">
 
 <input type="hidden" name="orgid" value="00DdM00000iSfdB">
 <input type="hidden" name="retURL" value="https://sruthivt.github.io/pest-report-portal/">
@@ -112,17 +112,11 @@ onsubmit="submitForm(event)">
 
 <script>
 
-/* Initialize EmailJS */
 (function(){
 emailjs.init("3oTB5lj9pKw_10I6R");
 })();
 
-
-function submitForm(event){
-
-event.preventDefault();
-
-/* Get form values */
+function sendEmail(){
 
 var farmerName = document.getElementById("farmer_name").value;
 var village = document.getElementById("village").value;
@@ -131,51 +125,23 @@ var email = document.getElementById("email").value;
 var pest = document.getElementById("pest").value;
 var level = document.getElementById("level").value;
 
-
-/* Fix Salesforce Contact Name */
-
+/* Set Salesforce Contact Name */
 document.getElementById("first_name").value = farmerName;
 document.getElementById("last_name").value = farmerName;
-
 
 /* Email Message */
 
 var message =
 "🌾 Smart Pest Monitoring System 🌾<br><br>" +
 
-"விவசாயி அவர்களுக்கு வணக்கம்,<br><br>" +
+"விவசாயி பெயர் : " + farmerName + "<br>" +
+"கிராமம் : " + village + "<br>" +
+"தொலைபேசி எண் : " + phone + "<br>" +
+"மின்னஞ்சல் : " + email + "<br>" +
+"பூச்சி வகை : " + pest + "<br>" +
+"பாதிப்பு அளவு : " + level + "<br><br>" +
 
-"உங்கள் பூச்சி புகார் வெற்றிகரமாக சமர்ப்பிக்கப்பட்டுள்ளது.<br><br>" +
-
-"<b>விவசாயி பெயர் :</b> " + farmerName + "<br>" +
-"<b>கிராமம் :</b> " + village + "<br>" +
-"<b>தொலைபேசி எண் :</b> " + phone + "<br>" +
-"<b>மின்னஞ்சல் :</b> " + email + "<br>" +
-"<b>பூச்சி வகை :</b> " + pest + "<br>" +
-"<b>பாதிப்பு அளவு :</b> " + level + "<br><br>" +
-
-"எங்கள் வேளாண்மை அதிகாரி உங்கள் புகாரை விரைவில் பரிசீலிப்பார்.<br><br>" +
-
-"Smart Pest Monitoring System பயன்படுத்தியதற்கு நன்றி.<br><br>" +
-
-"--------------------------------------<br><br>" +
-
-"<b>Dear Farmer,</b><br><br>" +
-
-"Your pest report has been successfully submitted.<br><br>" +
-
-"<b>Farmer Name :</b> " + farmerName + "<br>" +
-"<b>Village :</b> " + village + "<br>" +
-"<b>Phone Number :</b> " + phone + "<br>" +
-"<b>Email :</b> " + email + "<br>" +
-"<b>Pest Type :</b> " + pest + "<br>" +
-"<b>Infected Level :</b> " + level + "<br><br>" +
-
-"Our Agriculture Officer will review your complaint soon.<br><br>" +
-
-"Thank you<br>" +
-"Agriculture Support Group";
-
+"Your pest report has been submitted successfully.";
 
 /* Send Email */
 
@@ -183,14 +149,6 @@ emailjs.send("service_5be3jfq","template_retc0al",{
 
 email: email,
 message: message
-
-}).then(function(){
-
-alert("Report submitted successfully!");
-
-/* Submit form to Salesforce */
-
-document.getElementById("pestForm").submit();
 
 });
 
