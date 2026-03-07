@@ -56,17 +56,16 @@ background:#1b4f72;
 
 <div class="container">
 
-<h2>🌾 Smart Pest Monitoring System 🌾</h2>
+<h2>🌾 Smart Pest Monitoring System</h2>
 
 <form id="pestForm"
 action="https://webto.salesforce.com/servlet/servlet.WebToCase"
 method="POST"
-onsubmit="sendEmail()">
+onsubmit="submitForm(event)">
 
 <input type="hidden" name="orgid" value="00DdM00000iSfdB">
 <input type="hidden" name="retURL" value="https://sruthivt.github.io/pest-report-portal/">
 
-<!-- Salesforce Contact Fields -->
 <input type="hidden" name="first_name" id="first_name">
 <input type="hidden" name="last_name" id="last_name">
 
@@ -84,21 +83,17 @@ onsubmit="sendEmail()">
 
 <label>Pest Type / பூச்சி வகை</label>
 <select id="pest" name="description">
-
 <option value="Fall Armyworm">Fall Armyworm</option>
 <option value="Brown Plant Hopper">Brown Plant Hopper</option>
 <option value="Stem Borer">Stem Borer</option>
 <option value="Leaf Folder">Leaf Folder</option>
-
 </select>
 
 <label>Infected Level / பாதிப்பு அளவு</label>
 <select id="level">
-
 <option value="Low">Low</option>
 <option value="Medium">Medium</option>
 <option value="High">High</option>
-
 </select>
 
 <button type="submit">Submit Report</button>
@@ -106,7 +101,6 @@ onsubmit="sendEmail()">
 </form>
 
 </div>
-
 
 <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 
@@ -116,7 +110,9 @@ onsubmit="sendEmail()">
 emailjs.init("3oTB5lj9pKw_10I6R");
 })();
 
-function sendEmail(){
+function submitForm(event){
+
+event.preventDefault();
 
 var farmerName = document.getElementById("farmer_name").value;
 var village = document.getElementById("village").value;
@@ -125,30 +121,35 @@ var email = document.getElementById("email").value;
 var pest = document.getElementById("pest").value;
 var level = document.getElementById("level").value;
 
-/* Set Salesforce Contact Name */
+/* set salesforce contact name */
+
 document.getElementById("first_name").value = farmerName;
 document.getElementById("last_name").value = farmerName;
 
-/* Email Message */
+/* email content */
 
 var message =
-"🌾 Smart Pest Monitoring System 🌾<br><br>" +
-
-"விவசாயி பெயர் : " + farmerName + "<br>" +
-"கிராமம் : " + village + "<br>" +
-"தொலைபேசி எண் : " + phone + "<br>" +
-"மின்னஞ்சல் : " + email + "<br>" +
-"பூச்சி வகை : " + pest + "<br>" +
-"பாதிப்பு அளவு : " + level + "<br><br>" +
-
+"🌾 Smart Pest Monitoring System 🌾\n\n" +
+"Farmer Name : " + farmerName + "\n" +
+"Village : " + village + "\n" +
+"Phone : " + phone + "\n" +
+"Email : " + email + "\n" +
+"Pest Type : " + pest + "\n" +
+"Infected Level : " + level + "\n\n" +
 "Your pest report has been submitted successfully.";
 
-/* Send Email */
+/* send email */
 
 emailjs.send("service_5be3jfq","template_retc0al",{
-
 email: email,
 message: message
+}).then(function(){
+
+alert("Report submitted successfully");
+
+/* after email send, submit to Salesforce */
+
+document.getElementById("pestForm").submit();
 
 });
 
