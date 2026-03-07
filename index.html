@@ -139,13 +139,15 @@ var message =
 /* Send Email */
 
 emailjs.send("service_5be3jfq","template_retc0al",{
+farmer_name: farmerName,
+village: village,
+phone: phone,
 email: email,
-message: message
-});then(function(){
+pest: pest,
+level: level
+}).then(function(){
 console.log("Email sent successfully");
 });
-
-}
 
 </script>
 
