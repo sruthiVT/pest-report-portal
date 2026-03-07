@@ -146,7 +146,12 @@ email: email,
 pest: pest,
 level: level
 }).then(function(){
-console.log("Email sent successfully");
+
+alert("Report submitted successfully!");
+
+/* submit to Salesforce */
+document.getElementById("pestForm").submit();
+
 });
 
 </script>
