@@ -79,22 +79,28 @@ location: this.location.value,
 pest: this.pest.value
 };
 
-fetch("https://YOUR-SALESFORCE-API-ENDPOINT",{
+fetch("https://resourceful-wolf-ejdbxi-dev-ed.trailblaze.lightning.force.com/services/apexrest/pestreport",{
+
 method:"POST",
+
 headers:{
 "Content-Type":"application/json"
 },
+
 body:JSON.stringify(data)
+
 })
-.then(res=>res.json())
-.then(result=>{
+.then(response => response.text())
+.then(result => {
 
 document.getElementById("pestForm").style.display="none";
 document.getElementById("successMessage").style.display="block";
 
 })
-.catch(err=>{
-alert("Error submitting report");
+.catch(error => {
+
+alert("Submission failed");
+
 });
 
 });
