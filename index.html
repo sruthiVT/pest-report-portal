@@ -1,111 +1,40 @@
-<!DOCTYPE html>
-<html>
-<head>
-<title>Farmer Pest Report Portal</title>
+<!--  ----------------------------------------------------------------------  -->
+<!--  NOTE: Please add the following <META> element to your page <HEAD>.      -->
+<!--  If necessary, please modify the charset parameter to specify the        -->
+<!--  character set of your HTML page.                                        -->
+<!--  ----------------------------------------------------------------------  -->
 
-<style>
-body{
-font-family: Arial;
-background:#f4f4f4;
-text-align:center;
-padding:40px;
-}
+<META HTTP-EQUIV="Content-type" CONTENT="text/html; charset=UTF-8">
 
-form{
-background:white;
-padding:20px;
-border-radius:10px;
-width:350px;
-margin:auto;
-}
+<!--  ----------------------------------------------------------------------  -->
+<!--  NOTE: Please add the following <FORM> element to your page.             -->
+<!--  ----------------------------------------------------------------------  -->
 
-input,textarea{
-width:100%;
-padding:10px;
-margin:8px 0;
-}
+<form action="https://webto.salesforce.com/servlet/servlet.WebToCase?encoding=UTF-8&orgId=00DdM00000iSfdB" method="POST">
 
-button{
-background:green;
-color:white;
-padding:10px;
-border:none;
-cursor:pointer;
-}
+<input type=hidden name="orgid" value="00DdM00000iSfdB">
+<input type=hidden name="retURL" value="https://sruthiVT.github.io/pest-report-portal">
 
-#successMessage{
-display:none;
-color:green;
-font-size:20px;
-margin-top:20px;
-}
-</style>
+<!--  ----------------------------------------------------------------------  -->
+<!--  NOTE: These fields are optional debugging elements. Please uncomment    -->
+<!--  these lines if you wish to test in debug mode.                          -->
+<!--  <input type="hidden" name="debug" value=1>                              -->
+<!--  <input type="hidden" name="debugEmail"                                  -->
+<!--  value="23csb48@karpagamtech.ac.in">                                     -->
+<!--  ----------------------------------------------------------------------  -->
 
-</head>
+<label for="name">Contact Name</label><input  id="name" maxlength="80" name="name" size="20" type="text" /><br>
 
-<body>
+<label for="email">Email</label><input  id="email" maxlength="80" name="email" size="20" type="text" /><br>
 
-<h2>Farmer Pest Reporting Portal</h2>
+<label for="phone">Phone</label><input  id="phone" maxlength="40" name="phone" size="20" type="text" /><br>
 
-<form id="pestForm">
+<label for="subject">Subject</label><input  id="subject" maxlength="80" name="subject" size="20" type="text" /><br>
 
-<input type="text" name="name" placeholder="Farmer Name" required>
+<label for="description">Description</label><textarea name="description"></textarea><br>
 
-<input type="email" name="email" placeholder="Email" required>
+<input type="hidden"  id="external" name="external" value="1" /><br>
 
-<input type="text" name="location" placeholder="Farm Location" required>
-
-<textarea name="pest" placeholder="Describe Pest Issue"></textarea>
-
-<button type="submit">Submit Report</button>
+<input type="submit" name="submit">
 
 </form>
-
-<div id="successMessage">
-✅ Report Submitted Successfully!  
-Confirmation email sent.
-</div>
-
-<script>
-
-document.getElementById("pestForm").addEventListener("submit", function(e){
-
-e.preventDefault();
-
-const data = {
-name: this.name.value,
-email: this.email.value,
-location: this.location.value,
-pest: this.pest.value
-};
-
-fetch("https://resourceful-wolf-ejdbxi-dev-ed.trailblaze.my.salesforce-sites.com/services/apexrest/pestreport",{
-
-method:"POST",
-
-headers:{
-"Content-Type":"application/json"
-},
-
-body:JSON.stringify(data)
-
-})
-.then(response => response.text())
-.then(result => {
-
-document.getElementById("pestForm").style.display="none";
-document.getElementById("successMessage").style.display="block";
-
-})
-.catch(error => {
-
-alert("Submission failed");
-
-});
-
-});
-
-</script>
-
-</body>
-</html>
