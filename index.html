@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Farmer Pest Report Portal</title>
+
+<meta http-equiv="Content-type" content="text/html; charset=UTF-8">
+
+<style>
+body{
+font-family: Arial;
+background:#f4f4f4;
+text-align:center;
+padding:40px;
+}
+
+form{
+background:white;
+padding:25px;
+border-radius:10px;
+width:400px;
+margin:auto;
+box-shadow:0 0 10px rgba(0,0,0,0.1);
+}
+
+input,textarea{
+width:100%;
+padding:10px;
+margin:10px 0;
+border-radius:5px;
+border:1px solid #ccc;
+}
+
+button{
+background:green;
+color:white;
+padding:12px;
+border:none;
+border-radius:5px;
+width:100%;
+font-size:16px;
+cursor:pointer;
+}
+</style>
+
+</head>
+
+<body>
+
+<h2>Farmer Pest Reporting Portal</h2>
+
+<form action="https://webto.salesforce.com/servlet/servlet.WebToCase?encoding=UTF-8&orgId=00DdM00000iSfdB" method="POST">
+
+<input type="hidden" name="orgid" value="00DdM00000iSfdB">
+<input type="hidden" name="retURL" value="https://sruthiVT.github.io/pest-report-portal">
+
+<label>Farmer Name</label>
+<input id="name" name="name" type="text" required>
+
+<label>Email</label>
+<input id="email" name="email" type="email" required>
+
+<label>Phone</label>
+<input id="phone" name="phone" type="text">
+
+<label>Pest Type</label>
+<input id="subject" name="subject" type="text">
+
+<label>Pest Description</label>
+<textarea name="description"></textarea>
+
+<input type="hidden" name="external" value="1">
+
+<button type="submit">Submit Report</button>
+
+</form>
+
+</body>
+</html>
