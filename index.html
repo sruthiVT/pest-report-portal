@@ -46,42 +46,52 @@ cursor:pointer;
 
 <body>
 
-<h2>Farmer Pest Reporting Portal</h2>
+<h2>🌾 Farmer Pest Reporting Portal / விவசாயி பூச்சி புகார் பதிவு</h2>
 
 <form action="https://webto.salesforce.com/servlet/servlet.WebToCase?encoding=UTF-8&orgId=00DdM00000iSfdB" method="POST" enctype="multipart/form-data">
 
 <input type="hidden" name="orgid" value="00DdM00000iSfdB">
 <input type="hidden" name="retURL" value="https://sruthiVT.github.io/pest-report-portal">
 
-<label>Farmer Name</label>
+<label>Farmer Name / விவசாயி பெயர்</label>
 <input id="name" name="name" type="text" required>
 
-<label>Email</label>
+<label>Email / மின்னஞ்சல்</label>
 <input id="email" name="email" type="email" required>
 
-<label>Phone</label>
+<label>Phone / தொலைபேசி</label>
 <input id="phone" name="phone" type="text">
 
-<label>Pest Type</label>
-<input id="subject" name="subject" type="text">
-
-<label>Infected Level</label>
-<select name="infected_level">
-  <option value="">Select Level</option>
-  <option value="Low">Low</option>
-  <option value="Medium">Medium</option>
-  <option value="High">High</option>
+<label>Pest Type / பூச்சி வகை</label>
+<select name="subject">
+  <option value="">Select Pest / பூச்சியை தேர்வு செய்யவும்</option>
+  <option value="Brown Plant Hopper">Brown Plant Hopper / பழுப்பு தாவர தாண்டி</option>
+  <option value="Stem Borer">Stem Borer / தண்டு துளைப்பான்</option>
+  <option value="Leaf Folder">Leaf Folder / இலை மடிப்பான்</option>
+  <option value="Aphids">Aphids / அஃபிட்ஸ்</option>
+  <option value="Whitefly">Whitefly / வெள்ளை ஈ</option>
+  <option value="Armyworm">Armyworm / படை பூச்சி</option>
+  <option value="Thrips">Thrips / திரிப்ஸ்</option>
+  <option value="Other">Other / மற்றவை</option>
 </select>
 
-<label>Upload Crop Photo</label>
+<label>Infected Level / பாதிப்பு நிலை</label>
+<select name="infected_level">
+  <option value="">Select Level / நிலையை தேர்வு செய்யவும்</option>
+  <option value="Low">Low / குறைவு</option>
+  <option value="Medium">Medium / நடுத்தரம்</option>
+  <option value="High">High / அதிகம்</option>
+</select>
+
+<label>Upload Crop Photo / பயிர் புகைப்படம் பதிவேற்றம்</label>
 <input type="file" id="pestImage" name="pestImage" accept="image/*">
 
-<label>Pest Description</label>
+<label>Pest Description / பூச்சி விவரம்</label>
 <textarea name="description"></textarea>
 
 <input type="hidden" name="external" value="1">
 
-<button type="submit">Submit Report</button>
+<button type="submit">Submit Report / புகாரை சமர்ப்பிக்கவும்</button>
 
 </form>
 
