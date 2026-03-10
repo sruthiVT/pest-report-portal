@@ -22,7 +22,7 @@ margin:auto;
 box-shadow:0 0 10px rgba(0,0,0,0.1);
 }
 
-input,textarea{
+input,textarea,select{
 width:100%;
 padding:10px;
 margin:10px 0;
@@ -48,7 +48,7 @@ cursor:pointer;
 
 <h2>Farmer Pest Reporting Portal</h2>
 
-<form action="https://webto.salesforce.com/servlet/servlet.WebToCase?encoding=UTF-8&orgId=00DdM00000iSfdB" method="POST">
+<form action="https://webto.salesforce.com/servlet/servlet.WebToCase?encoding=UTF-8&orgId=00DdM00000iSfdB" method="POST" enctype="multipart/form-data">
 
 <input type="hidden" name="orgid" value="00DdM00000iSfdB">
 <input type="hidden" name="retURL" value="https://sruthiVT.github.io/pest-report-portal">
@@ -64,6 +64,17 @@ cursor:pointer;
 
 <label>Pest Type</label>
 <input id="subject" name="subject" type="text">
+
+<label>Infected Level</label>
+<select name="infected_level">
+  <option value="">Select Level</option>
+  <option value="Low">Low</option>
+  <option value="Medium">Medium</option>
+  <option value="High">High</option>
+</select>
+
+<label>Upload Crop Photo</label>
+<input type="file" id="pestImage" name="pestImage" accept="image/*">
 
 <label>Pest Description</label>
 <textarea name="description"></textarea>
