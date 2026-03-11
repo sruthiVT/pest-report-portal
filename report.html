@@ -8,7 +8,7 @@
 <style>
 
 body{
-font-family: Arial;
+font-family:Arial;
 background:#f4f4f4;
 text-align:center;
 padding:40px;
@@ -53,6 +53,7 @@ let lang = localStorage.getItem("farmerLanguage");
 if(lang=="tamil"){
 
 document.getElementById("title").innerHTML="🌾 பூச்சி புகார் பதிவு";
+
 document.getElementById("villageLabel").innerHTML="கிராமம்";
 document.getElementById("cropLabel").innerHTML="பயிர் வகை";
 document.getElementById("periodLabel").innerHTML="சாகுபடி காலம்";
@@ -62,15 +63,19 @@ document.getElementById("imageLabel").innerHTML="பயிர் படம் �
 document.getElementById("descLabel").innerHTML="விவரம்";
 document.getElementById("submitBtn").innerHTML="புகார் சமர்ப்பிக்க";
 
+/* translate dropdown options */
+
 document.querySelectorAll("option").forEach(function(opt){
+
 if(opt.dataset.ta){
 opt.text = opt.dataset.ta;
 }
+
 });
 
 }
 
-/* get farmer details from login page */
+/* load farmer details */
 
 document.getElementById("farmerName").value = localStorage.getItem("farmerName");
 document.getElementById("farmerEmail").value = localStorage.getItem("farmerEmail");
@@ -93,24 +98,10 @@ document.getElementById("farmerPhone").value = localStorage.getItem("farmerPhone
 <input type="hidden" name="origin" value="Web">
 <input type="hidden" name="status" value="New">
 
-<!-- Hidden farmer details from login page -->
-
 <input type="hidden" name="suppliedname" id="farmerName">
 <input type="hidden" name="suppliedemail" id="farmerEmail">
 <input type="hidden" name="suppliedphone" id="farmerPhone">
 
-Name: <input type="text" name="suppliedname"><br><br>
-
-Email: <input type="email" name="suppliedemail"><br><br>
-
-Subject: <input type="text" name="subject"><br><br>
-
-<textarea name="description"></textarea><br><br>
-
-<input type="submit">
-
-</form>
-  
 <label id="villageLabel">Village</label>
 
 <select name="Village__c">
@@ -128,40 +119,15 @@ Subject: <input type="text" name="subject"><br><br>
 <option data-ta="தேனி">Theni</option>
 <option data-ta="திருநெல்வேலி">Tirunelveli</option>
 <option data-ta="கன்னியாகுமரி">Kanyakumari</option>
-<option data-ta="திருச்செங்கோடு">Tiruchengode</option>
-<option data-ta="ஈரோடு">Erode</option>
-<option data-ta="கரூர்">Karur</option>
-<option data-ta="குளித்தலை">Kulithalai</option>
-<option data-ta="திருச்சி">Trichy</option>
-<option data-ta="முசிறி">Musiri</option>
-<option data-ta="லால்குடி">Lalgudi</option>
-<option data-ta="மதுரை">Madurai</option>
-<option data-ta="உசிலம்பட்டி">Usilampatti</option>
-<option data-ta="திண்டுக்கல்">Dindigul</option>
-<option data-ta="பழனி">Palani</option>
-<option data-ta="ஒட்டன்சத்திரம்">Oddanchatram</option>
-<option data-ta="தேனி">Theni</option>
-<option data-ta="பெரியகுளம்">Periyakulam</option>
-<option data-ta="போடிநாயக்கனூர்">Bodinayakanur</option>
-<option data-ta="விருதுநகர்">Virudhunagar</option>
-<option data-ta="சிவகாசி">Sivakasi</option>
-<option data-ta="ராஜபாளையம்">Rajapalayam</option>
-<option data-ta="அம்பாசமுத்திரம்">Ambasamudram</option>
-<option data-ta="தென்காசி">Tenkasi</option>
-<option data-ta="தூத்துக்குடி">Thoothukudi</option>
-<option data-ta="கோவில்பட்டி">Kovilpatti</option>
-<option data-ta="கன்னியாகுமரி">Kanyakumari</option>
-<option data-ta="நாகர்கோவில்">Nagercoil</option>
-<option data-ta="குளசேகரம்">Kulasekaram</option>
 
 </select>
 
 <label id="cropLabel">Crop Type</label>
 
-<select name="crop_type">
+<select name="Product__c">
 
 <option data-ta="பயிரை தேர்வு செய்யவும்">Select Crop</option>
-<option data-ta="நெல்">Paddy (Rice)</option>
+<option data-ta="நெல்">Paddy</option>
 <option data-ta="மக்காச்சோளம்">Maize</option>
 <option data-ta="ராகி">Ragi</option>
 <option data-ta="சோளம்">Sorghum</option>
@@ -176,7 +142,7 @@ Subject: <input type="text" name="subject"><br><br>
 
 <label id="periodLabel">Cultivation Period</label>
 
-<select name="cultivation_period">
+<select name="Escalation_Level__c">
 
 <option data-ta="காலத்தை தேர்வு செய்யவும்">Select Period</option>
 <option data-ta="0 - 30 நாட்கள்">0 - 30 Days</option>
@@ -217,7 +183,7 @@ Subject: <input type="text" name="subject"><br><br>
 <input type="file" id="cropImage" accept="image/*">
 
 <input type="hidden" name="Crop_Image_URL__c" id="imageUrl">
-  
+
 <label id="descLabel">Description</label>
 
 <textarea name="description"></textarea>
@@ -228,16 +194,12 @@ Subject: <input type="text" name="subject"><br><br>
 
 <script>
 
-/* image upload */
-
 document.getElementById("cropImage").addEventListener("change", function(){
 
 let file = this.files[0];
 
 let formData = new FormData();
 formData.append("image", file);
-
-/* replace YOUR_API_KEY */
 
 fetch("https://api.imgbb.com/1/upload?key=9d9a3054573db11bcb75e2a3da97e3de",{
 method:"POST",
@@ -246,9 +208,7 @@ body:formData
 .then(response => response.json())
 .then(data => {
 
-let imageLink = data.data.url;
-
-document.getElementById("imageUrl").value = imageLink;
+document.getElementById("imageUrl").value = data.data.url;
 
 });
 
