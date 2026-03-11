@@ -2,7 +2,6 @@
 <html>
 
 <head>
-
 <title>Farmer Pest Report</title>
 <meta charset="UTF-8">
 
@@ -59,7 +58,7 @@ document.getElementById("cropLabel").innerHTML="பயிர் வகை";
 document.getElementById("periodLabel").innerHTML="சாகுபடி காலம்";
 document.getElementById("pestLabel").innerHTML="பூச்சி வகை";
 document.getElementById("infectLabel").innerHTML="பாதிப்பு நிலை";
-document.getElementById("imageLabel").innerHTML="பயிர் படம் இணைப்பு";
+document.getElementById("imageLabel").innerHTML="பயிர் படம் பதிவேற்றம்";
 document.getElementById("descLabel").innerHTML="விவரம்";
 document.getElementById("submitBtn").innerHTML="புகார் சமர்ப்பிக்க";
 
@@ -70,6 +69,8 @@ opt.text = opt.dataset.ta;
 });
 
 }
+
+/* get farmer details from login page */
 
 document.getElementById("farmerName").value = localStorage.getItem("farmerName");
 document.getElementById("farmerEmail").value = localStorage.getItem("farmerEmail");
@@ -91,6 +92,7 @@ document.getElementById("farmerPhone").value = localStorage.getItem("farmerPhone
 <input type="hidden" name="retURL" value="https://sruthivt.github.io/pest-report-portal/success.html">
 <input type="hidden" name="origin" value="Web">
 
+<!-- Hidden farmer details -->
 <input type="hidden" name="name" id="farmerName">
 <input type="hidden" name="email" id="farmerEmail">
 <input type="hidden" name="phone" id="farmerPhone">
@@ -196,9 +198,11 @@ document.getElementById("farmerPhone").value = localStorage.getItem("farmerPhone
 
 </select>
 
-<label id="imageLabel">Crop Image URL</label>
+<label id="imageLabel">Upload Crop Image</label>
 
-<input type="url" name="crop_image_url" placeholder="Paste crop image link">
+<input type="file" id="cropImage" accept="image/*">
+
+<input type="hidden" name="crop_image_url" id="imageUrl">
 
 <label id="descLabel">Description</label>
 
@@ -207,6 +211,36 @@ document.getElementById("farmerPhone").value = localStorage.getItem("farmerPhone
 <button id="submitBtn" type="submit">Submit Report</button>
 
 </form>
+
+<script>
+
+/* image upload */
+
+document.getElementById("cropImage").addEventListener("change", function(){
+
+let file = this.files[0];
+
+let formData = new FormData();
+formData.append("image", file);
+
+/* replace YOUR_API_KEY */
+
+fetch("https://api.imgbb.com/1/upload?key=9d9a3054573db11bcb75e2a3da97e3de",{
+method:"POST",
+body:formData
+})
+.then(response => response.json())
+.then(data => {
+
+let imageLink = data.data.url;
+
+document.getElementById("imageUrl").value = imageLink;
+
+});
+
+});
+
+</script>
 
 </body>
 </html>
