@@ -93,13 +93,13 @@ document.getElementById("farmerPhone").value = localStorage.getItem("farmerPhone
 <input type="hidden" name="origin" value="Web">
 
 <!-- Hidden farmer details -->
-<input type="hidden" name="name" id="farmerName">
-<input type="hidden" name="email" id="farmerEmail">
-<input type="hidden" name="phone" id="farmerPhone">
+<input type="hidden" name="suppliedname" id="farmerName">
+<input type="hidden" name="suppliedemail" id="farmerEmail">
+<input type="hidden" name="suppliedphone" id="farmerPhone">
 
 <label id="villageLabel">Village</label>
 
-<select name="village">
+<select name="Village__c">
 
 <option data-ta="கிராமத்தை தேர்வு செய்யவும்">Select Village</option>
 <option data-ta="உடுமலைப்பேட்டை">Udumalpet</option>
@@ -202,8 +202,8 @@ document.getElementById("farmerPhone").value = localStorage.getItem("farmerPhone
 
 <input type="file" id="cropImage" accept="image/*">
 
-<input type="hidden" name="crop_image_url" id="imageUrl">
-
+<input type="hidden" name="Crop_Image_URL__c" id="imageUrl">
+  
 <label id="descLabel">Description</label>
 
 <textarea name="description"></textarea>
