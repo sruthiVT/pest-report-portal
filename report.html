@@ -2,9 +2,7 @@
 <html>
 
 <head>
-
 <title>Farmer Pest Report</title>
-
 <meta http-equiv="Content-type" content="text/html; charset=UTF-8">
 
 <style>
@@ -45,23 +43,30 @@ cursor:pointer;
 }
 
 </style>
-
 </head>
 
 <body>
 
-<h2>🌾 Farmer Pest Report / பூச்சி புகார்</h2>
+<h2>🌾 Farmer Pest Report </h2>
 
 <form action="https://webto.salesforce.com/servlet/servlet.WebToCase?encoding=UTF-8&orgId=00DdM00000iSfdB" method="POST">
 
 <input type="hidden" name="orgid" value="00DdM00000iSfdB">
-
 <input type="hidden" name="retURL" value="https://sruthivt.github.io/pest-report-portal/success.html">
+<input type="hidden" name="origin" value="Web">
 
+<label>Farmer Name </label>
+<input type="text" name="name" required>
 
-<label>Village / கிராமம்</label>
+<label>Email </label>
+<input type="email" name="email" required>
 
-<select name="village">
+<label>Phone </label>
+<input type="text" name="phone" required>
+
+<label>Village </label>
+
+<select name="description">
 
 <option>Select Village</option>
 
@@ -70,79 +75,60 @@ cursor:pointer;
 <option>Kinathukadavu</option>
 <option>Valparai</option>
 <option>Perundurai</option>
-<option>Chennimalai</option>
 <option>Gobichettipalayam</option>
 <option>Sathyamangalam</option>
 <option>Bhavani</option>
 <option>Anthiyur</option>
 <option>Nambiyur</option>
 <option>Kodumudi</option>
-
 <option>Avinashi</option>
 <option>Tiruppur</option>
 <option>Dharapuram</option>
 <option>Kangeyam</option>
 <option>Palladam</option>
-
 <option>Thanjavur</option>
 <option>Kumbakonam</option>
 <option>Orathanadu</option>
 <option>Pattukkottai</option>
-
 <option>Mayiladuthurai</option>
 <option>Sirkazhi</option>
-
 <option>Nagapattinam</option>
 <option>Velankanni</option>
-
 <option>Cuddalore</option>
 <option>Panruti</option>
 <option>Chidambaram</option>
-
 <option>Villupuram</option>
 <option>Tindivanam</option>
-
 <option>Salem</option>
 <option>Attur</option>
 <option>Omalur</option>
 <option>Edappadi</option>
 <option>Mettur</option>
-
 <option>Namakkal</option>
 <option>Rasipuram</option>
 <option>Tiruchengode</option>
-
 <option>Erode</option>
-
 <option>Karur</option>
 <option>Kulithalai</option>
-
 <option>Trichy</option>
 <option>Musiri</option>
 <option>Lalgudi</option>
-
 <option>Madurai</option>
 <option>Usilampatti</option>
-
 <option>Dindigul</option>
 <option>Palani</option>
 <option>Oddanchatram</option>
-
 <option>Theni</option>
 <option>Periyakulam</option>
 <option>Bodinayakanur</option>
-
 <option>Virudhunagar</option>
 <option>Sivakasi</option>
 <option>Rajapalayam</option>
-
 <option>Tirunelveli</option>
 <option>Ambasamudram</option>
 <option>Tenkasi</option>
-
 <option>Thoothukudi</option>
 <option>Kovilpatti</option>
-
 <option>Kanyakumari</option>
 <option>Nagercoil</option>
 <option>Kulasekaram</option>
@@ -151,37 +137,35 @@ cursor:pointer;
 
 </select>
 
+<label>Crop Type</label>
 
-<label>Crop Type </label>
-
-<select name="crop">
+<select name="description">
 
 <option>Select Crop</option>
 
 <option>Paddy (Rice)</option>
-<option>Maize </option>
-<option>Ragi </option>
-<option>Sorghum </option>
-<option>Sugarcane </option>
-<option>Cotton </option>
-<option>Groundnut  </option>
-<option>Sunflower </option>
-<option>Banana </option>
+<option>Maize</option>
+<option>Ragi</option>
+<option>Sorghum</option>
+<option>Sugarcane</option>
+<option>Cotton</option>
+<option>Groundnut</option>
+<option>Sunflower</option>
+<option>Banana</option>
 <option>Coconut</option>
-<option>Tomato </option>
-<option>Chilli  </option>
-<option>Onion </option>
-<option>Brinjal </option>
-<option>Potato </option>
+<option>Tomato</option>
+<option>Chilli</option>
+<option>Onion</option>
+<option>Brinjal</option>
+<option>Potato</option>
 
 <option>Other</option>
 
 </select>
 
+<label>Cultivation Period</label>
 
-<label>Cultivation Period </label>
-
-<select name="cultivation_period">
+<select name="description">
 
 <option>Select Period</option>
 
@@ -193,8 +177,7 @@ cursor:pointer;
 
 </select>
 
-
-<label>Pest Type </label>
+<label>Pest Type</label>
 
 <select name="subject">
 
@@ -226,34 +209,25 @@ cursor:pointer;
 
 </select>
 
+<label>Infected Level </label>
 
-<label>Infected Level / பாதிப்பு நிலை</label>
-
-<select name="infected_level">
+<select name="priority">
 
 <option>Select Level</option>
 
-<option>Low </option>
-<option>Medium </option>
-<option>High </option>
+<option>Low</option>
+<option>Medium</option>
+<option>High</option>
 
 </select>
 
-
-<label>Upload Crop Photo </label>
-
-<input type="file">
-
-
-<label>Description </label>
+<label>Description</label>
 
 <textarea name="description"></textarea>
-
 
 <button type="submit">Submit Report</button>
 
 </form>
 
 </body>
-
 </html>
