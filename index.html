@@ -1,1 +1,123 @@
-Login
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>Farmer Login</title>
+
+<style>
+
+body{
+font-family: Arial;
+background:#f4f4f4;
+text-align:center;
+padding:60px;
+}
+
+.container{
+background:white;
+width:420px;
+margin:auto;
+padding:30px;
+border-radius:10px;
+box-shadow:0 0 10px rgba(0,0,0,0.1);
+}
+
+input{
+width:100%;
+padding:12px;
+margin:10px 0;
+border:1px solid #ccc;
+border-radius:5px;
+}
+
+button{
+background:green;
+color:white;
+padding:12px;
+border:none;
+width:100%;
+border-radius:5px;
+font-size:16px;
+cursor:pointer;
+}
+
+select{
+width:100%;
+padding:10px;
+margin-bottom:15px;
+}
+
+</style>
+
+<script>
+
+function changeLanguage(){
+
+let lang = document.getElementById("language").value;
+
+if(lang=="tamil"){
+
+document.getElementById("title").innerHTML="🌾 விவசாயி உள்நுழைவு";
+
+document.getElementById("name").placeholder="விவசாயி பெயர்";
+
+document.getElementById("email").placeholder="மின்னஞ்சல்";
+
+document.getElementById("phone").placeholder="தொலைபேசி எண்";
+
+document.getElementById("loginbtn").innerHTML="உள்நுழைவு";
+
+}
+
+else{
+
+document.getElementById("title").innerHTML="🌾 Farmer Login";
+
+document.getElementById("name").placeholder="Farmer Name";
+
+document.getElementById("email").placeholder="Email";
+
+document.getElementById("phone").placeholder="Phone Number";
+
+document.getElementById("loginbtn").innerHTML="Login";
+
+}
+
+}
+
+</script>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<select id="language" onchange="changeLanguage()">
+
+<option value="english">English</option>
+
+<option value="tamil">தமிழ்</option>
+
+</select>
+
+<h2 id="title">🌾 Farmer Login</h2>
+
+<form action="report.html">
+
+<input id="name" type="text" placeholder="Farmer Name" required>
+
+<input id="email" type="email" placeholder="Email" required>
+
+<input id="phone" type="text" placeholder="Phone Number" required>
+
+<button id="loginbtn" type="submit">Login</button>
+
+</form>
+
+</div>
+
+</body>
+
+</html>
