@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>Farmer Pest Report</title>
+
+<meta http-equiv="Content-type" content="text/html; charset=UTF-8">
+
+<style>
+
+body{
+font-family:Arial;
+background:#f4f4f4;
+text-align:center;
+padding:40px;
+}
+
+form{
+background:white;
+padding:25px;
+border-radius:10px;
+width:420px;
+margin:auto;
+box-shadow:0 0 10px rgba(0,0,0,0.1);
+}
+
+input,textarea,select{
+width:100%;
+padding:10px;
+margin:10px 0;
+border-radius:5px;
+border:1px solid #ccc;
+}
+
+button{
+background:green;
+color:white;
+padding:12px;
+border:none;
+border-radius:5px;
+width:100%;
+font-size:16px;
+cursor:pointer;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h2>🌾 Farmer Pest Report / பூச்சி புகார்</h2>
+
+<form action="https://webto.salesforce.com/servlet/servlet.WebToCase?encoding=UTF-8&orgId=YOUR_ORG_ID" method="POST">
+
+<input type="hidden" name="orgid" value="YOUR_ORG_ID">
+
+<label>Village</label>
+
+<select name="village">
+
+<option value="">Select Village / கிராமத்தை தேர்வு செய்யவும்</option>
+
+<option>Pollachi</option>
+<option>Udumalpet</option>
+<option>Kinathukadavu</option>
+<option>Valparai</option>
+<option>Perundurai</option>
+<option>Chennimalai</option>
+<option>Gobichettipalayam</option>
+<option>Sathyamangalam</option>
+<option>Bhavani</option>
+<option>Anthiyur</option>
+<option>Nambiyur</option>
+<option>Kodumudi</option>
+
+<option>Avinashi</option>
+<option>Tiruppur</option>
+<option>Dharapuram</option>
+<option>Kangeyam</option>
+<option>Palladam</option>
+
+<option>Thanjavur</option>
+<option>Kumbakonam</option>
+<option>Orathanadu</option>
+<option>Pattukkottai</option>
+
+<option>Mayiladuthurai</option>
+<option>Sirkazhi</option>
+
+<option>Nagapattinam</option>
+<option>Velankanni</option>
+
+<option>Cuddalore</option>
+<option>Panruti</option>
+<option>Chidambaram</option>
+
+<option>Villupuram</option>
+<option>Tindivanam</option>
+
+<option>Salem</option>
+<option>Attur</option>
+<option>Omalur</option>
+<option>Edappadi</option>
+<option>Mettur</option>
+
+<option>Namakkal</option>
+<option>Rasipuram</option>
+<option>Tiruchengode</option>
+
+<option>Erode</option>
+
+<option>Karur</option>
+<option>Kulithalai</option>
+
+<option>Trichy</option>
+<option>Musiri</option>
+<option>Lalgudi</option>
+
+<option>Madurai</option>
+<option>Usilampatti</option>
+
+<option>Dindigul</option>
+<option>Palani</option>
+<option>Oddanchatram</option>
+
+<option>Theni</option>
+<option>Periyakulam</option>
+<option>Bodinayakanur</option>
+
+<option>Virudhunagar</option>
+<option>Sivakasi</option>
+<option>Rajapalayam</option>
+
+<option>Tirunelveli</option>
+<option>Ambasamudram</option>
+<option>Tenkasi</option>
+
+<option>Thoothukudi</option>
+<option>Kovilpatti</option>
+
+<option>Kanyakumari</option>
+<option>Nagercoil</option>
+<option>Kulasekaram</option>
+
+<option>Other</option>
+
+</select>
+
+<label>Crop Type</label>
+
+<input type="text" name="crop">
+
+<label>Cultivation Period</label>
+
+<input type="text" name="cultivation_period">
+
+<label>Pest Type</label>
+
+<select name="subject">
+
+<option>Leaf Folder</option>
+<option>Armyworm</option>
+<option>Stem Borer</option>
+
+</select>
+
+<label>Infected Level</label>
+
+<select name="infected_level">
+
+<option>Low</option>
+<option>Medium</option>
+<option>High</option>
+
+</select>
+
+<label>Upload Crop Photo</label>
+
+<input type="file">
+
+<label>Description</label>
+
+<textarea name="description"></textarea>
+
+<button type="submit">Submit Report</button>
+
+</form>
+
+</body>
+
+</html>
