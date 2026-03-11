@@ -61,11 +61,8 @@ if(lang=="tamil"){
 document.getElementById("title").innerHTML="🌾 விவசாயி உள்நுழைவு";
 
 document.getElementById("name").placeholder="விவசாயி பெயர்";
-
 document.getElementById("email").placeholder="மின்னஞ்சல்";
-
 document.getElementById("phone").placeholder="தொலைபேசி எண்";
-
 document.getElementById("loginbtn").innerHTML="உள்நுழைவு";
 
 }
@@ -75,14 +72,19 @@ else{
 document.getElementById("title").innerHTML="🌾 Farmer Login";
 
 document.getElementById("name").placeholder="Farmer Name";
-
 document.getElementById("email").placeholder="Email";
-
 document.getElementById("phone").placeholder="Phone Number";
-
 document.getElementById("loginbtn").innerHTML="Login";
 
 }
+
+}
+
+function saveLanguage(){
+
+let lang = document.getElementById("language").value;
+
+localStorage.setItem("farmerLanguage",lang);
 
 }
 
@@ -97,14 +99,13 @@ document.getElementById("loginbtn").innerHTML="Login";
 <select id="language" onchange="changeLanguage()">
 
 <option value="english">English</option>
-
 <option value="tamil">தமிழ்</option>
 
 </select>
 
 <h2 id="title">🌾 Farmer Login</h2>
 
-<form action="report.html">
+<form action="report.html" onsubmit="saveLanguage()">
 
 <input id="name" type="text" placeholder="Farmer Name" required>
 
