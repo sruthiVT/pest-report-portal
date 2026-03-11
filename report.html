@@ -55,12 +55,15 @@ cursor:pointer;
 <form action="https://webto.salesforce.com/servlet/servlet.WebToCase?encoding=UTF-8&orgId=00DdM00000iSfdB" method="POST">
 
 <input type="hidden" name="orgid" value="00DdM00000iSfdB">
-  
+
 <input type="hidden" name="retURL" value="https://sruthivt.github.io/pest-report-portal/success.html">
 
-<label>Village</label>
+
+<label>Village / கிராமம்</label>
 
 <select name="village">
+
+<option>Select Village</option>
 
 <option>Pollachi</option>
 <option>Udumalpet</option>
@@ -148,17 +151,54 @@ cursor:pointer;
 
 </select>
 
-<label>Crop Type</label>
 
-<input type="text" name="crop">
+<label>Crop Type </label>
 
-<label>Cultivation Period</label>
+<select name="crop">
 
-<input type="text" name="cultivation_period">
+<option>Select Crop</option>
 
-<label>Pest Type</label>
+<option>Paddy (Rice)</option>
+<option>Maize </option>
+<option>Ragi </option>
+<option>Sorghum </option>
+<option>Sugarcane </option>
+<option>Cotton </option>
+<option>Groundnut  </option>
+<option>Sunflower </option>
+<option>Banana </option>
+<option>Coconut</option>
+<option>Tomato </option>
+<option>Chilli  </option>
+<option>Onion </option>
+<option>Brinjal </option>
+<option>Potato </option>
+
+<option>Other</option>
+
+</select>
+
+
+<label>Cultivation Period </label>
+
+<select name="cultivation_period">
+
+<option>Select Period</option>
+
+<option>0 - 30 Days</option>
+<option>30 - 60 Days</option>
+<option>60 - 90 Days</option>
+<option>90 - 120 Days</option>
+<option>120+ Days</option>
+
+</select>
+
+
+<label>Pest Type </label>
 
 <select name="subject">
+
+<option>Select Pest</option>
 
 <option>Leaf Folder</option>
 <option>Stem Borer</option>
@@ -186,23 +226,29 @@ cursor:pointer;
 
 </select>
 
-<label>Infected Level</label>
+
+<label>Infected Level / பாதிப்பு நிலை</label>
 
 <select name="infected_level">
 
-<option>Low</option>
-<option>Medium</option>
-<option>High</option>
+<option>Select Level</option>
+
+<option>Low </option>
+<option>Medium </option>
+<option>High </option>
 
 </select>
 
-<label>Upload Crop Photo</label>
+
+<label>Upload Crop Photo </label>
 
 <input type="file">
 
-<label>Description</label>
+
+<label>Description </label>
 
 <textarea name="description"></textarea>
+
 
 <button type="submit">Submit Report</button>
 
