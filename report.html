@@ -2,13 +2,14 @@
 <html>
 
 <head>
+
 <title>Farmer Pest Report</title>
-<meta http-equiv="Content-type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
 
 <style>
 
 body{
-font-family:Arial;
+font-family: Arial;
 background:#f4f4f4;
 text-align:center;
 padding:40px;
@@ -43,11 +44,39 @@ cursor:pointer;
 }
 
 </style>
+
+<script>
+
+window.onload=function(){
+
+let lang = localStorage.getItem("farmerLanguage");
+
+if(lang=="tamil"){
+
+document.getElementById("title").innerHTML="🌾 பூச்சி புகார் பதிவு";
+
+document.getElementById("nameLabel").innerHTML="விவசாயி பெயர்";
+document.getElementById("emailLabel").innerHTML="மின்னஞ்சல்";
+document.getElementById("phoneLabel").innerHTML="தொலைபேசி";
+document.getElementById("villageLabel").innerHTML="கிராமம்";
+document.getElementById("cropLabel").innerHTML="பயிர் வகை";
+document.getElementById("periodLabel").innerHTML="சாகுபடி காலம்";
+document.getElementById("pestLabel").innerHTML="பூச்சி வகை";
+document.getElementById("infectLabel").innerHTML="பாதிப்பு நிலை";
+document.getElementById("descLabel").innerHTML="விவரம்";
+document.getElementById("submitBtn").innerHTML="புகார் சமர்ப்பிக்க";
+
+}
+
+}
+
+</script>
+
 </head>
 
 <body>
 
-<h2>🌾 Farmer Pest Report </h2>
+<h2 id="title">🌾 Farmer Pest Report</h2>
 
 <form action="https://webto.salesforce.com/servlet/servlet.WebToCase?encoding=UTF-8&orgId=00DdM00000iSfdB" method="POST">
 
@@ -55,16 +84,16 @@ cursor:pointer;
 <input type="hidden" name="retURL" value="https://sruthivt.github.io/pest-report-portal/success.html">
 <input type="hidden" name="origin" value="Web">
 
-<label>Farmer Name </label>
+<label id="nameLabel">Farmer Name</label>
 <input type="text" name="name" required>
 
-<label>Email </label>
+<label id="emailLabel">Email</label>
 <input type="email" name="email" required>
 
-<label>Phone </label>
+<label id="phoneLabel">Phone</label>
 <input type="text" name="phone" required>
 
-<label>Village </label>
+<label id="villageLabel">Village</label>
 
 <select name="description">
 
@@ -131,13 +160,12 @@ cursor:pointer;
 <option>Kovilpatti</option>
 <option>Kanyakumari</option>
 <option>Nagercoil</option>
-<option>Kulasekaram</option>
 
 <option>Other</option>
 
 </select>
 
-<label>Crop Type</label>
+<label id="cropLabel">Crop Type</label>
 
 <select name="description">
 
@@ -163,7 +191,7 @@ cursor:pointer;
 
 </select>
 
-<label>Cultivation Period</label>
+<label id="periodLabel">Cultivation Period</label>
 
 <select name="description">
 
@@ -177,7 +205,7 @@ cursor:pointer;
 
 </select>
 
-<label>Pest Type</label>
+<label id="pestLabel">Pest Type</label>
 
 <select name="subject">
 
@@ -190,26 +218,15 @@ cursor:pointer;
 <option>Green Leafhopper</option>
 <option>Gall Midge</option>
 <option>Rice Hispa</option>
-<option>Earhead Bug</option>
 <option>Thrips</option>
 <option>Whitefly</option>
 <option>Aphids</option>
-<option>Mealybug</option>
-<option>Fruit Borer</option>
-<option>Pod Borer</option>
-<option>Shoot Borer</option>
-<option>Red Hairy Caterpillar</option>
-<option>Cutworm</option>
-<option>Termites</option>
-<option>Grasshopper</option>
-<option>Scale Insects</option>
-<option>Mites</option>
 
 <option>Other</option>
 
 </select>
 
-<label>Infected Level </label>
+<label id="infectLabel">Infected Level</label>
 
 <select name="priority">
 
@@ -221,13 +238,14 @@ cursor:pointer;
 
 </select>
 
-<label>Description</label>
+<label id="descLabel">Description</label>
 
 <textarea name="description"></textarea>
 
-<button type="submit">Submit Report</button>
+<button id="submitBtn" type="submit">Submit Report</button>
 
 </form>
 
 </body>
+
 </html>
