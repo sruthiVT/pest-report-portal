@@ -91,12 +91,26 @@ document.getElementById("farmerPhone").value = localStorage.getItem("farmerPhone
 <input type="hidden" name="orgid" value="00DdM00000iSfdB">
 <input type="hidden" name="retURL" value="https://sruthivt.github.io/pest-report-portal/success.html">
 <input type="hidden" name="origin" value="Web">
+<input type="hidden" name="status" value="New">
 
-<!-- Hidden farmer details -->
+<!-- Hidden farmer details from login page -->
+
 <input type="hidden" name="suppliedname" id="farmerName">
 <input type="hidden" name="suppliedemail" id="farmerEmail">
 <input type="hidden" name="suppliedphone" id="farmerPhone">
 
+Name: <input type="text" name="suppliedname"><br><br>
+
+Email: <input type="email" name="suppliedemail"><br><br>
+
+Subject: <input type="text" name="subject"><br><br>
+
+<textarea name="description"></textarea><br><br>
+
+<input type="submit">
+
+</form>
+  
 <label id="villageLabel">Village</label>
 
 <select name="Village__c">
