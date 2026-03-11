@@ -54,7 +54,6 @@ let lang = localStorage.getItem("farmerLanguage");
 if(lang=="tamil"){
 
 document.getElementById("title").innerHTML="🌾 பூச்சி புகார் பதிவு";
-
 document.getElementById("nameLabel").innerHTML="விவசாயி பெயர்";
 document.getElementById("emailLabel").innerHTML="மின்னஞ்சல்";
 document.getElementById("phoneLabel").innerHTML="தொலைபேசி";
@@ -65,6 +64,12 @@ document.getElementById("pestLabel").innerHTML="பூச்சி வகை";
 document.getElementById("infectLabel").innerHTML="பாதிப்பு நிலை";
 document.getElementById("descLabel").innerHTML="விவரம்";
 document.getElementById("submitBtn").innerHTML="புகார் சமர்ப்பிக்க";
+
+document.querySelectorAll("option").forEach(function(opt){
+if(opt.dataset.ta){
+opt.text = opt.dataset.ta;
+}
+});
 
 }
 
@@ -97,111 +102,108 @@ document.getElementById("submitBtn").innerHTML="புகார் சமர்�
 
 <select name="description">
 
-<option>Select Village</option>
+<option data-ta="கிராமத்தை தேர்வு செய்யவும்">Select Village</option>
+<option data-ta="உடுமலைப்பேட்டை">Udumalpet</option>
+<option data-ta="அவிநாசி">Avinashi</option>
+<option data-ta="திருப்பூர்">Tiruppur</option>
+<option data-ta="தாராபுரம்">Dharapuram</option>
+<option data-ta="காங்கேயம்">Kangeyam</option>
+<option data-ta="பல்லடம்">Palladam</option>
 
-<option>Pollachi</option>
-<option>Udumalpet</option>
-<option>Kinathukadavu</option>
-<option>Valparai</option>
-<option>Perundurai</option>
-<option>Gobichettipalayam</option>
-<option>Sathyamangalam</option>
-<option>Bhavani</option>
-<option>Anthiyur</option>
-<option>Nambiyur</option>
-<option>Kodumudi</option>
-<option>Avinashi</option>
-<option>Tiruppur</option>
-<option>Dharapuram</option>
-<option>Kangeyam</option>
-<option>Palladam</option>
-<option>Thanjavur</option>
-<option>Kumbakonam</option>
-<option>Orathanadu</option>
-<option>Pattukkottai</option>
-<option>Mayiladuthurai</option>
-<option>Sirkazhi</option>
-<option>Nagapattinam</option>
-<option>Velankanni</option>
-<option>Cuddalore</option>
-<option>Panruti</option>
-<option>Chidambaram</option>
-<option>Villupuram</option>
-<option>Tindivanam</option>
-<option>Salem</option>
-<option>Attur</option>
-<option>Omalur</option>
-<option>Edappadi</option>
-<option>Mettur</option>
-<option>Namakkal</option>
-<option>Rasipuram</option>
-<option>Tiruchengode</option>
-<option>Erode</option>
-<option>Karur</option>
-<option>Kulithalai</option>
-<option>Trichy</option>
-<option>Musiri</option>
-<option>Lalgudi</option>
-<option>Madurai</option>
-<option>Usilampatti</option>
-<option>Dindigul</option>
-<option>Palani</option>
-<option>Oddanchatram</option>
-<option>Theni</option>
-<option>Periyakulam</option>
-<option>Bodinayakanur</option>
-<option>Virudhunagar</option>
-<option>Sivakasi</option>
-<option>Rajapalayam</option>
-<option>Tirunelveli</option>
-<option>Ambasamudram</option>
-<option>Tenkasi</option>
-<option>Thoothukudi</option>
-<option>Kovilpatti</option>
-<option>Kanyakumari</option>
-<option>Nagercoil</option>
+<option data-ta="தஞ்சாவூர்">Thanjavur</option>
+<option data-ta="கும்பகோணம்">Kumbakonam</option>
+<option data-ta="ஒரத்தநாடு">Orathanadu</option>
+<option data-ta="பட்டுக்கோட்டை">Pattukkottai</option>
 
-<option>Other</option>
+<option data-ta="மயிலாடுதுறை">Mayiladuthurai</option>
+<option data-ta="சீர்காழி">Sirkazhi</option>
+
+<option data-ta="நாகப்பட்டினம்">Nagapattinam</option>
+<option data-ta="வேளாங்கண்ணி">Velankanni</option>
+
+<option data-ta="கடலூர்">Cuddalore</option>
+<option data-ta="பண்ருட்டி">Panruti</option>
+<option data-ta="சிதம்பரம்">Chidambaram</option>
+
+<option data-ta="விழுப்புரம்">Villupuram</option>
+<option data-ta="திண்டிவனம்">Tindivanam</option>
+
+<option data-ta="சேலம்">Salem</option>
+<option data-ta="அத்தூர்">Attur</option>
+<option data-ta="ஓமலூர்">Omalur</option>
+<option data-ta="எடப்பாடி">Edappadi</option>
+<option data-ta="மேட்டூர்">Mettur</option>
+
+<option data-ta="நாமக்கல்">Namakkal</option>
+<option data-ta="ராசிபுரம்">Rasipuram</option>
+<option data-ta="திருச்செங்கோடு">Tiruchengode</option>
+
+<option data-ta="ஈரோடு">Erode</option>
+
+<option data-ta="கரூர்">Karur</option>
+<option data-ta="குளித்தலை">Kulithalai</option>
+
+<option data-ta="திருச்சி">Trichy</option>
+<option data-ta="முசிறி">Musiri</option>
+<option data-ta="லால்குடி">Lalgudi</option>
+
+<option data-ta="மதுரை">Madurai</option>
+<option data-ta="உசிலம்பட்டி">Usilampatti</option>
+
+<option data-ta="திண்டுக்கல்">Dindigul</option>
+<option data-ta="பழனி">Palani</option>
+<option data-ta="ஒட்டன்சத்திரம்">Oddanchatram</option>
+
+<option data-ta="தேனி">Theni</option>
+<option data-ta="பெரியகுளம்">Periyakulam</option>
+<option data-ta="போடிநாயக்கனூர்">Bodinayakanur</option>
+
+<option data-ta="விருதுநகர்">Virudhunagar</option>
+<option data-ta="சிவகாசி">Sivakasi</option>
+<option data-ta="ராஜபாளையம்">Rajapalayam</option>
+
+<option data-ta="திருநெல்வேலி">Tirunelveli</option>
+<option data-ta="அம்பாசமுத்திரம்">Ambasamudram</option>
+<option data-ta="தென்காசி">Tenkasi</option>
+
+<option data-ta="தூத்துக்குடி">Thoothukudi</option>
+<option data-ta="கோவில்பட்டி">Kovilpatti</option>
+
+<option data-ta="கன்னியாகுமரி">Kanyakumari</option>
+<option data-ta="நாகர்கோவில்">Nagercoil</option>
+<option data-ta="குளசேகரம்">Kulasekaram</option>
+</option>
 
 </select>
 
 <label id="cropLabel">Crop Type</label>
 
-<select name="description">
+<select>
 
-<option>Select Crop</option>
-
-<option>Paddy (Rice)</option>
-<option>Maize</option>
-<option>Ragi</option>
-<option>Sorghum</option>
-<option>Sugarcane</option>
-<option>Cotton</option>
-<option>Groundnut</option>
-<option>Sunflower</option>
-<option>Banana</option>
-<option>Coconut</option>
-<option>Tomato</option>
-<option>Chilli</option>
-<option>Onion</option>
-<option>Brinjal</option>
-<option>Potato</option>
-
-<option>Other</option>
+<option data-ta="பயிரை தேர்வு செய்யவும்">Select Crop</option>
+<option data-ta="நெல்">Paddy (Rice)</option>
+<option data-ta="மக்காச்சோளம்">Maize</option>
+<option data-ta="ராகி">Ragi</option>
+<option data-ta="சோளம்">Sorghum</option>
+<option data-ta="கரும்பு">Sugarcane</option>
+<option data-ta="பருத்தி">Cotton</option>
+<option data-ta="வேர்க்கடலை">Groundnut</option>
+<option data-ta="சூரியகாந்தி">Sunflower</option>
+<option data-ta="வாழை">Banana</option>
+<option data-ta="தேங்காய்">Coconut</option>
 
 </select>
 
 <label id="periodLabel">Cultivation Period</label>
 
-<select name="description">
+<select>
 
-<option>Select Period</option>
-
-<option>0 - 30 Days</option>
-<option>30 - 60 Days</option>
-<option>60 - 90 Days</option>
-<option>90 - 120 Days</option>
-<option>120+ Days</option>
+<option data-ta="காலத்தை தேர்வு செய்யவும்">Select Period</option>
+<option data-ta="0 - 30 நாட்கள்">0 - 30 Days</option>
+<option data-ta="30 - 60 நாட்கள்">30 - 60 Days</option>
+<option data-ta="60 - 90 நாட்கள்">60 - 90 Days</option>
+<option data-ta="90 - 120 நாட்கள்">90 - 120 Days</option>
+<option data-ta="120 நாட்களுக்கு மேல்">120+ Days</option>
 
 </select>
 
@@ -209,20 +211,14 @@ document.getElementById("submitBtn").innerHTML="புகார் சமர்�
 
 <select name="subject">
 
-<option>Select Pest</option>
-
-<option>Leaf Folder</option>
-<option>Stem Borer</option>
-<option>Armyworm</option>
-<option>Brown Planthopper</option>
-<option>Green Leafhopper</option>
-<option>Gall Midge</option>
-<option>Rice Hispa</option>
-<option>Thrips</option>
-<option>Whitefly</option>
-<option>Aphids</option>
-
-<option>Other</option>
+<option data-ta="பூச்சியை தேர்வு செய்யவும்">Select Pest</option>
+<option data-ta="இலை மடிப்பு பூச்சி">Leaf Folder</option>
+<option data-ta="தண்டு துளை பூச்சி">Stem Borer</option>
+<option data-ta="ஆர்மிவோம்">Armyworm</option>
+<option data-ta="பழுப்பு தாவரத் துள்ளி">Brown Planthopper</option>
+<option data-ta="பச்சை இலைத் துள்ளி">Green Leafhopper</option>
+<option data-ta="கால் மிட்ஜ்">Gall Midge</option>
+<option data-ta="ரைஸ் ஹிஸ்பா">Rice Hispa</option>
 
 </select>
 
@@ -230,11 +226,10 @@ document.getElementById("submitBtn").innerHTML="புகார் சமர்�
 
 <select name="priority">
 
-<option>Select Level</option>
-
-<option>Low</option>
-<option>Medium</option>
-<option>High</option>
+<option data-ta="நிலையை தேர்வு செய்யவும்">Select Level</option>
+<option data-ta="குறைவு">Low</option>
+<option data-ta="மத்திய">Medium</option>
+<option data-ta="அதிகம்">High</option>
 
 </select>
 
