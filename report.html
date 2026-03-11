@@ -55,15 +55,12 @@ if(lang=="tamil"){
 
 document.getElementById("title").innerHTML="🌾 பூச்சி புகார் பதிவு";
 
-document.getElementById("nameLabel").innerHTML="விவசாயி பெயர்";
-document.getElementById("emailLabel").innerHTML="மின்னஞ்சல்";
-document.getElementById("phoneLabel").innerHTML="தொலைபேசி";
 document.getElementById("villageLabel").innerHTML="கிராமம்";
 document.getElementById("cropLabel").innerHTML="பயிர் வகை";
 document.getElementById("periodLabel").innerHTML="சாகுபடி காலம்";
 document.getElementById("pestLabel").innerHTML="பூச்சி வகை";
 document.getElementById("infectLabel").innerHTML="பாதிப்பு நிலை";
-document.getElementById("imageLabel").innerHTML="பயிர் படம் இணைப்பு";
+document.getElementById("imageLabel").innerHTML="பயிர் படம் பதிவேற்றம்";
 document.getElementById("descLabel").innerHTML="விவரம்";
 document.getElementById("submitBtn").innerHTML="புகார் சமர்ப்பிக்க";
 
@@ -75,6 +72,12 @@ opt.text = opt.dataset.ta;
 
 }
 
+/* get farmer details from login page */
+
+document.getElementById("farmerName").value = localStorage.getItem("farmerName");
+document.getElementById("farmerEmail").value = localStorage.getItem("farmerEmail");
+document.getElementById("farmerPhone").value = localStorage.getItem("farmerPhone");
+
 }
 
 </script>
@@ -85,20 +88,18 @@ opt.text = opt.dataset.ta;
 
 <h2 id="title">🌾 Farmer Pest Report</h2>
 
-<form action="https://webto.salesforce.com/servlet/servlet.WebToCase?encoding=UTF-8&orgId=00DdM00000iSfdB" method="POST">
+<form action="https://webto.salesforce.com/servlet/servlet.WebToCase?encoding=UTF-8&orgId=00DdM00000iSfdB"
+method="POST"
+enctype="multipart/form-data">
 
 <input type="hidden" name="orgid" value="00DdM00000iSfdB">
 <input type="hidden" name="retURL" value="https://sruthivt.github.io/pest-report-portal/success.html">
 <input type="hidden" name="origin" value="Web">
 
-<label id="nameLabel">Farmer Name</label>
-<input type="text" name="name" required>
-
-<label id="emailLabel">Email</label>
-<input type="email" name="email" required>
-
-<label id="phoneLabel">Phone</label>
-<input type="text" name="phone" required>
+<!-- hidden farmer details -->
+<input type="hidden" name="name" id="farmerName">
+<input type="hidden" name="email" id="farmerEmail">
+<input type="hidden" name="phone" id="farmerPhone">
 
 <label id="villageLabel">Village</label>
 
@@ -189,7 +190,6 @@ opt.text = opt.dataset.ta;
 <option data-ta="பழுப்பு தாவரத் துள்ளி">Brown Planthopper</option>
 <option data-ta="பச்சை இலைத் துள்ளி">Green Leafhopper</option>
 <option data-ta="கால் மிட்ஜ்">Gall Midge</option>
-<option data-ta="ரைஸ் ஹிஸ்பா">Rice Hispa</option>
 
 </select>
 
@@ -204,9 +204,9 @@ opt.text = opt.dataset.ta;
 
 </select>
 
-<label id="imageLabel">Crop Image URL</label>
+<label id="imageLabel">Upload Crop Image</label>
 
-<input type="url" name="crop_image_url" placeholder="Paste crop image link">
+<input type="file" name="crop_image" accept="image/*">
 
 <label id="descLabel">Description</label>
 
