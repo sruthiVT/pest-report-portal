@@ -54,6 +54,7 @@ let lang = localStorage.getItem("farmerLanguage");
 if(lang=="tamil"){
 
 document.getElementById("title").innerHTML="🌾 பூச்சி புகார் பதிவு";
+
 document.getElementById("nameLabel").innerHTML="விவசாயி பெயர்";
 document.getElementById("emailLabel").innerHTML="மின்னஞ்சல்";
 document.getElementById("phoneLabel").innerHTML="தொலைபேசி";
@@ -62,6 +63,115 @@ document.getElementById("cropLabel").innerHTML="பயிர் வகை";
 document.getElementById("periodLabel").innerHTML="சாகுபடி காலம்";
 document.getElementById("pestLabel").innerHTML="பூச்சி வகை";
 document.getElementById("infectLabel").innerHTML="பாதிப்பு நிலை";
+document.getElementById("imageLabel").innerHTML="பயிர் படம் இணைப்பு";
+document.getElementById("descLabel").innerHTML="விவரம்";
+document.getElementById("submitBtn").innerHTML="புகார் சமர்ப்பிக்க";
+
+document.querySelectorAll("option").forEach(function(opt){
+if(opt.dataset.ta){
+opt.text = opt.dataset.ta;
+}
+});
+
+}
+
+}
+
+</script>
+
+</head>
+
+<body>
+
+<h2 id="title">🌾 Farmer Pest Report</h2>
+
+<form action="https://webto.salesforce.com/servlet/servlet.WebToCase?encoding=UTF-8&orgId=00DdM00000iSfdB" method="POST">
+
+<input type="hidden" name="orgid" value="00DdM00000iSfdB">
+<input type="hidden" name="retURL" value="https://sruthivt.github.io/pest-report-portal/success.html">
+<input type="hidden" name="origin" value="Web">
+
+<label id="nameLabel">Farmer Name</label>
+<input type="text" name="name" required>
+
+<label id="emailLabel">Email</label>
+<input type="email" name="email" required>
+
+<label id="phoneLabel">Phone</label>
+<input type="text" name="phone" required>
+
+<label id="villageLabel">Village</label>
+
+<select name="description">
+
+<option data-ta="கிராமத்தை தேர்வு செய்யவும்">Select Village</option>
+<option data-ta="உடுமலைப்பேட்டை">Udumalpet</option>
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>Farmer Pest Report</title>
+<meta charset="UTF-8">
+
+<style>
+
+body{
+font-family: Arial;
+background:#f4f4f4;
+text-align:center;
+padding:40px;
+}
+
+form{
+background:white;
+padding:25px;
+border-radius:10px;
+width:420px;
+margin:auto;
+box-shadow:0 0 10px rgba(0,0,0,0.1);
+}
+
+input,textarea,select{
+width:100%;
+padding:10px;
+margin:10px 0;
+border-radius:5px;
+border:1px solid #ccc;
+}
+
+button{
+background:green;
+color:white;
+padding:12px;
+border:none;
+border-radius:5px;
+width:100%;
+font-size:16px;
+cursor:pointer;
+}
+
+</style>
+
+<script>
+
+window.onload=function(){
+
+let lang = localStorage.getItem("farmerLanguage");
+
+if(lang=="tamil"){
+
+document.getElementById("title").innerHTML="🌾 பூச்சி புகார் பதிவு";
+
+document.getElementById("nameLabel").innerHTML="விவசாயி பெயர்";
+document.getElementById("emailLabel").innerHTML="மின்னஞ்சல்";
+document.getElementById("phoneLabel").innerHTML="தொலைபேசி";
+document.getElementById("villageLabel").innerHTML="கிராமம்";
+document.getElementById("cropLabel").innerHTML="பயிர் வகை";
+document.getElementById("periodLabel").innerHTML="சாகுபடி காலம்";
+document.getElementById("pestLabel").innerHTML="பூச்சி வகை";
+document.getElementById("infectLabel").innerHTML="பாதிப்பு நிலை";
+document.getElementById("imageLabel").innerHTML="பயிர் படம் இணைப்பு";
 document.getElementById("descLabel").innerHTML="விவரம்";
 document.getElementById("submitBtn").innerHTML="புகார் சமர்ப்பிக்க";
 
@@ -172,7 +282,6 @@ opt.text = opt.dataset.ta;
 <option data-ta="கன்னியாகுமரி">Kanyakumari</option>
 <option data-ta="நாகர்கோவில்">Nagercoil</option>
 <option data-ta="குளசேகரம்">Kulasekaram</option>
-</option>
 
 </select>
 
@@ -232,6 +341,85 @@ opt.text = opt.dataset.ta;
 <option data-ta="அதிகம்">High</option>
 
 </select>
+
+<label id="imageLabel">Crop Image URL</label>
+
+<input type="url" name="crop_image_url" placeholder="Paste crop image link">
+
+<label id="descLabel">Description</label>
+
+<textarea name="description"></textarea>
+
+<button id="submitBtn" type="submit">Submit Report</button>
+
+</form>
+
+</body>
+
+</html>
+
+</select>
+
+<label id="cropLabel">Crop Type</label>
+
+<select>
+
+<option data-ta="பயிரை தேர்வு செய்யவும்">Select Crop</option>
+<option data-ta="நெல்">Paddy (Rice)</option>
+<option data-ta="மக்காச்சோளம்">Maize</option>
+<option data-ta="ராகி">Ragi</option>
+<option data-ta="சோளம்">Sorghum</option>
+<option data-ta="கரும்பு">Sugarcane</option>
+<option data-ta="பருத்தி">Cotton</option>
+<option data-ta="வேர்க்கடலை">Groundnut</option>
+<option data-ta="சூரியகாந்தி">Sunflower</option>
+<option data-ta="வாழை">Banana</option>
+<option data-ta="தேங்காய்">Coconut</option>
+
+</select>
+
+<label id="periodLabel">Cultivation Period</label>
+
+<select>
+
+<option data-ta="காலத்தை தேர்வு செய்யவும்">Select Period</option>
+<option data-ta="0 - 30 நாட்கள்">0 - 30 Days</option>
+<option data-ta="30 - 60 நாட்கள்">30 - 60 Days</option>
+<option data-ta="60 - 90 நாட்கள்">60 - 90 Days</option>
+<option data-ta="90 - 120 நாட்கள்">90 - 120 Days</option>
+<option data-ta="120 நாட்களுக்கு மேல்">120+ Days</option>
+
+</select>
+
+<label id="pestLabel">Pest Type</label>
+
+<select name="subject">
+
+<option data-ta="பூச்சியை தேர்வு செய்யவும்">Select Pest</option>
+<option data-ta="இலை மடிப்பு பூச்சி">Leaf Folder</option>
+<option data-ta="தண்டு துளை பூச்சி">Stem Borer</option>
+<option data-ta="ஆர்மிவோம்">Armyworm</option>
+<option data-ta="பழுப்பு தாவரத் துள்ளி">Brown Planthopper</option>
+<option data-ta="பச்சை இலைத் துள்ளி">Green Leafhopper</option>
+<option data-ta="கால் மிட்ஜ்">Gall Midge</option>
+<option data-ta="ரைஸ் ஹிஸ்பா">Rice Hispa</option>
+
+</select>
+
+<label id="infectLabel">Infected Level</label>
+
+<select name="priority">
+
+<option data-ta="நிலையை தேர்வு செய்யவும்">Select Level</option>
+<option data-ta="குறைவு">Low</option>
+<option data-ta="மத்திய">Medium</option>
+<option data-ta="அதிகம்">High</option>
+
+</select>
+
+<label id="imageLabel">Crop Image URL</label>
+
+<input type="url" name="crop_image_url" placeholder="Paste crop image link">
 
 <label id="descLabel">Description</label>
 
