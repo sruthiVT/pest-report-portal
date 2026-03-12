@@ -1,59 +1,22 @@
 <!DOCTYPE html>
 <html>
-<head>
 
+<head>
 <title>Farmer Login</title>
 
 <style>
-
-body{
-font-family: Arial;
-background:#f4f4f4;
-text-align:center;
-padding:60px;
-}
-
-.container{
-background:white;
-width:420px;
-margin:auto;
-padding:30px;
-border-radius:10px;
-box-shadow:0 0 10px rgba(0,0,0,0.1);
-}
-
-input{
-width:100%;
-padding:12px;
-margin:10px 0;
-border:1px solid #ccc;
-border-radius:5px;
-}
-
-button{
-background:green;
-color:white;
-padding:12px;
-border:none;
-width:100%;
-border-radius:5px;
-font-size:16px;
-cursor:pointer;
-}
-
-select{
-width:100%;
-padding:10px;
-margin-bottom:15px;
-}
-
+body{font-family:Arial;background:#f4f4f4;text-align:center;padding:60px;}
+.container{background:white;width:420px;margin:auto;padding:30px;border-radius:10px;box-shadow:0 0 10px rgba(0,0,0,0.1);}
+input{width:100%;padding:12px;margin:10px 0;border:1px solid #ccc;border-radius:5px;}
+button{background:green;color:white;padding:12px;border:none;width:100%;border-radius:5px;font-size:16px;}
+select{width:100%;padding:10px;margin-bottom:15px;}
 </style>
 
 <script>
 
 function changeLanguage(){
 
-let lang = document.getElementById("language").value;
+let lang=document.getElementById("language").value;
 
 if(lang=="tamil"){
 
@@ -63,7 +26,9 @@ document.getElementById("email").placeholder="மின்னஞ்சல்";
 document.getElementById("phone").placeholder="தொலைபேசி எண்";
 document.getElementById("loginbtn").innerHTML="உள்நுழைவு";
 
-}else{
+}
+
+else{
 
 document.getElementById("title").innerHTML="🌾 Farmer Login";
 document.getElementById("name").placeholder="Farmer Name";
@@ -75,18 +40,10 @@ document.getElementById("loginbtn").innerHTML="Login";
 
 }
 
-function saveData(){
+function saveLanguage(){
 
 let lang=document.getElementById("language").value;
-
-let name=document.getElementById("name").value;
-let email=document.getElementById("email").value;
-let phone=document.getElementById("phone").value;
-
 localStorage.setItem("farmerLanguage",lang);
-localStorage.setItem("farmerName",name);
-localStorage.setItem("farmerEmail",email);
-localStorage.setItem("farmerPhone",phone);
 
 }
 
@@ -105,7 +62,7 @@ localStorage.setItem("farmerPhone",phone);
 
 <h2 id="title">🌾 Farmer Login</h2>
 
-<form action="report.html" onsubmit="saveData()">
+<form action="report.html" onsubmit="saveLanguage()">
 
 <input id="name" type="text" placeholder="Farmer Name" required>
 <input id="email" type="email" placeholder="Email" required>
