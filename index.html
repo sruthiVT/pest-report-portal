@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
 <head>
 
 <title>Farmer Login</title>
@@ -59,18 +58,14 @@ let lang = document.getElementById("language").value;
 if(lang=="tamil"){
 
 document.getElementById("title").innerHTML="🌾 விவசாயி உள்நுழைவு";
-
 document.getElementById("name").placeholder="விவசாயி பெயர்";
 document.getElementById("email").placeholder="மின்னஞ்சல்";
 document.getElementById("phone").placeholder="தொலைபேசி எண்";
 document.getElementById("loginbtn").innerHTML="உள்நுழைவு";
 
-}
-
-else{
+}else{
 
 document.getElementById("title").innerHTML="🌾 Farmer Login";
-
 document.getElementById("name").placeholder="Farmer Name";
 document.getElementById("email").placeholder="Email";
 document.getElementById("phone").placeholder="Phone Number";
@@ -80,11 +75,18 @@ document.getElementById("loginbtn").innerHTML="Login";
 
 }
 
-function saveLanguage(){
+function saveData(){
 
-let lang = document.getElementById("language").value;
+let lang=document.getElementById("language").value;
+
+let name=document.getElementById("name").value;
+let email=document.getElementById("email").value;
+let phone=document.getElementById("phone").value;
 
 localStorage.setItem("farmerLanguage",lang);
+localStorage.setItem("farmerName",name);
+localStorage.setItem("farmerEmail",email);
+localStorage.setItem("farmerPhone",phone);
 
 }
 
@@ -97,20 +99,16 @@ localStorage.setItem("farmerLanguage",lang);
 <div class="container">
 
 <select id="language" onchange="changeLanguage()">
-
 <option value="english">English</option>
 <option value="tamil">தமிழ்</option>
-
 </select>
 
 <h2 id="title">🌾 Farmer Login</h2>
 
-<form action="report.html" onsubmit="saveLanguage()">
+<form action="report.html" onsubmit="saveData()">
 
 <input id="name" type="text" placeholder="Farmer Name" required>
-
 <input id="email" type="email" placeholder="Email" required>
-
 <input id="phone" type="text" placeholder="Phone Number" required>
 
 <button id="loginbtn" type="submit">Login</button>
@@ -120,5 +118,4 @@ localStorage.setItem("farmerLanguage",lang);
 </div>
 
 </body>
-
 </html>
