@@ -1,18 +1,13 @@
 <!DOCTYPE html>
 <html>
-<head>
 
-<meta charset="UTF-8">
+<head>
 <title>Farmer Pest Report</title>
+<meta charset="UTF-8">
 
 <style>
 
-body{
-font-family: Arial;
-background:#f4f4f4;
-text-align:center;
-padding:40px;
-}
+body{font-family:Arial;background:#f4f4f4;text-align:center;padding:40px;}
 
 form{
 background:white;
@@ -39,7 +34,6 @@ border:none;
 border-radius:5px;
 width:100%;
 font-size:16px;
-cursor:pointer;
 }
 
 </style>
@@ -48,86 +42,21 @@ cursor:pointer;
 
 window.onload=function(){
 
-/* Load farmer details */
-
-document.getElementById("farmerName").value =
-localStorage.getItem("farmerName") || "";
-
-document.getElementById("farmerEmail").value =
-localStorage.getItem("farmerEmail") || "";
-
-document.getElementById("farmerPhone").value =
-localStorage.getItem("farmerPhone") || "";
-
-/* Language */
-
-let lang = localStorage.getItem("farmerLanguage") || "english";
+let lang=localStorage.getItem("farmerLanguage");
 
 if(lang=="tamil"){
 
 document.getElementById("title").innerHTML="🌾 பூச்சி புகார் பதிவு";
+document.getElementById("nameLabel").innerHTML="விவசாயி பெயர்";
+document.getElementById("emailLabel").innerHTML="மின்னஞ்சல்";
+document.getElementById("phoneLabel").innerHTML="தொலைபேசி";
 document.getElementById("villageLabel").innerHTML="கிராமம்";
 document.getElementById("cropLabel").innerHTML="பயிர் வகை";
 document.getElementById("periodLabel").innerHTML="சாகுபடி காலம்";
 document.getElementById("pestLabel").innerHTML="பூச்சி வகை";
 document.getElementById("infectLabel").innerHTML="பாதிப்பு நிலை";
-document.getElementById("imgLabel").innerHTML="பயிர் படம் பதிவேற்றம்";
 document.getElementById("descLabel").innerHTML="விவரம்";
 document.getElementById("submitBtn").innerHTML="புகார் சமர்ப்பிக்க";
-
-document.querySelectorAll("option").forEach(function(opt){
-if(opt.dataset.ta){
-opt.text=opt.dataset.ta;
-}
-});
-
-}
-
-}
-
-/* Upload image to Cloudinary */
-
-async function uploadImage(){
-
-let file = document.getElementById("imageUpload").files[0];
-
-if(!file){
-alert("Please upload crop image");
-return;
-}
-
-let formData = new FormData();
-formData.append("file",file);
-formData.append("upload_preset","pest_upload");
-
-try{
-
-let response = await fetch(
-"https://api.cloudinary.com/v1_1/dn1k8iz2c/image/upload",
-{
-method:"POST",
-body:formData
-});
-
-let data = await response.json();
-
-if(data.secure_url){
-
-document.getElementById("imageURL").value = data.secure_url;
-
-/* Submit form to Salesforce */
-
-document.getElementById("reportForm").submit();
-
-}else{
-
-alert("Image upload failed");
-
-}
-
-}catch(error){
-
-alert("Upload error. Check internet.");
 
 }
 
@@ -141,80 +70,44 @@ alert("Upload error. Check internet.");
 
 <h2 id="title">🌾 Farmer Pest Report</h2>
 
-<form id="reportForm"
-action="https://webto.salesforce.com/servlet/servlet.WebToCase?encoding=UTF-8&orgId=00DdM00000iSfdB"
-method="POST">
+<form action="https://webto.salesforce.com/servlet/servlet.WebToCase?encoding=UTF-8&orgId=00DdM00000iSfdB" method="POST">
 
 <input type="hidden" name="orgid" value="00DdM00000iSfdB">
-
-<input type="hidden" name="retURL"
-value="https://sruthivt.github.io/pest-report-portal/success.html">
-
+<input type="hidden" name="retURL" value="success.html">
 <input type="hidden" name="origin" value="Web">
-<input type="hidden" name="status" value="New">
 
-<!-- Farmer Details -->
+<label id="nameLabel">Farmer Name</label>
+<input type="text" name="suppliedname">
 
-<input type="hidden" id="farmerName" name="suppliedname">
-<input type="hidden" id="farmerEmail" name="suppliedemail">
-<input type="hidden" id="farmerPhone" name="suppliedphone">
+<label id="emailLabel">Email</label>
+<input type="email" name="suppliedemail">
+
+<label id="phoneLabel">Phone</label>
+<input type="text" name="suppliedphone">
 
 <label id="villageLabel">Village</label>
-
-<select name="Village__c" required>
-<option value="">Select Village</option>
-<option data-ta="உடுமலைப்பேட்டை">Udumalpet</option>
-<option data-ta="அவிநாசி">Avinashi</option>
-<option data-ta="திருப்பூர்">Tiruppur</option>
-</select>
+<input type="text" name="Village__c">
 
 <label id="cropLabel">Crop Type</label>
-
-<select name="Product__c" required>
-<option value="">Select Crop</option>
-<option data-ta="நெல்">Paddy</option>
-<option data-ta="மக்காச்சோளம்">Maize</option>
-</select>
+<input type="text" name="Product__c">
 
 <label id="periodLabel">Cultivation Period</label>
-
-<select name="Cultivation_Period__c" required>
-<option value="">Select Period</option>
-<option data-ta="0 - 30 நாட்கள்">0 - 30 Days</option>
-<option data-ta="30 - 60 நாட்கள்">30 - 60 Days</option>
-<option data-ta="60 - 90 நாட்கள்">60 - 90 Days</option>
-</select>
+<input type="text" name="Escalation_Level__c">
 
 <label id="pestLabel">Pest Type</label>
-
-<select name="subject" required>
-<option value="">Select Pest</option>
-<option data-ta="இலை மடிப்பு பூச்சி">Leaf Folder</option>
-<option data-ta="தண்டு துளை பூச்சி">Stem Borer</option>
-</select>
+<input type="text" name="subject">
 
 <label id="infectLabel">Infected Level</label>
-
-<select name="priority" required>
-<option value="">Select Level</option>
-<option data-ta="குறைவு">Low</option>
-<option data-ta="மத்திய">Medium</option>
-<option data-ta="அதிகம்">High</option>
+<select name="priority">
+<option>Low</option>
+<option>Medium</option>
+<option>High</option>
 </select>
 
-<label id="imgLabel">Upload Crop Image</label>
-
-<input type="file" id="imageUpload" accept="image/*" required>
-
-<input type="hidden" id="imageURL" name="Crop_Image_URL__c">
-
 <label id="descLabel">Description</label>
-
 <textarea name="description"></textarea>
 
-<button id="submitBtn" type="button" onclick="uploadImage()">
-Submit Report
-</button>
+<button id="submitBtn" type="submit">Submit Report</button>
 
 </form>
 
