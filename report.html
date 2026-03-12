@@ -46,16 +46,9 @@ cursor:pointer;
 
 <script>
 
-/* LANGUAGE SWITCH */
-
-function changeLanguage(lang){
-localStorage.setItem("farmerLanguage",lang);
-location.reload();
-}
-
 window.onload=function(){
 
-/* load farmer details from login page */
+/* Load farmer details from login page */
 
 document.getElementById("farmerName").value =
 localStorage.getItem("farmerName");
@@ -66,7 +59,7 @@ localStorage.getItem("farmerEmail");
 document.getElementById("farmerPhone").value =
 localStorage.getItem("farmerPhone");
 
-/* language */
+/* Language from login page */
 
 let lang = localStorage.getItem("farmerLanguage");
 
@@ -75,11 +68,14 @@ if(lang=="tamil"){
 document.getElementById("title").innerHTML="🌾 பூச்சி புகார் பதிவு";
 document.getElementById("villageLabel").innerHTML="கிராமம்";
 document.getElementById("cropLabel").innerHTML="பயிர் வகை";
+document.getElementById("periodLabel").innerHTML="சாகுபடி காலம்";
 document.getElementById("pestLabel").innerHTML="பூச்சி வகை";
 document.getElementById("infectLabel").innerHTML="பாதிப்பு நிலை";
 document.getElementById("imgLabel").innerHTML="பயிர் படம் பதிவேற்றம்";
 document.getElementById("descLabel").innerHTML="விவரம்";
 document.getElementById("submitBtn").innerHTML="புகார் சமர்ப்பிக்க";
+
+/* Translate dropdown options */
 
 document.querySelectorAll("option").forEach(function(opt){
 if(opt.dataset.ta){
@@ -129,15 +125,6 @@ document.getElementById("reportForm").submit();
 
 <h2 id="title">🌾 Farmer Pest Report</h2>
 
-<label>Select Language / மொழியை தேர்வு செய்யவும்</label>
-
-<select onchange="changeLanguage(this.value)">
-<option value="english">English</option>
-<option value="tamil">தமிழ்</option>
-</select>
-
-<br><br>
-
 <form id="reportForm"
 action="https://webto.salesforce.com/servlet/servlet.WebToCase?encoding=UTF-8&orgId=00DdM00000iSfdB"
 method="POST">
@@ -150,7 +137,7 @@ value="https://sruthivt.github.io/pest-report-portal/success.html">
 <input type="hidden" name="origin" value="Web">
 <input type="hidden" name="status" value="New">
 
-<!-- hidden farmer info -->
+<!-- Hidden farmer details -->
 
 <input type="hidden" id="farmerName" name="suppliedname">
 <input type="hidden" id="farmerEmail" name="suppliedemail">
@@ -159,39 +146,60 @@ value="https://sruthivt.github.io/pest-report-portal/success.html">
 <label id="villageLabel">Village</label>
 
 <select name="Village__c">
+
 <option data-ta="கிராமத்தை தேர்வு செய்யவும்">Select Village</option>
 <option data-ta="உடுமலைப்பேட்டை">Udumalpet</option>
 <option data-ta="அவிநாசி">Avinashi</option>
 <option data-ta="திருப்பூர்">Tiruppur</option>
 <option data-ta="தாராபுரம்">Dharapuram</option>
+
 </select>
 
 <label id="cropLabel">Crop Type</label>
 
 <select name="Product__c">
+
 <option data-ta="பயிரை தேர்வு செய்யவும்">Select Crop</option>
 <option data-ta="நெல்">Paddy</option>
 <option data-ta="மக்காச்சோளம்">Maize</option>
 <option data-ta="ராகி">Ragi</option>
 <option data-ta="சோளம்">Sorghum</option>
+
+</select>
+
+<label id="periodLabel">Cultivation Period</label>
+
+<select name="Cultivation_Period__c">
+
+<option data-ta="காலத்தை தேர்வு செய்யவும்">Select Period</option>
+<option data-ta="0 - 30 நாட்கள்">0 - 30 Days</option>
+<option data-ta="30 - 60 நாட்கள்">30 - 60 Days</option>
+<option data-ta="60 - 90 நாட்கள்">60 - 90 Days</option>
+<option data-ta="90 - 120 நாட்கள்">90 - 120 Days</option>
+<option data-ta="120 நாட்களுக்கு மேல்">120+ Days</option>
+
 </select>
 
 <label id="pestLabel">Pest Type</label>
 
 <select name="subject">
+
 <option data-ta="பூச்சியை தேர்வு செய்யவும்">Select Pest</option>
 <option data-ta="இலை மடிப்பு பூச்சி">Leaf Folder</option>
 <option data-ta="தண்டு துளை பூச்சி">Stem Borer</option>
 <option data-ta="ஆர்மிவோம்">Armyworm</option>
+
 </select>
 
 <label id="infectLabel">Infected Level</label>
 
 <select name="priority">
+
 <option data-ta="நிலையை தேர்வு செய்யவும்">Select Level</option>
 <option data-ta="குறைவு">Low</option>
 <option data-ta="மத்திய">Medium</option>
 <option data-ta="அதிகம்">High</option>
+
 </select>
 
 <label id="imgLabel">Upload Crop Image</label>
