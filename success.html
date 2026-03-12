@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html>
-<head>
 
-<meta charset="UTF-8">
+<head>
 <title>Report Submitted</title>
 
 <style>
@@ -30,10 +29,27 @@ padding:12px;
 border:none;
 border-radius:5px;
 font-size:16px;
-cursor:pointer;
 }
 
 </style>
+
+<script>
+
+window.onload=function(){
+
+let lang=localStorage.getItem("farmerLanguage");
+
+if(lang=="tamil"){
+
+document.getElementById("title").innerHTML="புகார் வெற்றிகரமாக சமர்ப்பிக்கப்பட்டது";
+document.getElementById("msg").innerHTML="உங்கள் பூச்சி புகார் பெறப்பட்டது.";
+document.getElementById("btn").innerHTML="முகப்புக்கு திரும்ப";
+
+}
+
+}
+
+</script>
 
 </head>
 
@@ -41,46 +57,15 @@ cursor:pointer;
 
 <div class="container">
 
-<h2 id="successTitle">✅ Report Submitted Successfully</h2>
+<h2 id="title">Report Submitted Successfully</h2>
 
-<p id="successMsg">Your pest complaint has been registered.</p>
+<p id="msg">Your pest complaint has been received.</p>
 
-<p id="successMsg2">An agriculture officer will review your report.</p>
-
-<br>
-
-<button id="homeBtn" onclick="goHome()">Back to Home</button>
+<button id="btn" onclick="window.location.href='index.html'">
+Back to Home
+</button>
 
 </div>
-
-<script>
-
-function goHome(){
-window.location.href="index.html";
-}
-
-window.onload=function(){
-
-let lang = localStorage.getItem("farmerLanguage") || "english";
-
-if(lang==="tamil"){
-
-document.getElementById("successTitle").innerHTML="✅ புகார் வெற்றிகரமாக சமர்ப்பிக்கப்பட்டது";
-
-document.getElementById("successMsg").innerHTML=
-"உங்கள் பூச்சி புகார் பதிவு செய்யப்பட்டது.";
-
-document.getElementById("successMsg2").innerHTML=
-"வேளாண்மை அதிகாரி உங்கள் புகாரை ஆய்வு செய்வார்.";
-
-document.getElementById("homeBtn").innerHTML=
-"முகப்புக்கு திரும்ப";
-
-}
-
-}
-
-</script>
 
 </body>
 </html>
