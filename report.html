@@ -3,44 +3,12 @@
 <head>
 <title>Farmer Pest Report</title>
 <style>
-body {
-    font-family: Arial;
-    background: #f4f4f4;
-    padding: 20px;
-}
-.container {
-    background: white;
-    width: 100%;
-    max-width: 750px;
-    margin: auto;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    overflow: auto;
-}
-input, textarea, select, button {
-    width: 100%;
-    padding: 12px;
-    margin: 8px 0;
-    border-radius: 5px;
-    font-size: 16px;
-    display: block;
-}
-input, select, textarea {
-    border: 1px solid #ccc;
-    box-sizing: border-box;
-}
-button {
-    background: green;
-    color: white;
-    border: none;
-    cursor: pointer;
-}
-label {
-    font-weight: bold;
-    display: block;
-    margin-top: 10px;
-}
+body {font-family: Arial; background: #f4f4f4; padding: 20px;}
+.container {background: white; max-width: 750px; margin: auto; padding: 30px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1);}
+input, textarea, select, button {width: 100%; padding: 12px; margin: 8px 0; border-radius: 5px; font-size: 16px;}
+input, select, textarea {border: 1px solid #ccc; box-sizing: border-box;}
+button {background: green; color: white; border: none; cursor: pointer;}
+label {font-weight: bold; display: block; margin-top: 10px;}
 </style>
 </head>
 <body>
@@ -49,18 +17,23 @@ label {
 <h2 id="formTitle">Farmer Pest Report</h2>
 
 <form id="pestForm" onsubmit="uploadAndSubmit(event)" method="POST">
-    <!-- Hidden Salesforce fields -->
+    <!-- Salesforce Web-to-Case fields -->
     <input type="hidden" name="orgid" value="00DdM00000iSfdB">
     <input type="hidden" name="retURL" value="https://sruthivt.github.io/pest-report-portal/success.html">
     <input type="hidden" name="origin" value="Web">
-
-    <!-- Farmer Info -->
-    <input type="hidden" name="Farmer_Name__c" id="farmerName">
-    <input type="hidden" name="suppliedemail" id="farmerEmail">
-    <input type="hidden" name="Mobile_Number__c" id="farmerPhone">
-    <input type="hidden" name="Language__c" id="Language__c">
     <input type="hidden" name="subject" id="subject">
-    <input type="hidden" name="Crop_Image_URL__c" id="cropImageURL">
+
+    <!-- Farmer Info - now visible & read-only -->
+    <label>Farmer Name / விவசாயி பெயர்</label>
+    <input type="text" name="suppliedname" id="farmerName" readonly required>
+
+    <label>Email / மின்னஞ்சல்</label>
+    <input type="email" name="suppliedemail" id="farmerEmail" readonly required>
+
+    <label>Phone / தொலைபேசி</label>
+    <input type="text" name="suppliedphone" id="farmerPhone" readonly required>
+
+    <input type="hidden" name="Language__c" id="Language__c">
 
     <!-- Dropdowns -->
     <label id="villageLabel"></label>
@@ -78,19 +51,20 @@ label {
     <label id="infectedLabel"></label>
     <select name="Severity_Level__c" id="Infected_Level__c"></select>
 
-    <!-- Crop Image Upload -->
+    <!-- Crop Image -->
     <label id="cropImageLabel"></label>
     <input type="file" id="imageUpload" accept="image/*" required>
 
+    <!-- Description mapped to Salesforce Description -->
     <label id="descriptionLabel"></label>
-    <textarea name="Pest_Description__c" placeholder="Enter details..." required></textarea>
+    <textarea name="description" placeholder="Enter details..." required></textarea>
 
     <button type="submit" id="submitBtn">Submit Report</button>
 </form>
 </div>
 
 <script>
-// Farmer info
+// Farmer info from localStorage
 document.getElementById("farmerName").value = localStorage.getItem("farmerName") || "";
 document.getElementById("farmerEmail").value = localStorage.getItem("farmerEmail") || "";
 document.getElementById("farmerPhone").value = localStorage.getItem("farmerPhone") || "";
@@ -172,8 +146,6 @@ async function uploadAndSubmit(event){
         const data = await res.json();
         if(data.success){
             document.getElementById("cropImageURL").value = data.data.url;
-            // Submit Salesforce form
-            document.getElementById("pestForm").action = "https://webto.salesforce.com/servlet/servlet.WebToCase?encoding=UTF-8";
             document.getElementById("pestForm").submit();
         } else { alert("Image upload failed: "+data.error.message); }
     } catch(err){ alert("Error uploading image: "+err.message); }
