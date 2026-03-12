@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Submit Pest Report</title>
+<title>Farmer Pest Report</title>
 <style>
 body {font-family: Arial; background: #f4f4f4; padding: 50px;}
 .container {background: white; width: 650px; margin: auto; padding: 30px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1);}
@@ -10,7 +10,7 @@ button {background: green; color: white; padding: 12px; border: none; width: 100
 label {font-weight: bold;}
 </style>
 <script>
-// Auto-fill farmer info and handle bilingual labels/options
+// ===================== Auto-fill Farmer Info & Language =====================
 window.onload = function() {
     var lang = localStorage.getItem("farmerLanguage") || "english";
 
@@ -22,8 +22,8 @@ window.onload = function() {
 
     // Labels
     var labels = {
-        english: {village:"Village", crop:"Crop Type", period:"Cultivation Period", pest:"Pest Type", infected:"Infected Level", cropImage:"Crop Image URL", description:"Description"},
-        tamil: {village:"கிராமம்", crop:"பயிர் வகை", period:"பயிர் வளர்ப்பு காலம்", pest:"பூச்சி வகை", infected:"பருமாண நிலை", cropImage:"பயிர் படத்தின் URL", description:"விவரம்"}
+        english: {village:"Village", crop:"Crop Type", period:"Cultivation Period", pest:"Pest Type", infected:"Infected Level", cropImage:"Upload Crop Image", description:"Description"},
+        tamil: {village:"கிராமம்", crop:"பயிர் வகை", period:"பயிர் வளர்ப்பு காலம்", pest:"பூச்சி வகை", infected:"பருமாண நிலை", cropImage:"பயிர் படத்தை பதிவேற்றவும்", description:"விவரம்"}
     };
 
     document.getElementById("villageLabel").innerHTML = labels[lang].village;
@@ -37,38 +37,17 @@ window.onload = function() {
     // Dropdown options
     var villages = [
         {en:"Select Village", ta:"கிராமத்தை தேர்வு செய்யவும்"}, {en:"Pollachi", ta:"பொள்ளாச்சி"}, {en:"Udumalpet", ta:"உடுமலைப்பேட்டை"},
-        {en:"Kinathukadavu", ta:"கிணத்துக்கடவு"}, {en:"Valparai", ta:"வால்பரை"}, {en:"Perundurai", ta:"பெருந்துறை"},
-        {en:"Gobichettipalayam", ta:"கோபிச்செட்டிபாளையம்"}, {en:"Sathyamangalam", ta:"சத்தியமங்கலம்"}, {en:"Bhavani", ta:"பவானி"},
-        {en:"Anthiyur", ta:"அந்தியூர்"}, {en:"Nambiyur", ta:"நம்பியூர்"}, {en:"Kodumudi", ta:"கொடுமுடி"}, {en:"Avinashi", ta:"அவிநாசி"},
-        {en:"Tiruppur", ta:"திருப்பூர்"}, {en:"Dharapuram", ta:"தராபுரம்"}, {en:"Kangeyam", ta:"காங்கேயம்"}, {en:"Palladam", ta:"பள்ளாடம்"},
-        {en:"Thanjavur", ta:"தஞ்சாவூர்"}, {en:"Kumbakonam", ta:"கும்பகோணம்"}, {en:"Orathanadu", ta:"ஒரத்தனாடு"}, {en:"Pattukkottai", ta:"பட்டுக்கோட்டை"},
-        {en:"Mayiladuthurai", ta:"மயிலாடுதுறை"}, {en:"Sirkazhi", ta:"சிற்காசி"}, {en:"Nagapattinam", ta:"நாகப்பட்டினம்"}, {en:"Velankanni", ta:"வேளாங்கண்ணி"},
-        {en:"Cuddalore", ta:"கடலூர்"}, {en:"Panruti", ta:"பன்ரூட்டி"}, {en:"Chidambaram", ta:"சிதம்பரம்"}, {en:"Villupuram", ta:"விழுப்புரம்"},
-        {en:"Tindivanam", ta:"திண்டிவனம்"}, {en:"Salem", ta:"சேலம்"}, {en:"Attur", ta:"அட்டூர்"}, {en:"Omalur", ta:"ஓமாலூர்"}, {en:"Edappadi", ta:"எடப்பாடி"},
-        {en:"Mettur", ta:"மேட்டூர்"}, {en:"Namakkal", ta:"நாமக்கல்"}, {en:"Rasipuram", ta:"ராசிபுரம்"}, {en:"Tiruchengode", ta:"திருச்செங்கோடு"}, 
-        {en:"Erode", ta:"ஈரோடு"}, {en:"Karur", ta:"கரூர்"}, {en:"Kulithalai", ta:"குளித்தலை"}, {en:"Trichy", ta:"திருச்சி"}, {en:"Musiri", ta:"முசிறி"},
-        {en:"Lalgudi", ta:"லால்குடி"}, {en:"Madurai", ta:"மதுரை"}, {en:"Usilampatti", ta:"உசிலம்பட்டி"}, {en:"Dindigul", ta:"திண்டுக்கல்"}, {en:"Palani", ta:"பழனி"},
-        {en:"Oddanchatram", ta:"ஒட்டன்சத்திரம்"}, {en:"Theni", ta:"தேனி"}, {en:"Periyakulam", ta:"பெரியகுளம்"}, {en:"Bodinayakanur", ta:"போடிநாயக்கனூர்"},
-        {en:"Virudhunagar", ta:"வீருதுநகர்"}, {en:"Sivakasi", ta:"சிவகாசி"}, {en:"Rajapalayam", ta:"ராஜபாளையம்"}, {en:"Tirunelveli", ta:"திருநெல்வேலி"},
-        {en:"Ambasamudram", ta:"அம்பாசமுத்ரம்"}, {en:"Tenkasi", ta:"தேன்காசி"}, {en:"Thoothukudi", ta:"தூத்துக்குடி"}, {en:"Kovilpatti", ta:"கோவில்பட்டி"},
-        {en:"Kanyakumari", ta:"கன்யாகுமரி"}, {en:"Nagercoil", ta:"நாகர்கோவில்"}
+        {en:"Kinathukadavu", ta:"கிணத்துக்கடவு"}, {en:"Valparai", ta:"வால்பரை"}, {en:"Perundurai", ta:"பெருந்துறை"}
     ];
-
     var crops = [
-        {en:"Select Crop", ta:"பயிர் தேர்வு செய்யவும்"}, {en:"Paddy", ta:"அரிசி"}, {en:"Sugarcane", ta:"சர்க்கரை களம்"}, 
-        {en:"Banana", ta:"வாழை"}, {en:"Maize", ta:"சோளம்"}, {en:"Cotton", ta:"பம்பரம்"}
+        {en:"Select Crop", ta:"பயிர் தேர்வு செய்யவும்"}, {en:"Paddy", ta:"அரிசி"}, {en:"Sugarcane", ta:"சர்க்கரை களம்"}
     ];
-
     var cultivation = [
-        {en:"Select Period", ta:"காலம் தேர்வு செய்யவும்"}, {en:"60-90 Days", ta:"60-90 நாட்கள்"}, {en:"90-120 Days", ta:"90-120 நாட்கள்"}, 
-        {en:"120-150 Days", ta:"120-150 நாட்கள்"}, {en:"150-180 Days", ta:"150-180 நாட்கள்"}
+        {en:"Select Period", ta:"காலம் தேர்வு செய்யவும்"}, {en:"60-90 Days", ta:"60-90 நாட்கள்"}, {en:"90-120 Days", ta:"90-120 நாட்கள்"}
     ];
-
     var pests = [
-        {en:"Select Pest", ta:"பூச்சி தேர்வு செய்யவும்"}, {en:"Leaf Folder", ta:"இலை ஃபோல்டர்"}, {en:"Stem Borer", ta:"தண்டு புழு"}, 
-        {en:"Brown Plant Hopper", ta:"பழுப்பு செடி ஹாப்பர்"}
+        {en:"Select Pest", ta:"பூச்சி தேர்வு செய்யவும்"}, {en:"Leaf Folder", ta:"இலை ஃபோல்டர்"}, {en:"Stem Borer", ta:"தண்டு புழு"}
     ];
-
     var infected = [
         {en:"Select Level", ta:"நிலை தேர்வு செய்யவும்"}, {en:"Low", ta:"குறைவு"}, {en:"Medium", ta:"மத்திய"}, {en:"High", ta:"அதிகம்"}
     ];
@@ -96,13 +75,49 @@ window.onload = function() {
     fillDropdown(infected, "Infected_Level__c");
 };
 </script>
+<script>
+// ===================== ImgBB Upload Handler =====================
+async function uploadAndSubmit(event){
+    event.preventDefault(); // stop normal form submit
+
+    const fileInput = document.getElementById("imageUpload");
+    const file = fileInput.files[0];
+    if(!file){ alert("Please select an image"); return; }
+
+    // Use your ImgBB API key
+    const apiKey = "9d9a3054573db11bcb75e2a3da97e3de
+";
+
+    const formData = new FormData();
+    formData.append("image", file);
+
+    try{
+        const res = await fetch(`https://api.imgbb.com/1/upload?key=${apiKey}`, {
+            method: "POST",
+            body: formData
+        });
+        const data = await res.json();
+        if(data.success){
+            // Set the URL in hidden Crop_Image_URL__c
+            document.getElementById("Crop_Image_URL__c").value = data.data.url;
+
+            // Submit Salesforce form
+            document.getElementById("pestForm").submit();
+        } else {
+            alert("Image upload failed. Try again.");
+        }
+    } catch(err){
+        console.error(err);
+        alert("Error uploading image.");
+    }
+}
+</script>
 </head>
 <body>
-
 <div class="container">
-<h2 id="formTitle">Submit Pest Report</h2>
+<h2 id="formTitle">Farmer Pest Report</h2>
 
-<form action="https://webto.salesforce.com/servlet/servlet.WebToCase?encoding=UTF-8" method="POST">
+<form id="pestForm" onsubmit="uploadAndSubmit(event)" action="https://webto.salesforce.com/servlet/servlet.WebToCase?encoding=UTF-8" method="POST">
     <!-- Hidden Salesforce fields -->
     <input type="hidden" name="orgid" value="00DdM00000iSfdB">
     <input type="hidden" name="retURL" value="https://sruthivt.github.io/pest-report-portal/success.html">
@@ -116,6 +131,9 @@ window.onload = function() {
     <!-- Hidden Language -->
     <input type="hidden" name="Language__c" id="Language__c">
 
+    <!-- Hidden Subject for Auto-response -->
+    <input type="hidden" name="subject" id="subject">
+
     <!-- Visible Fields -->
     <label id="villageLabel"></label>
     <select name="Village__c" id="Village__c"></select>
@@ -127,16 +145,18 @@ window.onload = function() {
     <select name="Cultivation_Period__c" id="Cultivation_Period__c"></select>
 
     <label id="pestLabel"></label>
-    <select name="Pest_Type__c" id="Pest_Type__c"></select>
+    <select name="Pest_Type__c" id="Pest_Type__c" onchange="document.getElementById('subject').value=this.value;"></select>
 
     <label id="infectedLabel"></label>
     <select name="Infected_Level__c" id="Infected_Level__c"></select>
 
     <label id="cropImageLabel"></label>
-    <input type="url" name="Crop_Image_URL__c">
+    <input type="file" id="imageUpload" accept="image/*" required>
 
     <label id="descriptionLabel"></label>
     <textarea name="description"></textarea>
+
+    <input type="hidden" name="Crop_Image_URL__c" id="Crop_Image_URL__c">
 
     <button type="submit">Submit Report</button>
 </form>
