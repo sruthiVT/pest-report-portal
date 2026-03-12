@@ -79,7 +79,7 @@ document.getElementById("submitBtn").innerHTML="புகார் சமர்�
 
 }
 
-/* IMAGE UPLOAD TO ImgBB */
+/* Upload image to ImgBB */
 
 async function uploadImage(){
 
@@ -128,60 +128,107 @@ method="POST">
 <input type="hidden" name="retURL" value="success.html">
 <input type="hidden" name="origin" value="Web">
 
-<!-- Farmer details from login page -->
+<!-- Farmer details hidden -->
 
 <input type="hidden" id="farmerName" name="suppliedname">
 <input type="hidden" id="farmerEmail" name="suppliedemail">
 <input type="hidden" id="farmerPhone" name="suppliedphone">
 
-<!-- Image URL -->
-
 <input type="hidden" id="imageURL" name="Crop_Image_URL__c">
 
+<!-- Village -->
+
 <label id="villageLabel">Village</label>
+
 <select name="Village__c" required>
+
 <option>Select Village</option>
+
 <option>Udumalpet</option>
 <option>Avinashi</option>
 <option>Tiruppur</option>
 <option>Dharapuram</option>
+<option>Pollachi</option>
+<option>Palladam</option>
+<option>Kangeyam</option>
+<option>Madathukulam</option>
+
 </select>
 
+<!-- Crop Type -->
+
 <label id="cropLabel">Crop Type</label>
+
 <select name="Product__c" required>
+
 <option>Select Crop</option>
+
 <option>Paddy</option>
 <option>Maize</option>
 <option>Ragi</option>
 <option>Sorghum</option>
+<option>Groundnut</option>
+<option>Cotton</option>
+<option>Sugarcane</option>
+<option>Tomato</option>
+<option>Onion</option>
+
 </select>
+
+<!-- Cultivation Period -->
 
 <label id="periodLabel">Cultivation Period</label>
+
 <select name="Cultivation_Period__c" required>
+
 <option>Select Period</option>
-<option>0-30 Days</option>
-<option>30-60 Days</option>
-<option>60-90 Days</option>
-<option>90-120 Days</option>
+
+<option>0 - 30 Days</option>
+<option>30 - 60 Days</option>
+<option>60 - 90 Days</option>
+<option>90 - 120 Days</option>
+<option>120+ Days</option>
+
 </select>
 
+<!-- Pest Type -->
+
 <label id="pestLabel">Pest Type</label>
+
 <select name="subject" required>
+
 <option>Select Pest</option>
+
 <option>Leaf Folder</option>
 <option>Stem Borer</option>
 <option>Armyworm</option>
+<option>Brown Plant Hopper</option>
+<option>Thrips</option>
+<option>Aphids</option>
+<option>Whitefly</option>
+<option>Fruit Borer</option>
+
 </select>
 
+<!-- Infection Level -->
+
 <label id="infectLabel">Infected Level</label>
+
 <select name="priority">
+
 <option>Low</option>
 <option>Medium</option>
 <option>High</option>
+<option>Very High</option>
+
 </select>
+
+<!-- Image -->
 
 <label id="imgLabel">Upload Crop Image</label>
 <input type="file" id="imageUpload" accept="image/*" required>
+
+<!-- Description -->
 
 <label id="descLabel">Description</label>
 <textarea name="description"></textarea>
