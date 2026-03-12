@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
 <head>
 
 <title>Report Submitted</title>
@@ -45,7 +44,7 @@ cursor:pointer;
 
 <p id="successMsg">Your pest complaint has been registered.</p>
 
-<p id="successMsg2">An agriculture officer will review your report and provide suggestions.</p>
+<p id="successMsg2">An agriculture officer will review your report.</p>
 
 <br>
 
@@ -59,16 +58,13 @@ Back to Home
 
 window.onload=function(){
 
-let lang = localStorage.getItem("farmerLanguage");
+let lang=localStorage.getItem("farmerLanguage");
 
 if(lang=="tamil"){
 
 document.getElementById("successTitle").innerHTML="✅ புகார் வெற்றிகரமாக சமர்ப்பிக்கப்பட்டது";
-
 document.getElementById("successMsg").innerHTML="உங்கள் பூச்சி புகார் பதிவு செய்யப்பட்டது.";
-
-document.getElementById("successMsg2").innerHTML="வேளாண்மை அதிகாரி உங்கள் புகாரை ஆய்வு செய்து ஆலோசனை வழங்குவார்.";
-
+document.getElementById("successMsg2").innerHTML="வேளாண்மை அதிகாரி உங்கள் புகாரை ஆய்வு செய்வார்.";
 document.getElementById("homeBtn").innerHTML="முகப்புக்கு திரும்ப";
 
 }
@@ -78,5 +74,4 @@ document.getElementById("homeBtn").innerHTML="முகப்புக்கு 
 </script>
 
 </body>
-
 </html>
