@@ -1,220 +1,145 @@
 <!DOCTYPE html>
 <html>
-
 <head>
-<title>Farmer Pest Report</title>
-<meta charset="UTF-8">
-
+<title>Submit Pest Report</title>
 <style>
-
-body{
-font-family:Arial;
-background:#f4f4f4;
-text-align:center;
-padding:40px;
-}
-
-form{
-background:white;
-padding:25px;
-border-radius:10px;
-width:420px;
-margin:auto;
-box-shadow:0 0 10px rgba(0,0,0,0.1);
-}
-
-input,textarea,select{
-width:100%;
-padding:10px;
-margin:10px 0;
-border-radius:5px;
-border:1px solid #ccc;
-}
-
-button{
-background:green;
-color:white;
-padding:12px;
-border:none;
-border-radius:5px;
-width:100%;
-font-size:16px;
-cursor:pointer;
-}
-
+body {font-family: Arial; background: #f4f4f4; padding: 50px;}
+.container {background: white; width: 650px; margin: auto; padding: 30px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1);}
+input, textarea, select {width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ccc; border-radius: 5px;}
+button {background: green; color: white; padding: 12px; border: none; width: 100%; border-radius: 5px; font-size: 16px;}
+label {font-weight: bold;}
 </style>
-
 <script>
+// Auto-fill farmer info and handle bilingual labels/options
+window.onload = function() {
+    var lang = localStorage.getItem("farmerLanguage") || "english";
 
-window.onload=function(){
+    // Auto-fill farmer info
+    document.getElementById("farmerName").value = localStorage.getItem("farmerName");
+    document.getElementById("farmerEmail").value = localStorage.getItem("farmerEmail");
+    document.getElementById("farmerPhone").value = localStorage.getItem("farmerPhone");
+    document.getElementById("Language__c").value = lang;
 
-/* Load farmer details from login page */
+    // Labels
+    var labels = {
+        english: {village:"Village", crop:"Crop Type", period:"Cultivation Period", pest:"Pest Type", infected:"Infected Level", cropImage:"Crop Image URL", description:"Description"},
+        tamil: {village:"கிராமம்", crop:"பயிர் வகை", period:"பயிர் வளர்ப்பு காலம்", pest:"பூச்சி வகை", infected:"பருமாண நிலை", cropImage:"பயிர் படத்தின் URL", description:"விவரம்"}
+    };
 
-document.getElementById("farmerName").value =
-localStorage.getItem("farmerName");
+    document.getElementById("villageLabel").innerHTML = labels[lang].village;
+    document.getElementById("cropLabel").innerHTML = labels[lang].crop;
+    document.getElementById("periodLabel").innerHTML = labels[lang].period;
+    document.getElementById("pestLabel").innerHTML = labels[lang].pest;
+    document.getElementById("infectedLabel").innerHTML = labels[lang].infected;
+    document.getElementById("cropImageLabel").innerHTML = labels[lang].cropImage;
+    document.getElementById("descriptionLabel").innerHTML = labels[lang].description;
 
-document.getElementById("farmerEmail").value =
-localStorage.getItem("farmerEmail");
+    // Dropdown options
+    var villages = [
+        {en:"Select Village", ta:"கிராமத்தை தேர்வு செய்யவும்"}, {en:"Pollachi", ta:"பொள்ளாச்சி"}, {en:"Udumalpet", ta:"உடுமலைப்பேட்டை"},
+        {en:"Kinathukadavu", ta:"கிணத்துக்கடவு"}, {en:"Valparai", ta:"வால்பரை"}, {en:"Perundurai", ta:"பெருந்துறை"},
+        {en:"Gobichettipalayam", ta:"கோபிச்செட்டிபாளையம்"}, {en:"Sathyamangalam", ta:"சத்தியமங்கலம்"}, {en:"Bhavani", ta:"பவானி"},
+        {en:"Anthiyur", ta:"அந்தியூர்"}, {en:"Nambiyur", ta:"நம்பியூர்"}, {en:"Kodumudi", ta:"கொடுமுடி"}, {en:"Avinashi", ta:"அவிநாசி"},
+        {en:"Tiruppur", ta:"திருப்பூர்"}, {en:"Dharapuram", ta:"தராபுரம்"}, {en:"Kangeyam", ta:"காங்கேயம்"}, {en:"Palladam", ta:"பள்ளாடம்"},
+        {en:"Thanjavur", ta:"தஞ்சாவூர்"}, {en:"Kumbakonam", ta:"கும்பகோணம்"}, {en:"Orathanadu", ta:"ஒரத்தனாடு"}, {en:"Pattukkottai", ta:"பட்டுக்கோட்டை"},
+        {en:"Mayiladuthurai", ta:"மயிலாடுதுறை"}, {en:"Sirkazhi", ta:"சிற்காசி"}, {en:"Nagapattinam", ta:"நாகப்பட்டினம்"}, {en:"Velankanni", ta:"வேளாங்கண்ணி"},
+        {en:"Cuddalore", ta:"கடலூர்"}, {en:"Panruti", ta:"பன்ரூட்டி"}, {en:"Chidambaram", ta:"சிதம்பரம்"}, {en:"Villupuram", ta:"விழுப்புரம்"},
+        {en:"Tindivanam", ta:"திண்டிவனம்"}, {en:"Salem", ta:"சேலம்"}, {en:"Attur", ta:"அட்டூர்"}, {en:"Omalur", ta:"ஓமாலூர்"}, {en:"Edappadi", ta:"எடப்பாடி"},
+        {en:"Mettur", ta:"மேட்டூர்"}, {en:"Namakkal", ta:"நாமக்கல்"}, {en:"Rasipuram", ta:"ராசிபுரம்"}, {en:"Tiruchengode", ta:"திருச்செங்கோடு"}, 
+        {en:"Erode", ta:"ஈரோடு"}, {en:"Karur", ta:"கரூர்"}, {en:"Kulithalai", ta:"குளித்தலை"}, {en:"Trichy", ta:"திருச்சி"}, {en:"Musiri", ta:"முசிறி"},
+        {en:"Lalgudi", ta:"லால்குடி"}, {en:"Madurai", ta:"மதுரை"}, {en:"Usilampatti", ta:"உசிலம்பட்டி"}, {en:"Dindigul", ta:"திண்டுக்கல்"}, {en:"Palani", ta:"பழனி"},
+        {en:"Oddanchatram", ta:"ஒட்டன்சத்திரம்"}, {en:"Theni", ta:"தேனி"}, {en:"Periyakulam", ta:"பெரியகுளம்"}, {en:"Bodinayakanur", ta:"போடிநாயக்கனூர்"},
+        {en:"Virudhunagar", ta:"வீருதுநகர்"}, {en:"Sivakasi", ta:"சிவகாசி"}, {en:"Rajapalayam", ta:"ராஜபாளையம்"}, {en:"Tirunelveli", ta:"திருநெல்வேலி"},
+        {en:"Ambasamudram", ta:"அம்பாசமுத்ரம்"}, {en:"Tenkasi", ta:"தேன்காசி"}, {en:"Thoothukudi", ta:"தூத்துக்குடி"}, {en:"Kovilpatti", ta:"கோவில்பட்டி"},
+        {en:"Kanyakumari", ta:"கன்யாகுமரி"}, {en:"Nagercoil", ta:"நாகர்கோவில்"}
+    ];
 
-document.getElementById("farmerPhone").value =
-localStorage.getItem("farmerPhone");
+    var crops = [
+        {en:"Select Crop", ta:"பயிர் தேர்வு செய்யவும்"}, {en:"Paddy", ta:"அரிசி"}, {en:"Sugarcane", ta:"சர்க்கரை களம்"}, 
+        {en:"Banana", ta:"வாழை"}, {en:"Maize", ta:"சோளம்"}, {en:"Cotton", ta:"பம்பரம்"}
+    ];
 
-/* Language */
+    var cultivation = [
+        {en:"Select Period", ta:"காலம் தேர்வு செய்யவும்"}, {en:"60-90 Days", ta:"60-90 நாட்கள்"}, {en:"90-120 Days", ta:"90-120 நாட்கள்"}, 
+        {en:"120-150 Days", ta:"120-150 நாட்கள்"}, {en:"150-180 Days", ta:"150-180 நாட்கள்"}
+    ];
 
-let lang = localStorage.getItem("farmerLanguage");
+    var pests = [
+        {en:"Select Pest", ta:"பூச்சி தேர்வு செய்யவும்"}, {en:"Leaf Folder", ta:"இலை ஃபோல்டர்"}, {en:"Stem Borer", ta:"தண்டு புழு"}, 
+        {en:"Brown Plant Hopper", ta:"பழுப்பு செடி ஹாப்பர்"}
+    ];
 
-if(lang=="tamil"){
+    var infected = [
+        {en:"Select Level", ta:"நிலை தேர்வு செய்யவும்"}, {en:"Low", ta:"குறைவு"}, {en:"Medium", ta:"மத்திய"}, {en:"High", ta:"அதிகம்"}
+    ];
 
-document.getElementById("title").innerHTML="🌾 பூச்சி புகார் பதிவு";
-document.getElementById("villageLabel").innerHTML="கிராமம்";
-document.getElementById("cropLabel").innerHTML="பயிர் வகை";
-document.getElementById("periodLabel").innerHTML="சாகுபடி காலம்";
-document.getElementById("pestLabel").innerHTML="பூச்சி வகை";
-document.getElementById("infectLabel").innerHTML="பாதிப்பு நிலை";
-document.getElementById("imgLabel").innerHTML="பயிர் படம் பதிவேற்றம்";
-document.getElementById("descLabel").innerHTML="விவரம்";
-document.getElementById("submitBtn").innerHTML="புகார் சமர்ப்பிக்க";
+    function fillDropdown(arr, selectId){
+        var sel = document.getElementById(selectId);
+        arr.forEach(function(optData){
+            var opt = document.createElement("option");
+            opt.value = optData.en;
+            opt.text = optData.en;
+            opt.setAttribute("data-ta", optData.ta);
+            sel.appendChild(opt);
+        });
+        if(lang=="tamil"){
+            for(var i=0;i<sel.options.length;i++){
+                sel.options[i].text = sel.options[i].getAttribute("data-ta");
+            }
+        }
+    }
 
-}
-
-}
-
-/* Upload image to ImgBB */
-
-async function uploadImage(){
-
-let file=document.getElementById("imageUpload").files[0];
-
-if(!file){
-alert("Please upload crop image");
-return;
-}
-
-let formData=new FormData();
-formData.append("image",file);
-
-let response=await fetch(
-"https://api.imgbb.com/1/upload?key=9d9a3054573db11bcb75e2a3da97e3de",
-{
-method:"POST",
-body:formData
-});
-
-let data=await response.json();
-
-/* Save image URL */
-
-document.getElementById("imageURL").value=data.data.url;
-
-/* Submit form */
-
-document.getElementById("reportForm").submit();
-
-}
-
+    fillDropdown(villages, "Village__c");
+    fillDropdown(crops, "Product__c");
+    fillDropdown(cultivation, "Cultivation_Period__c");
+    fillDropdown(pests, "Pest_Type__c");
+    fillDropdown(infected, "Infected_Level__c");
+};
 </script>
-
 </head>
-
 <body>
 
-<h2 id="title">🌾 Farmer Pest Report</h2>
+<div class="container">
+<h2 id="formTitle">Submit Pest Report</h2>
 
-<form id="reportForm"
-action="https://webto.salesforce.com/servlet/servlet.WebToCase?encoding=UTF-8&orgId=00DdM00000iSfdB"
-method="POST">
+<form action="https://webto.salesforce.com/servlet/servlet.WebToCase?encoding=UTF-8" method="POST">
+    <!-- Hidden Salesforce fields -->
+    <input type="hidden" name="orgid" value="00DdM00000iSfdB">
+    <input type="hidden" name="retURL" value="https://sruthivt.github.io/pest-report-portal/success.html">
+    <input type="hidden" name="origin" value="Web">
 
-<input type="hidden" name="orgid" value="00DdM00000iSfdB">
+    <!-- Hidden Farmer Info -->
+    <input type="hidden" name="suppliedname" id="farmerName">
+    <input type="hidden" name="suppliedemail" id="farmerEmail">
+    <input type="hidden" name="suppliedphone" id="farmerPhone">
 
-<input type="hidden" name="retURL"
-value="https://sruthivt.github.io/pest-report-portal/success.html">
+    <!-- Hidden Language -->
+    <input type="hidden" name="Language__c" id="Language__c">
 
-<input type="hidden" name="origin" value="Web">
+    <!-- Visible Fields -->
+    <label id="villageLabel"></label>
+    <select name="Village__c" id="Village__c"></select>
 
-<!-- Farmer details from login page -->
+    <label id="cropLabel"></label>
+    <select name="Product__c" id="Product__c"></select>
 
-<input type="hidden" id="farmerName" name="suppliedname">
-<input type="hidden" id="farmerEmail" name="suppliedemail">
-<input type="hidden" id="farmerPhone" name="suppliedphone">
+    <label id="periodLabel"></label>
+    <select name="Cultivation_Period__c" id="Cultivation_Period__c"></select>
 
-<!-- Image URL -->
+    <label id="pestLabel"></label>
+    <select name="Pest_Type__c" id="Pest_Type__c"></select>
 
-<input type="hidden" id="imageURL" name="Crop_Image_URL__c">
+    <label id="infectedLabel"></label>
+    <select name="Infected_Level__c" id="Infected_Level__c"></select>
 
-<label id="villageLabel">Village</label>
+    <label id="cropImageLabel"></label>
+    <input type="url" name="Crop_Image_URL__c">
 
-<select name="Village__c" required>
+    <label id="descriptionLabel"></label>
+    <textarea name="description"></textarea>
 
-<option>Select Village</option>
-<option>Udumalpet</option>
-<option>Avinashi</option>
-<option>Tiruppur</option>
-<option>Dharapuram</option>
-<option>Pollachi</option>
-
-</select>
-
-<label id="cropLabel">Crop Type</label>
-
-<select name="Product__c" required>
-
-<option>Select Crop</option>
-<option>Paddy</option>
-<option>Maize</option>
-<option>Ragi</option>
-<option>Sorghum</option>
-<option>Groundnut</option>
-<option>Cotton</option>
-
-</select>
-
-<label id="periodLabel">Cultivation Period</label>
-
-<select name="Cultivation_Period__c" required>
-
-<option>Select Period</option>
-<option>0 - 30 Days</option>
-<option>30 - 60 Days</option>
-<option>60 - 90 Days</option>
-<option>90 - 120 Days</option>
-
-</select>
-
-<label id="pestLabel">Pest Type</label>
-
-<select name="subject" required>
-
-<option>Select Pest</option>
-<option>Leaf Folder</option>
-<option>Stem Borer</option>
-<option>Armyworm</option>
-<option>Red Hairy Caterpillar</option>
-
-</select>
-
-<label id="infectLabel">Infected Level</label>
-
-<select name="priority">
-
-<option>Low</option>
-<option>Medium</option>
-<option>High</option>
-
-</select>
-
-<label id="imgLabel">Upload Crop Image</label>
-
-<input type="file" id="imageUpload" accept="image/*" required>
-
-<label id="descLabel">Description</label>
-
-<textarea name="description"></textarea>
-
-<button id="submitBtn" type="button" onclick="uploadImage()">
-Submit Report
-</button>
-
+    <button type="submit">Submit Report</button>
 </form>
-
+</div>
 </body>
 </html>
