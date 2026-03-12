@@ -7,7 +7,12 @@
 
 <style>
 
-body{font-family:Arial;background:#f4f4f4;text-align:center;padding:40px;}
+body{
+font-family:Arial;
+background:#f4f4f4;
+text-align:center;
+padding:40px;
+}
 
 form{
 background:white;
@@ -43,28 +48,38 @@ cursor:pointer;
 
 window.onload=function(){
 
+/* Load farmer details from login page */
+
+document.getElementById("farmerName").value =
+localStorage.getItem("farmerName");
+
+document.getElementById("farmerEmail").value =
+localStorage.getItem("farmerEmail");
+
+document.getElementById("farmerPhone").value =
+localStorage.getItem("farmerPhone");
+
+/* Language */
+
 let lang=localStorage.getItem("farmerLanguage");
 
 if(lang=="tamil"){
 
 document.getElementById("title").innerHTML="🌾 பூச்சி புகார் பதிவு";
-document.getElementById("nameLabel").innerHTML="விவசாயி பெயர்";
-document.getElementById("emailLabel").innerHTML="மின்னஞ்சல்";
-document.getElementById("phoneLabel").innerHTML="தொலைபேசி";
 document.getElementById("villageLabel").innerHTML="கிராமம்";
 document.getElementById("cropLabel").innerHTML="பயிர் வகை";
 document.getElementById("periodLabel").innerHTML="சாகுபடி காலம்";
 document.getElementById("pestLabel").innerHTML="பூச்சி வகை";
 document.getElementById("infectLabel").innerHTML="பாதிப்பு நிலை";
-document.getElementById("descLabel").innerHTML="விவரம்";
 document.getElementById("imgLabel").innerHTML="பயிர் படம் பதிவேற்றம்";
+document.getElementById("descLabel").innerHTML="விவரம்";
 document.getElementById("submitBtn").innerHTML="புகார் சமர்ப்பிக்க";
 
 }
 
 }
 
-/* IMAGE UPLOAD FUNCTION */
+/* IMAGE UPLOAD TO ImgBB */
 
 async function uploadImage(){
 
@@ -91,7 +106,7 @@ let data=await response.json();
 
 document.getElementById("imageURL").value=data.data.url;
 
-/* Submit form to Salesforce */
+/* Submit form */
 
 document.getElementById("reportForm").submit();
 
@@ -113,30 +128,50 @@ method="POST">
 <input type="hidden" name="retURL" value="success.html">
 <input type="hidden" name="origin" value="Web">
 
-<!-- Image URL for Salesforce -->
+<!-- Farmer details from login page -->
+
+<input type="hidden" id="farmerName" name="suppliedname">
+<input type="hidden" id="farmerEmail" name="suppliedemail">
+<input type="hidden" id="farmerPhone" name="suppliedphone">
+
+<!-- Image URL -->
 
 <input type="hidden" id="imageURL" name="Crop_Image_URL__c">
 
-<label id="nameLabel">Farmer Name</label>
-<input type="text" name="suppliedname" required>
-
-<label id="emailLabel">Email</label>
-<input type="email" name="suppliedemail" required>
-
-<label id="phoneLabel">Phone</label>
-<input type="text" name="suppliedphone" required>
-
 <label id="villageLabel">Village</label>
-<input type="text" name="Village__c">
+<select name="Village__c" required>
+<option>Select Village</option>
+<option>Udumalpet</option>
+<option>Avinashi</option>
+<option>Tiruppur</option>
+<option>Dharapuram</option>
+</select>
 
 <label id="cropLabel">Crop Type</label>
-<input type="text" name="Product__c">
+<select name="Product__c" required>
+<option>Select Crop</option>
+<option>Paddy</option>
+<option>Maize</option>
+<option>Ragi</option>
+<option>Sorghum</option>
+</select>
 
 <label id="periodLabel">Cultivation Period</label>
-<input type="text" name="Escalation_Level__c">
+<select name="Cultivation_Period__c" required>
+<option>Select Period</option>
+<option>0-30 Days</option>
+<option>30-60 Days</option>
+<option>60-90 Days</option>
+<option>90-120 Days</option>
+</select>
 
 <label id="pestLabel">Pest Type</label>
-<input type="text" name="subject">
+<select name="subject" required>
+<option>Select Pest</option>
+<option>Leaf Folder</option>
+<option>Stem Borer</option>
+<option>Armyworm</option>
+</select>
 
 <label id="infectLabel">Infected Level</label>
 <select name="priority">
@@ -151,7 +186,9 @@ method="POST">
 <label id="descLabel">Description</label>
 <textarea name="description"></textarea>
 
-<button id="submitBtn" type="button" onclick="uploadImage()">Submit Report</button>
+<button id="submitBtn" type="button" onclick="uploadImage()">
+Submit Report
+</button>
 
 </form>
 
