@@ -42,50 +42,82 @@ font-size:16px;
 cursor:pointer;
 }
 
-.langBox{
-margin-bottom:20px;
-}
-
 </style>
 
 <script>
 
-function changeLanguage(lang){
+/* LANGUAGE SWITCH */
 
+function changeLanguage(lang){
 localStorage.setItem("farmerLanguage",lang);
 location.reload();
-
 }
 
 window.onload=function(){
+
+/* load farmer details from login page */
+
+document.getElementById("farmerName").value =
+localStorage.getItem("farmerName");
+
+document.getElementById("farmerEmail").value =
+localStorage.getItem("farmerEmail");
+
+document.getElementById("farmerPhone").value =
+localStorage.getItem("farmerPhone");
+
+/* language */
 
 let lang = localStorage.getItem("farmerLanguage");
 
 if(lang=="tamil"){
 
 document.getElementById("title").innerHTML="🌾 பூச்சி புகார் பதிவு";
-document.getElementById("nameLabel").innerHTML="விவசாயி பெயர்";
-document.getElementById("emailLabel").innerHTML="மின்னஞ்சல்";
-document.getElementById("phoneLabel").innerHTML="தொலைபேசி எண்";
 document.getElementById("villageLabel").innerHTML="கிராமம்";
 document.getElementById("cropLabel").innerHTML="பயிர் வகை";
-document.getElementById("periodLabel").innerHTML="சாகுபடி காலம்";
 document.getElementById("pestLabel").innerHTML="பூச்சி வகை";
 document.getElementById("infectLabel").innerHTML="பாதிப்பு நிலை";
+document.getElementById("imgLabel").innerHTML="பயிர் படம் பதிவேற்றம்";
 document.getElementById("descLabel").innerHTML="விவரம்";
 document.getElementById("submitBtn").innerHTML="புகார் சமர்ப்பிக்க";
 
-document.getElementById("langTitle").innerHTML="மொழியை தேர்வு செய்யவும்";
-
 document.querySelectorAll("option").forEach(function(opt){
-
 if(opt.dataset.ta){
 opt.text = opt.dataset.ta;
 }
-
 });
 
 }
+
+}
+
+/* IMAGE UPLOAD */
+
+async function uploadImage(){
+
+let file = document.getElementById("imageUpload").files[0];
+
+if(!file){
+alert("Please upload crop image");
+return;
+}
+
+let formData = new FormData();
+formData.append("file",file);
+formData.append("upload_preset","pest_upload");
+
+let response = await fetch(
+"https://api.cloudinary.com/v1_1/dn1k8iz2c/image/upload",
+{
+method:"POST",
+body:formData
+});
+
+let data = await response.json();
+
+document.getElementById("imageURL").value = data.secure_url;
+
+document.getElementById("reportForm").submit();
 
 }
 
@@ -97,113 +129,84 @@ opt.text = opt.dataset.ta;
 
 <h2 id="title">🌾 Farmer Pest Report</h2>
 
-<div class="langBox">
-
-<label id="langTitle">Select Language</label>
+<label>Select Language / மொழியை தேர்வு செய்யவும்</label>
 
 <select onchange="changeLanguage(this.value)">
-
 <option value="english">English</option>
 <option value="tamil">தமிழ்</option>
-
 </select>
 
-</div>
+<br><br>
 
-<form action="https://webto.salesforce.com/servlet/servlet.WebToCase?encoding=UTF-8&orgId=00DdM00000iSfdB" method="POST">
+<form id="reportForm"
+action="https://webto.salesforce.com/servlet/servlet.WebToCase?encoding=UTF-8&orgId=00DdM00000iSfdB"
+method="POST">
 
 <input type="hidden" name="orgid" value="00DdM00000iSfdB">
-<input type="hidden" name="retURL" value="https://sruthivt.github.io/pest-report-portal/success.html">
+
+<input type="hidden" name="retURL"
+value="https://sruthivt.github.io/pest-report-portal/success.html">
+
 <input type="hidden" name="origin" value="Web">
 <input type="hidden" name="status" value="New">
 
-<label id="nameLabel">Farmer Name</label>
-<input type="text" name="suppliedname" required>
+<!-- hidden farmer info -->
 
-<label id="emailLabel">Email</label>
-<input type="email" name="suppliedemail" required>
-
-<label id="phoneLabel">Phone</label>
-<input type="text" name="suppliedphone" required>
+<input type="hidden" id="farmerName" name="suppliedname">
+<input type="hidden" id="farmerEmail" name="suppliedemail">
+<input type="hidden" id="farmerPhone" name="suppliedphone">
 
 <label id="villageLabel">Village</label>
 
 <select name="Village__c">
-
 <option data-ta="கிராமத்தை தேர்வு செய்யவும்">Select Village</option>
 <option data-ta="உடுமலைப்பேட்டை">Udumalpet</option>
 <option data-ta="அவிநாசி">Avinashi</option>
 <option data-ta="திருப்பூர்">Tiruppur</option>
 <option data-ta="தாராபுரம்">Dharapuram</option>
-<option data-ta="காங்கேயம்">Kangeyam</option>
-<option data-ta="பல்லடம்">Palladam</option>
-<option data-ta="மதுரை">Madurai</option>
-<option data-ta="திருச்சி">Trichy</option>
-<option data-ta="திண்டுக்கல்">Dindigul</option>
-<option data-ta="தேனி">Theni</option>
-
 </select>
 
 <label id="cropLabel">Crop Type</label>
 
 <select name="Product__c">
-
 <option data-ta="பயிரை தேர்வு செய்யவும்">Select Crop</option>
 <option data-ta="நெல்">Paddy</option>
 <option data-ta="மக்காச்சோளம்">Maize</option>
 <option data-ta="ராகி">Ragi</option>
 <option data-ta="சோளம்">Sorghum</option>
-<option data-ta="கரும்பு">Sugarcane</option>
-<option data-ta="பருத்தி">Cotton</option>
-<option data-ta="வேர்க்கடலை">Groundnut</option>
-<option data-ta="சூரியகாந்தி">Sunflower</option>
-<option data-ta="வாழை">Banana</option>
-<option data-ta="தேங்காய்">Coconut</option>
-
-</select>
-
-<label id="periodLabel">Cultivation Period</label>
-
-<select name="Escalation_Level__c">
-
-<option data-ta="காலத்தை தேர்வு செய்யவும்">Select Period</option>
-<option data-ta="0 - 30 நாட்கள்">0 - 30 Days</option>
-<option data-ta="30 - 60 நாட்கள்">30 - 60 Days</option>
-<option data-ta="60 - 90 நாட்கள்">60 - 90 Days</option>
-<option data-ta="90 - 120 நாட்கள்">90 - 120 Days</option>
-<option data-ta="120 நாட்களுக்கு மேல்">120+ Days</option>
-
 </select>
 
 <label id="pestLabel">Pest Type</label>
 
 <select name="subject">
-
 <option data-ta="பூச்சியை தேர்வு செய்யவும்">Select Pest</option>
 <option data-ta="இலை மடிப்பு பூச்சி">Leaf Folder</option>
 <option data-ta="தண்டு துளை பூச்சி">Stem Borer</option>
 <option data-ta="ஆர்மிவோம்">Armyworm</option>
-<option data-ta="பழுப்பு தாவரத் துள்ளி">Brown Planthopper</option>
-<option data-ta="பச்சை இலைத் துள்ளி">Green Leafhopper</option>
-
 </select>
 
 <label id="infectLabel">Infected Level</label>
 
 <select name="priority">
-
 <option data-ta="நிலையை தேர்வு செய்யவும்">Select Level</option>
 <option data-ta="குறைவு">Low</option>
 <option data-ta="மத்திய">Medium</option>
 <option data-ta="அதிகம்">High</option>
-
 </select>
+
+<label id="imgLabel">Upload Crop Image</label>
+
+<input type="file" id="imageUpload" accept="image/*">
+
+<input type="hidden" id="imageURL" name="Crop_Image_URL__c">
 
 <label id="descLabel">Description</label>
 
 <textarea name="description"></textarea>
 
-<button id="submitBtn" type="submit">Submit Report</button>
+<button id="submitBtn" type="button" onclick="uploadImage()">
+Submit Report
+</button>
 
 </form>
 
