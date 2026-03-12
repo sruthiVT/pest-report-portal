@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
-
 <head>
+
 <title>Farmer Pest Report</title>
 <meta charset="UTF-8">
 
@@ -42,9 +42,20 @@ font-size:16px;
 cursor:pointer;
 }
 
+.langBox{
+margin-bottom:20px;
+}
+
 </style>
 
 <script>
+
+function changeLanguage(lang){
+
+localStorage.setItem("farmerLanguage",lang);
+location.reload();
+
+}
 
 window.onload=function(){
 
@@ -64,12 +75,14 @@ document.getElementById("infectLabel").innerHTML="பாதிப்பு ந�
 document.getElementById("descLabel").innerHTML="விவரம்";
 document.getElementById("submitBtn").innerHTML="புகார் சமர்ப்பிக்க";
 
-/* translate dropdown options */
+document.getElementById("langTitle").innerHTML="மொழியை தேர்வு செய்யவும்";
 
 document.querySelectorAll("option").forEach(function(opt){
+
 if(opt.dataset.ta){
 opt.text = opt.dataset.ta;
 }
+
 });
 
 }
@@ -83,6 +96,19 @@ opt.text = opt.dataset.ta;
 <body>
 
 <h2 id="title">🌾 Farmer Pest Report</h2>
+
+<div class="langBox">
+
+<label id="langTitle">Select Language</label>
+
+<select onchange="changeLanguage(this.value)">
+
+<option value="english">English</option>
+<option value="tamil">தமிழ்</option>
+
+</select>
+
+</div>
 
 <form action="https://webto.salesforce.com/servlet/servlet.WebToCase?encoding=UTF-8&orgId=00DdM00000iSfdB" method="POST">
 
