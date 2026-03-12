@@ -3,12 +3,44 @@
 <head>
 <title>Farmer Pest Report</title>
 <style>
-body {font-family: Arial; background: #f4f4f4; padding: 30px;}
-.container {background: white; width: 700px; margin: auto; padding: 30px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1);}
-input, textarea, select, button {width: 100%; padding: 10px; margin: 10px 0; border-radius: 5px; font-size: 16px;}
-input, select, textarea {border: 1px solid #ccc;}
-button {background: green; color: white; border: none; cursor: pointer;}
-label {font-weight: bold;}
+body {
+    font-family: Arial;
+    background: #f4f4f4;
+    padding: 20px;
+}
+.container {
+    background: white;
+    width: 100%;
+    max-width: 750px;
+    margin: auto;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    overflow: auto;
+}
+input, textarea, select, button {
+    width: 100%;
+    padding: 12px;
+    margin: 8px 0;
+    border-radius: 5px;
+    font-size: 16px;
+    display: block;
+}
+input, select, textarea {
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+button {
+    background: green;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+label {
+    font-weight: bold;
+    display: block;
+    margin-top: 10px;
+}
 </style>
 </head>
 <body>
@@ -58,7 +90,7 @@ label {font-weight: bold;}
 </div>
 
 <script>
-// Farmer info from login page
+// Farmer info
 document.getElementById("farmerName").value = localStorage.getItem("farmerName") || "";
 document.getElementById("farmerEmail").value = localStorage.getItem("farmerEmail") || "";
 document.getElementById("farmerPhone").value = localStorage.getItem("farmerPhone") || "";
@@ -82,30 +114,25 @@ function setLanguage(lang){
     updateDropdownLanguage(lang);
 }
 
-// Dropdown Options
+// Dropdown options
 var villages = [
     {en:"Select Village", ta:"கிராமத்தை தேர்வு செய்யவும்"}, {en:"Pollachi", ta:"பொள்ளாச்சி"}, {en:"Udumalpet", ta:"உடுமலைப்பேட்டை"},
     {en:"Kinathukadavu", ta:"கிணத்துக்கடவு"}, {en:"Valparai", ta:"வால்பரை"}, {en:"Perundurai", ta:"பெருந்துறை"}
 ];
-
 var crops = [
     {en:"Select Crop", ta:"பயிர் தேர்வு செய்யவும்"}, {en:"Paddy", ta:"அரிசி"}, {en:"Sugarcane", ta:"சர்க்கரை களம்"}, 
     {en:"Banana", ta:"வாழை"}, {en:"Maize", ta:"சோளம்"}, {en:"Cotton", ta:"பம்பரம்"}
 ];
-
 var cultivation = [
     {en:"Select Period", ta:"காலம் தேர்வு செய்யவும்"}, {en:"60-90 Days", ta:"60-90 நாட்கள்"}, {en:"90-120 Days", ta:"90-120 நாட்கள்"}, {en:"120-150 Days", ta:"120-150 நாட்கள்"}
 ];
-
 var pests = [
     {en:"Select Pest", ta:"பூச்சி தேர்வு செய்யவும்"}, {en:"Leaf Folder", ta:"இலை ஃபோல்டர்"}, {en:"Stem Borer", ta:"தண்டு புழு"}, {en:"Brown Plant Hopper", ta:"பழுப்பு செடி ஹாப்பர்"}
 ];
-
 var infected = [
     {en:"Select Level", ta:"நிலை தேர்வு செய்யவும்"}, {en:"Low", ta:"குறைவு"}, {en:"Medium", ta:"மத்திய"}, {en:"High", ta:"அதிகம்"}
 ];
 
-// Fill dropdowns
 function fillDropdown(arr, selectId){
     var sel = document.getElementById(selectId);
     sel.innerHTML = "";
@@ -132,13 +159,12 @@ function updateDropdownLanguage(lang){
     });
 }
 
-// ImgBB Upload + Form Submit
+// ImgBB Upload + Submit
 async function uploadAndSubmit(event){
     event.preventDefault();
     const file = document.getElementById("imageUpload").files[0];
     if(!file){ alert("Please select an image"); return; }
-    const apiKey = "9d9a3054573db11bcb75e2a3da97e3de
-"; // Replace with your ImgBB API key
+    const apiKey = "9d9a3054573db11bcb75e2a3da97e3de"; // replace with your key
     const formData = new FormData();
     formData.append("image", file);
     try{
