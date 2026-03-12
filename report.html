@@ -16,7 +16,7 @@ label {font-weight: bold;}
 <div class="container">
 <h2 id="formTitle">Farmer Pest Report</h2>
 
-<form id="pestForm" action="https://webto.salesforce.com/servlet/servlet.WebToCase?encoding=UTF-8" method="POST">
+<form id="pestForm" onsubmit="uploadAndSubmit(event)" method="POST">
     <!-- Hidden Salesforce fields -->
     <input type="hidden" name="orgid" value="00DdM00000iSfdB">
     <input type="hidden" name="retURL" value="https://sruthivt.github.io/pest-report-portal/success.html">
@@ -28,6 +28,7 @@ label {font-weight: bold;}
     <input type="hidden" name="Mobile_Number__c" id="farmerPhone">
     <input type="hidden" name="Language__c" id="Language__c">
     <input type="hidden" name="subject" id="subject">
+    <input type="hidden" name="Crop_Image_URL__c" id="cropImageURL">
 
     <!-- Dropdowns -->
     <label id="villageLabel"></label>
@@ -45,9 +46,9 @@ label {font-weight: bold;}
     <label id="infectedLabel"></label>
     <select name="Severity_Level__c" id="Infected_Level__c"></select>
 
-    <!-- Image URL input instead of upload -->
+    <!-- Crop Image Upload -->
     <label id="cropImageLabel"></label>
-    <input type="url" name="Crop_Image_URL__c" placeholder="Paste Image URL here" required>
+    <input type="file" id="imageUpload" accept="image/*" required>
 
     <label id="descriptionLabel"></label>
     <textarea name="Pest_Description__c" placeholder="Enter details..." required></textarea>
@@ -65,8 +66,8 @@ document.getElementById("Language__c").value = localStorage.getItem("farmerLangu
 
 // Labels
 var labels = {
-    english: {village:"Village", crop:"Crop Type", period:"Cultivation Period", pest:"Pest Type", infected:"Infected Level", cropImage:"Crop Image URL", description:"Description"},
-    tamil: {village:"கிராமம்", crop:"பயிர் வகை", period:"பயிர் வளர்ப்பு காலம்", pest:"பூச்சி வகை", infected:"பருமாண நிலை", cropImage:"பயிர் படத்தின் URL", description:"விவரம்"}
+    english: {village:"Village", crop:"Crop Type", period:"Cultivation Period", pest:"Pest Type", infected:"Infected Level", cropImage:"Upload Crop Image", description:"Description"},
+    tamil: {village:"கிராமம்", crop:"பயிர் வகை", period:"பயிர் வளர்ப்பு காலம்", pest:"பூச்சி வகை", infected:"பருமாண நிலை", cropImage:"பயிர் படத்தைப் பதிவேற்று", description:"விவரம்"}
 };
 
 function setLanguage(lang){
@@ -84,10 +85,7 @@ function setLanguage(lang){
 // Dropdown Options
 var villages = [
     {en:"Select Village", ta:"கிராமத்தை தேர்வு செய்யவும்"}, {en:"Pollachi", ta:"பொள்ளாச்சி"}, {en:"Udumalpet", ta:"உடுமலைப்பேட்டை"},
-    {en:"Kinathukadavu", ta:"கிணத்துக்கடவு"}, {en:"Valparai", ta:"வால்பரை"}, {en:"Perundurai", ta:"பெருந்துறை"}, {en:"Gobichettipalayam", ta:"கோபிச்செட்டிபாளையம்"},
-    {en:"Sathyamangalam", ta:"சத்தியமங்கலம்"}, {en:"Bhavani", ta:"பவானி"}, {en:"Anthiyur", ta:"அந்தியூர்"}, {en:"Nambiyur", ta:"நம்பியூர்"}, {en:"Kodumudi", ta:"கொடுமுடி"},
-    {en:"Avinashi", ta:"அவிநாசி"}, {en:"Tiruppur", ta:"திருப்பூர்"}, {en:"Dharapuram", ta:"தராபுரம்"}, {en:"Kangeyam", ta:"காங்கேயம்"}, {en:"Palladam", ta:"பள்ளாடம்"},
-    {en:"Madurai", ta:"மதுரை"}, {en:"Trichy", ta:"திருச்சி"}, {en:"Dindigul", ta:"திண்டுக்கல்"}, {en:"Palani", ta:"பழனி"}, {en:"Theni", ta:"தேனி"}
+    {en:"Kinathukadavu", ta:"கிணத்துக்கடவு"}, {en:"Valparai", ta:"வால்பரை"}, {en:"Perundurai", ta:"பெருந்துறை"}
 ];
 
 var crops = [
@@ -132,6 +130,27 @@ function updateDropdownLanguage(lang){
             sel.options[i].text = (lang=="tamil") ? sel.options[i].getAttribute("data-ta") : sel.options[i].value;
         }
     });
+}
+
+// ImgBB Upload + Form Submit
+async function uploadAndSubmit(event){
+    event.preventDefault();
+    const file = document.getElementById("imageUpload").files[0];
+    if(!file){ alert("Please select an image"); return; }
+    const apiKey = "9d9a3054573db11bcb75e2a3da97e3de
+"; // Replace with your ImgBB API key
+    const formData = new FormData();
+    formData.append("image", file);
+    try{
+        const res = await fetch(`https://api.imgbb.com/1/upload?key=${apiKey}`, {method:"POST", body:formData});
+        const data = await res.json();
+        if(data.success){
+            document.getElementById("cropImageURL").value = data.data.url;
+            // Submit Salesforce form
+            document.getElementById("pestForm").action = "https://webto.salesforce.com/servlet/servlet.WebToCase?encoding=UTF-8";
+            document.getElementById("pestForm").submit();
+        } else { alert("Image upload failed: "+data.error.message); }
+    } catch(err){ alert("Error uploading image: "+err.message); }
 }
 
 // Initialize language
