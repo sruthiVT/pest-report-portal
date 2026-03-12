@@ -40,10 +40,20 @@ document.getElementById("loginbtn").innerHTML="Login";
 
 }
 
-function saveLanguage(){
+function saveData(){
 
 let lang=document.getElementById("language").value;
+
 localStorage.setItem("farmerLanguage",lang);
+
+localStorage.setItem("farmerName",
+document.getElementById("name").value);
+
+localStorage.setItem("farmerEmail",
+document.getElementById("email").value);
+
+localStorage.setItem("farmerPhone",
+document.getElementById("phone").value);
 
 }
 
@@ -62,10 +72,12 @@ localStorage.setItem("farmerLanguage",lang);
 
 <h2 id="title">🌾 Farmer Login</h2>
 
-<form action="report.html" onsubmit="saveLanguage()">
+<form action="report.html" onsubmit="saveData()">
 
 <input id="name" type="text" placeholder="Farmer Name" required>
+
 <input id="email" type="email" placeholder="Email" required>
+
 <input id="phone" type="text" placeholder="Phone Number" required>
 
 <button id="loginbtn" type="submit">Login</button>
