@@ -3,117 +3,16 @@
 <head>
 <title>Farmer Pest Report</title>
 <style>
-body {font-family: Arial; background: #f4f4f4; padding: 50px;}
-.container {background: white; width: 650px; margin: auto; padding: 30px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1);}
-input, textarea, select {width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ccc; border-radius: 5px;}
-button {background: green; color: white; padding: 12px; border: none; width: 100%; border-radius: 5px; font-size: 16px;}
+body {font-family: Arial; background: #f4f4f4; padding: 30px;}
+.container {background: white; width: 700px; margin: auto; padding: 30px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1);}
+input, textarea, select, button {width: 100%; padding: 10px; margin: 10px 0; border-radius: 5px; font-size: 16px;}
+input, select, textarea {border: 1px solid #ccc;}
+button {background: green; color: white; border: none; cursor: pointer;}
 label {font-weight: bold;}
 </style>
-<script>
-// ===================== Auto-fill Farmer Info & Language =====================
-window.onload = function() {
-    var lang = localStorage.getItem("farmerLanguage") || "english";
-
-    // Auto-fill farmer info
-    document.getElementById("farmerName").value = localStorage.getItem("farmerName");
-    document.getElementById("farmerEmail").value = localStorage.getItem("farmerEmail");
-    document.getElementById("farmerPhone").value = localStorage.getItem("farmerPhone");
-    document.getElementById("Language__c").value = lang;
-
-    // Labels
-    var labels = {
-        english: {village:"Village", crop:"Crop Type", period:"Cultivation Period", pest:"Pest Type", infected:"Infected Level", cropImage:"Upload Crop Image", description:"Description"},
-        tamil: {village:"கிராமம்", crop:"பயிர் வகை", period:"பயிர் வளர்ப்பு காலம்", pest:"பூச்சி வகை", infected:"பருமாண நிலை", cropImage:"பயிர் படத்தை பதிவேற்றவும்", description:"விவரம்"}
-    };
-
-    document.getElementById("villageLabel").innerHTML = labels[lang].village;
-    document.getElementById("cropLabel").innerHTML = labels[lang].crop;
-    document.getElementById("periodLabel").innerHTML = labels[lang].period;
-    document.getElementById("pestLabel").innerHTML = labels[lang].pest;
-    document.getElementById("infectedLabel").innerHTML = labels[lang].infected;
-    document.getElementById("cropImageLabel").innerHTML = labels[lang].cropImage;
-    document.getElementById("descriptionLabel").innerHTML = labels[lang].description;
-
-    // Dropdown options
-    var villages = [
-        {en:"Select Village", ta:"கிராமத்தை தேர்வு செய்யவும்"}, {en:"Pollachi", ta:"பொள்ளாச்சி"}, {en:"Udumalpet", ta:"உடுமலைப்பேட்டை"},
-        {en:"Kinathukadavu", ta:"கிணத்துக்கடவு"}, {en:"Valparai", ta:"வால்பரை"}, {en:"Perundurai", ta:"பெருந்துறை"}
-    ];
-    var crops = [
-        {en:"Select Crop", ta:"பயிர் தேர்வு செய்யவும்"}, {en:"Paddy", ta:"அரிசி"}, {en:"Sugarcane", ta:"சர்க்கரை களம்"}
-    ];
-    var cultivation = [
-        {en:"Select Period", ta:"காலம் தேர்வு செய்யவும்"}, {en:"60-90 Days", ta:"60-90 நாட்கள்"}, {en:"90-120 Days", ta:"90-120 நாட்கள்"}
-    ];
-    var pests = [
-        {en:"Select Pest", ta:"பூச்சி தேர்வு செய்யவும்"}, {en:"Leaf Folder", ta:"இலை ஃபோல்டர்"}, {en:"Stem Borer", ta:"தண்டு புழு"}
-    ];
-    var infected = [
-        {en:"Select Level", ta:"நிலை தேர்வு செய்யவும்"}, {en:"Low", ta:"குறைவு"}, {en:"Medium", ta:"மத்திய"}, {en:"High", ta:"அதிகம்"}
-    ];
-
-    function fillDropdown(arr, selectId){
-        var sel = document.getElementById(selectId);
-        arr.forEach(function(optData){
-            var opt = document.createElement("option");
-            opt.value = optData.en;
-            opt.text = optData.en;
-            opt.setAttribute("data-ta", optData.ta);
-            sel.appendChild(opt);
-        });
-        if(lang=="tamil"){
-            for(var i=0;i<sel.options.length;i++){
-                sel.options[i].text = sel.options[i].getAttribute("data-ta");
-            }
-        }
-    }
-
-    fillDropdown(villages, "Village__c");
-    fillDropdown(crops, "Product__c");
-    fillDropdown(cultivation, "Cultivation_Period__c");
-    fillDropdown(pests, "Pest_Type__c");
-    fillDropdown(infected, "Infected_Level__c");
-};
-</script>
-<script>
-// ===================== ImgBB Upload Handler =====================
-async function uploadAndSubmit(event){
-    event.preventDefault(); // stop normal form submit
-
-    const fileInput = document.getElementById("imageUpload");
-    const file = fileInput.files[0];
-    if(!file){ alert("Please select an image"); return; }
-
-    // Use your ImgBB API key
-    const apiKey = "9d9a3054573db11bcb75e2a3da97e3de
-";
-
-    const formData = new FormData();
-    formData.append("image", file);
-
-    try{
-        const res = await fetch(`https://api.imgbb.com/1/upload?key=${apiKey}`, {
-            method: "POST",
-            body: formData
-        });
-        const data = await res.json();
-        if(data.success){
-            // Set the URL in hidden Crop_Image_URL__c
-            document.getElementById("Crop_Image_URL__c").value = data.data.url;
-
-            // Submit Salesforce form
-            document.getElementById("pestForm").submit();
-        } else {
-            alert("Image upload failed. Try again.");
-        }
-    } catch(err){
-        console.error(err);
-        alert("Error uploading image.");
-    }
-}
-</script>
 </head>
 <body>
+
 <div class="container">
 <h2 id="formTitle">Farmer Pest Report</h2>
 
@@ -123,16 +22,19 @@ async function uploadAndSubmit(event){
     <input type="hidden" name="retURL" value="https://sruthivt.github.io/pest-report-portal/success.html">
     <input type="hidden" name="origin" value="Web">
 
-    <!-- Hidden Farmer Info -->
-    <input type="hidden" name="suppliedname" id="farmerName">
+    <!-- Farmer Info -->
+    <input type="hidden" name="Farmer_Name__c" id="farmerName">
     <input type="hidden" name="suppliedemail" id="farmerEmail">
-    <input type="hidden" name="suppliedphone" id="farmerPhone">
-
-    <!-- Hidden Language -->
+    <input type="hidden" name="Mobile_Number__c" id="farmerPhone">
     <input type="hidden" name="Language__c" id="Language__c">
-
-    <!-- Hidden Subject for Auto-response -->
     <input type="hidden" name="subject" id="subject">
+
+    <!-- Language selector for live switching -->
+    <label>Choose Language / மொழி தேர்வு செய்யவும்</label>
+    <select id="language" onchange="setLanguage(this.value)">
+        <option value="english">English</option>
+        <option value="tamil">தமிழ்</option>
+    </select>
 
     <!-- Visible Fields -->
     <label id="villageLabel"></label>
@@ -148,18 +50,120 @@ async function uploadAndSubmit(event){
     <select name="Pest_Type__c" id="Pest_Type__c" onchange="document.getElementById('subject').value=this.value;"></select>
 
     <label id="infectedLabel"></label>
-    <select name="Infected_Level__c" id="Infected_Level__c"></select>
+    <select name="Severity_Level__c" id="Infected_Level__c"></select>
 
     <label id="cropImageLabel"></label>
     <input type="file" id="imageUpload" accept="image/*" required>
 
     <label id="descriptionLabel"></label>
-    <textarea name="description"></textarea>
+    <textarea name="Pest_Description__c" placeholder="Enter details here..." required></textarea>
 
-    <input type="hidden" name="Crop_Image_URL__c" id="Crop_Image_URL__c">
-
-    <button type="submit">Submit Report</button>
+    <button type="submit" id="submitBtn">Submit Report</button>
 </form>
 </div>
+
+<script>
+// === Farmer info from login page ===
+document.getElementById("farmerName").value = localStorage.getItem("farmerName") || "";
+document.getElementById("farmerEmail").value = localStorage.getItem("farmerEmail") || "";
+document.getElementById("farmerPhone").value = localStorage.getItem("farmerPhone") || "";
+document.getElementById("Language__c").value = localStorage.getItem("farmerLanguage") || "english";
+
+// === Language and Labels ===
+var labels = {
+    english: {village:"Village", crop:"Crop Type", period:"Cultivation Period", pest:"Pest Type", infected:"Infected Level", cropImage:"Upload Crop Image", description:"Description"},
+    tamil: {village:"கிராமம்", crop:"பயிர் வகை", period:"பயிர் வளர்ப்பு காலம்", pest:"பூச்சி வகை", infected:"பருமாண நிலை", cropImage:"பயிர் படத்தைப் பதிவேற்று", description:"விவரம்"}
+};
+
+function setLanguage(lang){
+    document.getElementById("Language__c").value = lang;
+
+    document.getElementById("villageLabel").innerHTML = labels[lang].village;
+    document.getElementById("cropLabel").innerHTML = labels[lang].crop;
+    document.getElementById("periodLabel").innerHTML = labels[lang].period;
+    document.getElementById("pestLabel").innerHTML = labels[lang].pest;
+    document.getElementById("infectedLabel").innerHTML = labels[lang].infected;
+    document.getElementById("cropImageLabel").innerHTML = labels[lang].cropImage;
+    document.getElementById("descriptionLabel").innerHTML = labels[lang].description;
+
+    // Update dropdown text to selected language
+    updateDropdownLanguage(lang);
+}
+
+// === Dropdown Options ===
+var villages = [
+    {en:"Select Village", ta:"கிராமத்தை தேர்வு செய்யவும்"}, {en:"Pollachi", ta:"பொள்ளாச்சி"}, {en:"Udumalpet", ta:"உடுமலைப்பேட்டை"},
+    {en:"Kinathukadavu", ta:"கிணத்துக்கடவு"}, {en:"Valparai", ta:"வால்பரை"}, {en:"Perundurai", ta:"பெருந்துறை"}, {en:"Gobichettipalayam", ta:"கோபிச்செட்டிபாளையம்"},
+    {en:"Sathyamangalam", ta:"சத்தியமங்கலம்"}, {en:"Bhavani", ta:"பவானி"}, {en:"Anthiyur", ta:"அந்தியூர்"}, {en:"Nambiyur", ta:"நம்பியூர்"}, {en:"Kodumudi", ta:"கொடுமுடி"},
+    {en:"Avinashi", ta:"அவிநாசி"}, {en:"Tiruppur", ta:"திருப்பூர்"}, {en:"Dharapuram", ta:"தராபுரம்"}, {en:"Kangeyam", ta:"காங்கேயம்"}, {en:"Palladam", ta:"பள்ளாடம்"},
+    {en:"Madurai", ta:"மதுரை"}, {en:"Trichy", ta:"திருச்சி"}, {en:"Dindigul", ta:"திண்டுக்கல்"}, {en:"Palani", ta:"பழனி"}, {en:"Theni", ta:"தேனி"}
+];
+
+var crops = [
+    {en:"Select Crop", ta:"பயிர் தேர்வு செய்யவும்"}, {en:"Paddy", ta:"அரிசி"}, {en:"Sugarcane", ta:"சர்க்கரை களம்"}, 
+    {en:"Banana", ta:"வாழை"}, {en:"Maize", ta:"சோளம்"}, {en:"Cotton", ta:"பம்பரம்"}
+];
+
+var cultivation = [
+    {en:"Select Period", ta:"காலம் தேர்வு செய்யவும்"}, {en:"60-90 Days", ta:"60-90 நாட்கள்"}, {en:"90-120 Days", ta:"90-120 நாட்கள்"}, {en:"120-150 Days", ta:"120-150 நாட்கள்"}
+];
+
+var pests = [
+    {en:"Select Pest", ta:"பூச்சி தேர்வு செய்யவும்"}, {en:"Leaf Folder", ta:"இலை ஃபோல்டர்"}, {en:"Stem Borer", ta:"தண்டு புழு"}, {en:"Brown Plant Hopper", ta:"பழுப்பு செடி ஹாப்பர்"}
+];
+
+var infected = [
+    {en:"Select Level", ta:"நிலை தேர்வு செய்யவும்"}, {en:"Low", ta:"குறைவு"}, {en:"Medium", ta:"மத்திய"}, {en:"High", ta:"அதிகம்"}
+];
+
+// Fill dropdowns
+function fillDropdown(arr, selectId){
+    var sel = document.getElementById(selectId);
+    sel.innerHTML = "";
+    arr.forEach(function(optData){
+        var opt = document.createElement("option");
+        opt.value = optData.en;
+        opt.text = optData.en;
+        opt.setAttribute("data-ta", optData.ta);
+        sel.appendChild(opt);
+    });
+}
+fillDropdown(villages, "Village__c");
+fillDropdown(crops, "Product__c");
+fillDropdown(cultivation, "Cultivation_Period__c");
+fillDropdown(pests, "Pest_Type__c");
+fillDropdown(infected, "Infected_Level__c");
+
+function updateDropdownLanguage(lang){
+    ["Village__c","Product__c","Cultivation_Period__c","Pest_Type__c","Infected_Level__c"].forEach(function(id){
+        var sel = document.getElementById(id);
+        for(var i=0;i<sel.options.length;i++){
+            sel.options[i].text = (lang=="tamil") ? sel.options[i].getAttribute("data-ta") : sel.options[i].value;
+        }
+    });
+}
+
+// === ImgBB Upload and Form Submit ===
+async function uploadAndSubmit(event){
+    event.preventDefault();
+    const file = document.getElementById("imageUpload").files[0];
+    if(!file){ alert("Please select an image"); return; }
+    const apiKey = "9d9a3054573db11bcb75e2a3da97e3de"; // replace with your key
+    const formData = new FormData();
+    formData.append("image", file);
+    try{
+        const res = await fetch(`https://api.imgbb.com/1/upload?key=${apiKey}`, {method:"POST", body:formData});
+        const data = await res.json();
+        if(data.success){
+            document.getElementById("Crop_Image_URL__c").value = data.data.url;
+            document.getElementById("pestForm").submit();
+        } else { alert("Image upload failed"); }
+    } catch(err){ alert("Error uploading image"); }
+}
+
+// === Initialize language on load ===
+setLanguage(localStorage.getItem("farmerLanguage") || "english");
+</script>
+
 </body>
 </html>
