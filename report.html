@@ -2,6 +2,7 @@
 <html>
 <head>
 
+<meta charset="UTF-8">
 <title>Farmer Pest Report</title>
 
 <style>
@@ -47,11 +48,20 @@ cursor:pointer;
 
 window.onload=function(){
 
-document.getElementById("farmerName").value=localStorage.getItem("farmerName");
-document.getElementById("farmerEmail").value=localStorage.getItem("farmerEmail");
-document.getElementById("farmerPhone").value=localStorage.getItem("farmerPhone");
+/* Load farmer details */
 
-let lang=localStorage.getItem("farmerLanguage");
+document.getElementById("farmerName").value =
+localStorage.getItem("farmerName") || "";
+
+document.getElementById("farmerEmail").value =
+localStorage.getItem("farmerEmail") || "";
+
+document.getElementById("farmerPhone").value =
+localStorage.getItem("farmerPhone") || "";
+
+/* Language */
+
+let lang = localStorage.getItem("farmerLanguage") || "english";
 
 if(lang=="tamil"){
 
@@ -75,29 +85,51 @@ opt.text=opt.dataset.ta;
 
 }
 
+/* Upload image to Cloudinary */
+
 async function uploadImage(){
 
-let file=document.getElementById("imageUpload").files[0];
+let file = document.getElementById("imageUpload").files[0];
 
 if(!file){
 alert("Please upload crop image");
 return;
 }
 
-let formData=new FormData();
+let formData = new FormData();
 formData.append("file",file);
 formData.append("upload_preset","pest_upload");
 
-let response=await fetch("https://api.cloudinary.com/v1_1/dn1k8iz2c/image/upload",{
+try{
+
+let response = await fetch(
+"https://api.cloudinary.com/v1_1/dn1k8iz2c/image/upload",
+{
 method:"POST",
 body:formData
 });
 
-let data=await response.json();
+let data = await response.json();
 
-document.getElementById("imageURL").value=data.secure_url;
+if(data.secure_url){
+
+document.getElementById("imageURL").value = data.secure_url;
+
+/* Submit form to Salesforce */
 
 document.getElementById("reportForm").submit();
+
+}else{
+
+alert("Image upload failed");
+
+}
+
+}catch(error){
+
+alert("Upload error. Check internet.");
+
+}
 
 }
 
@@ -121,14 +153,16 @@ value="https://sruthivt.github.io/pest-report-portal/success.html">
 <input type="hidden" name="origin" value="Web">
 <input type="hidden" name="status" value="New">
 
+<!-- Farmer Details -->
+
 <input type="hidden" id="farmerName" name="suppliedname">
 <input type="hidden" id="farmerEmail" name="suppliedemail">
 <input type="hidden" id="farmerPhone" name="suppliedphone">
 
 <label id="villageLabel">Village</label>
 
-<select name="Village__c">
-<option data-ta="கிராமத்தை தேர்வு செய்யவும்">Select Village</option>
+<select name="Village__c" required>
+<option value="">Select Village</option>
 <option data-ta="உடுமலைப்பேட்டை">Udumalpet</option>
 <option data-ta="அவிநாசி">Avinashi</option>
 <option data-ta="திருப்பூர்">Tiruppur</option>
@@ -136,16 +170,16 @@ value="https://sruthivt.github.io/pest-report-portal/success.html">
 
 <label id="cropLabel">Crop Type</label>
 
-<select name="Product__c">
-<option data-ta="பயிரை தேர்வு செய்யவும்">Select Crop</option>
+<select name="Product__c" required>
+<option value="">Select Crop</option>
 <option data-ta="நெல்">Paddy</option>
 <option data-ta="மக்காச்சோளம்">Maize</option>
 </select>
 
 <label id="periodLabel">Cultivation Period</label>
 
-<select name="Cultivation_Period__c">
-<option data-ta="காலத்தை தேர்வு செய்யவும்">Select Period</option>
+<select name="Cultivation_Period__c" required>
+<option value="">Select Period</option>
 <option data-ta="0 - 30 நாட்கள்">0 - 30 Days</option>
 <option data-ta="30 - 60 நாட்கள்">30 - 60 Days</option>
 <option data-ta="60 - 90 நாட்கள்">60 - 90 Days</option>
@@ -153,16 +187,16 @@ value="https://sruthivt.github.io/pest-report-portal/success.html">
 
 <label id="pestLabel">Pest Type</label>
 
-<select name="subject">
-<option data-ta="பூச்சியை தேர்வு செய்யவும்">Select Pest</option>
+<select name="subject" required>
+<option value="">Select Pest</option>
 <option data-ta="இலை மடிப்பு பூச்சி">Leaf Folder</option>
 <option data-ta="தண்டு துளை பூச்சி">Stem Borer</option>
 </select>
 
 <label id="infectLabel">Infected Level</label>
 
-<select name="priority">
-<option data-ta="நிலையை தேர்வு செய்யவும்">Select Level</option>
+<select name="priority" required>
+<option value="">Select Level</option>
 <option data-ta="குறைவு">Low</option>
 <option data-ta="மத்திய">Medium</option>
 <option data-ta="அதிகம்">High</option>
@@ -170,7 +204,7 @@ value="https://sruthivt.github.io/pest-report-portal/success.html">
 
 <label id="imgLabel">Upload Crop Image</label>
 
-<input type="file" id="imageUpload" accept="image/*">
+<input type="file" id="imageUpload" accept="image/*" required>
 
 <input type="hidden" id="imageURL" name="Crop_Image_URL__c">
 
