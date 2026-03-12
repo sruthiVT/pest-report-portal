@@ -3,6 +3,7 @@
 
 <head>
 <title>Report Submitted</title>
+<meta charset="UTF-8">
 
 <style>
 
@@ -29,6 +30,7 @@ padding:12px;
 border:none;
 border-radius:5px;
 font-size:16px;
+cursor:pointer;
 }
 
 </style>
@@ -37,12 +39,12 @@ font-size:16px;
 
 window.onload=function(){
 
-let lang=localStorage.getItem("farmerLanguage");
+let lang = localStorage.getItem("farmerLanguage");
 
 if(lang=="tamil"){
 
-document.getElementById("title").innerHTML="புகார் வெற்றிகரமாக சமர்ப்பிக்கப்பட்டது";
-document.getElementById("msg").innerHTML="உங்கள் பூச்சி புகார் பெறப்பட்டது.";
+document.getElementById("title").innerHTML="✅ புகார் வெற்றிகரமாக சமர்ப்பிக்கப்பட்டது";
+document.getElementById("msg").innerHTML="உங்கள் பூச்சி புகார் வெற்றிகரமாக பதிவு செய்யப்பட்டது.";
 document.getElementById("btn").innerHTML="முகப்புக்கு திரும்ப";
 
 }
@@ -57,7 +59,7 @@ document.getElementById("btn").innerHTML="முகப்புக்கு த�
 
 <div class="container">
 
-<h2 id="title">Report Submitted Successfully</h2>
+<h2 id="title">✅ Report Submitted Successfully</h2>
 
 <p id="msg">Your pest complaint has been received.</p>
 
