@@ -1,73 +1,69 @@
+```html
 <!DOCTYPE html>
 <html>
 
 <head>
+
 <title>Report Submitted</title>
-<meta charset="UTF-8">
 
 <style>
 
 body{
 font-family:Arial;
-background:#f4f4f4;
-text-align:center;
-padding:60px;
+background:linear-gradient(120deg,#6bbf3f,#b8e994);
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
 }
 
-.container{
+.phone{
+width:360px;
+height:640px;
+background:black;
+border-radius:35px;
+padding:10px;
+}
+
+.screen{
 background:white;
-width:420px;
-margin:auto;
-padding:30px;
-border-radius:10px;
-box-shadow:0 0 10px rgba(0,0,0,0.1);
+height:100%;
+border-radius:25px;
+padding:40px;
+text-align:center;
 }
 
 button{
-background:green;
-color:white;
-padding:12px;
+background:#4CAF50;
 border:none;
-border-radius:5px;
-font-size:16px;
-cursor:pointer;
+padding:12px;
+color:white;
+border-radius:6px;
+width:100%;
 }
 
 </style>
-
-<script>
-
-window.onload=function(){
-
-let lang = localStorage.getItem("farmerLanguage");
-
-if(lang=="tamil"){
-
-document.getElementById("title").innerHTML="✅ புகார் வெற்றிகரமாக சமர்ப்பிக்கப்பட்டது";
-document.getElementById("msg").innerHTML="உங்கள் பூச்சி புகார் வெற்றிகரமாக பதிவு செய்யப்பட்டது.";
-document.getElementById("btn").innerHTML="முகப்புக்கு திரும்ப";
-
-}
-
-}
-
-</script>
 
 </head>
 
 <body>
 
-<div class="container">
+<div class="phone">
 
-<h2 id="title">✅ Report Submitted Successfully</h2>
+<div class="screen">
 
-<p id="msg">Your pest complaint has been received.</p>
+<h2>✅ Report Submitted</h2>
 
-<button id="btn" onclick="window.location.href='index.html'">
+<p>Your pest complaint has been received.</p>
+
+<button onclick="window.location.href='index.html'">
 Back to Home
 </button>
 
 </div>
 
+</div>
+
 </body>
 </html>
+```
