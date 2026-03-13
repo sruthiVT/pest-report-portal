@@ -22,6 +22,7 @@ label {font-weight: bold; display: block; margin-top: 10px;}
     <input type="hidden" name="retURL" value="https://sruthivt.github.io/pest-report-portal/success.html">
     <input type="hidden" name="origin" value="Web">
     <input type="hidden" name="subject" id="subject">
+    <input type="hidden" name="Crop_Image_URL__c" id="cropImageURL">
 
     <!-- Farmer Info - now visible & read-only -->
     <label>Farmer Name / விவசாயி பெயர்</label>
@@ -57,8 +58,8 @@ label {font-weight: bold; display: block; margin-top: 10px;}
 
     <!-- Description mapped to Salesforce Description -->
     <label id="descriptionLabel"></label>
-    <textarea name="description" placeholder="Enter details..." required></textarea>
-
+    <textarea name="Description" placeholder="Enter details..." required></textarea>
+    
     <button type="submit" id="submitBtn">Submit Report</button>
 </form>
 </div>
