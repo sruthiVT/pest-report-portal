@@ -158,6 +158,17 @@ async function uploadAndSubmit(event){
 
 event.preventDefault();
 
+/* FORCE farmer details before submitting */
+
+document.getElementById("farmerName").value =
+localStorage.getItem("farmerName") || "";
+
+document.getElementById("farmerEmail").value =
+localStorage.getItem("farmerEmail") || "";
+
+document.getElementById("farmerPhone").value =
+localStorage.getItem("farmerPhone") || "";
+
 const file=document.getElementById("imageUpload").files[0];
 
 if(!file){
