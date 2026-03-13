@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
 <title>Farmer Pest Report</title>
 
@@ -42,18 +43,19 @@ label{
 font-weight:bold;
 }
 </style>
+
 </head>
 
 <body>
 
 <div class="container">
 
-<h2 id="formTitle">Farmer Pest Report</h2>
+<h2>Farmer Pest Report</h2>
 
-<form id="pestForm" onsubmit="uploadAndSubmit(event)" method="POST"
+<form id="pestForm"
+onsubmit="uploadAndSubmit(event)"
+method="POST"
 action="https://webto.salesforce.com/servlet/servlet.WebToCase?encoding=UTF-8">
-
-<!-- Salesforce Required Fields -->
 
 <input type="hidden" name="orgid" value="00DdM00000iSfdB">
 
@@ -68,21 +70,17 @@ value="https://sruthivt.github.io/pest-report-portal/success.html">
 
 <input type="hidden" name="Language__c" id="Language__c">
 
-<!-- Farmer Details -->
-
-<label id="nameLabel">Farmer Name</label>
+<label>Farmer Name</label>
 <input type="text" name="suppliedname" id="farmerName" readonly required>
 
-<label id="emailLabel">Email</label>
+<label>Email</label>
 <input type="email" name="suppliedemail" id="farmerEmail" readonly required>
 
-<label id="phoneLabel">Phone</label>
+<label>Phone</label>
 <input type="text" name="suppliedphone" id="farmerPhone" readonly required>
 
-<!-- Village -->
-
-<label id="villageLabel">Village</label>
-<select name="Village__c" id="Village__c">
+<label>Village</label>
+<select name="Village__c">
 <option value="">Select Village</option>
 <option>Pollachi</option>
 <option>Udumalpet</option>
@@ -90,99 +88,87 @@ value="https://sruthivt.github.io/pest-report-portal/success.html">
 <option>Valparai</option>
 </select>
 
-<!-- Crop -->
-
-<label id="cropLabel">Crop Type</label>
+<label>Crop Type</label>
 <select name="Product__c">
-<option value="">Select Crop</option>
 <option>Paddy</option>
 <option>Banana</option>
 <option>Maize</option>
 <option>Cotton</option>
 </select>
 
-<!-- Pest -->
-
-<label id="pestLabel">Pest Type</label>
+<label>Pest Type</label>
 <select name="Pest_Type__c"
 onchange="document.getElementById('subject').value=this.value;">
-<option value="">Select Pest</option>
 <option>Leaf Folder</option>
 <option>Stem Borer</option>
 <option>Brown Plant Hopper</option>
 </select>
 
-<!-- Severity -->
-
-<label id="severityLabel">Infected Level</label>
+<label>Severity Level</label>
 <select name="Severity_Level__c">
 <option>Low</option>
 <option>Medium</option>
 <option>High</option>
 </select>
 
-<!-- Image Upload -->
+<label>Upload Crop Image</label>
+<input type="file" id="imageUpload" required>
 
-<label id="imageLabel">Upload Crop Image</label>
-<input type="file" id="imageUpload" accept="image/*" required>
-
-<!-- Description -->
-
-<label id="descriptionLabel">Description</label>
+<label>Description</label>
 <textarea name="description" required></textarea>
 
 <button type="submit">Submit Report</button>
 
 </form>
+
 </div>
 
 <script>
 
 /* Load Farmer Data */
 
-document.getElementById("farmerName").value =
+window.onload=function(){
+
+document.getElementById("farmerName").value=
 localStorage.getItem("farmerName") || "";
 
-document.getElementById("farmerEmail").value =
+document.getElementById("farmerEmail").value=
 localStorage.getItem("farmerEmail") || "";
 
-document.getElementById("farmerPhone").value =
+document.getElementById("farmerPhone").value=
 localStorage.getItem("farmerPhone") || "";
 
-document.getElementById("Language__c").value =
+document.getElementById("Language__c").value=
 localStorage.getItem("farmerLanguage") || "english";
 
-/* Image Upload */
+};
+
+/* Upload Image + Submit */
 
 async function uploadAndSubmit(event){
 
 event.preventDefault();
 
-/* FORCE farmer details before submitting */
-
-document.getElementById("farmerName").value =
+document.getElementById("farmerName").value=
 localStorage.getItem("farmerName") || "";
 
-document.getElementById("farmerEmail").value =
+document.getElementById("farmerEmail").value=
 localStorage.getItem("farmerEmail") || "";
 
-document.getElementById("farmerPhone").value =
+document.getElementById("farmerPhone").value=
 localStorage.getItem("farmerPhone") || "";
 
 const file=document.getElementById("imageUpload").files[0];
 
 if(!file){
-alert("Please upload image");
+alert("Upload image");
 return;
 }
 
 const apiKey="9d9a3054573db11bcb75e2a3da97e3de";
 
 const formData=new FormData();
-
 formData.append("image",file);
-
-try{
 
 const res=await fetch(
 `https://api.imgbb.com/1/upload?key=${apiKey}`,
@@ -199,12 +185,6 @@ document.getElementById("pestForm").submit();
 }else{
 
 alert("Image upload failed");
-
-}
-
-}catch(err){
-
-alert("Upload error");
 
 }
 
