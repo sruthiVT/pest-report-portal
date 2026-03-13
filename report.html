@@ -1,196 +1,32 @@
-<!DOCTYPE html>
-<html>
+<form action="https://webto.salesforce.com/servlet/servlet.WebToCase?encoding=UTF-8&orgId=00Dm000000iSfdb" method="POST">
 
-<head>
-<title>Farmer Pest Report</title>
+<input type="hidden" name="orgid" value="00Dm000000iSfdb">
 
-<style>
-body{
-font-family: Arial;
-background:#f4f4f4;
-padding:20px;
-}
+<input type="hidden" name="retURL" value="https://sruthivt.github.io/pest-report-portal/success.html">
 
-.container{
-background:white;
-max-width:750px;
-margin:auto;
-padding:30px;
-border-radius:10px;
-box-shadow:0 0 10px rgba(0,0,0,0.1);
-}
-
-input,textarea,select,button{
-width:100%;
-padding:12px;
-margin:8px 0;
-border-radius:5px;
-font-size:16px;
-}
-
-input,select,textarea{
-border:1px solid #ccc;
-}
-
-button{
-background:green;
-color:white;
-border:none;
-cursor:pointer;
-}
-
-label{
-font-weight:bold;
-}
-</style>
-
-</head>
-
-<body>
-
-<div class="container">
-
-<h2>Farmer Pest Report</h2>
-
-<form id="pestForm"
-onsubmit="uploadAndSubmit(event)"
-method="POST"
-action="https://webto.salesforce.com/servlet/servlet.WebToCase?encoding=UTF-8">
-
-<input type="hidden" name="orgid" value="00DdM00000iSfdB">
-
-<input type="hidden" name="retURL"
-value="https://sruthivt.github.io/pest-report-portal/success.html">
-
-<input type="hidden" name="origin" value="Web">
-
-<input type="hidden" name="subject" id="subject">
-
-<input type="hidden" name="Crop_Image_URL__c" id="cropImageURL">
-
-<input type="hidden" name="Language__c" id="Language__c">
+<h2>Pest Report Form</h2>
 
 <label>Farmer Name</label>
-<input type="text" name="suppliedname" id="farmerName" readonly required>
+<input type="text" name="name" required>
 
 <label>Email</label>
-<input type="email" name="suppliedemail" id="farmerEmail" readonly required>
+<input type="email" name="email" required>
 
 <label>Phone</label>
-<input type="text" name="suppliedphone" id="farmerPhone" readonly required>
+<input type="text" name="phone" required>
 
 <label>Village</label>
-<select name="Village__c">
-<option value="">Select Village</option>
-<option>Pollachi</option>
-<option>Udumalpet</option>
-<option>Kinathukadavu</option>
-<option>Valparai</option>
-</select>
-
-<label>Crop Type</label>
-<select name="Product__c">
-<option>Paddy</option>
-<option>Banana</option>
-<option>Maize</option>
-<option>Cotton</option>
-</select>
+<input type="text" name="00Nm000000XXXXX" placeholder="Village">
 
 <label>Pest Type</label>
-<select name="Pest_Type__c"
-onchange="document.getElementById('subject').value=this.value;">
-<option>Leaf Folder</option>
-<option>Stem Borer</option>
-<option>Brown Plant Hopper</option>
-</select>
+<input type="text" name="subject" required>
 
-<label>Severity Level</label>
-<select name="Severity_Level__c">
-<option>Low</option>
-<option>Medium</option>
-<option>High</option>
-</select>
-
-<label>Upload Crop Image</label>
-<input type="file" id="imageUpload" required>
+<label>Image URL</label>
+<input type="text" name="00Nm000000YYYYY">
 
 <label>Description</label>
-<textarea name="description" required></textarea>
+<textarea name="description"></textarea>
 
 <button type="submit">Submit Report</button>
 
 </form>
-
-</div>
-
-<script>
-
-/* Load Farmer Data */
-
-window.onload=function(){
-
-document.getElementById("farmerName").value=
-localStorage.getItem("farmerName") || "";
-
-document.getElementById("farmerEmail").value=
-localStorage.getItem("farmerEmail") || "";
-
-document.getElementById("farmerPhone").value=
-localStorage.getItem("farmerPhone") || "";
-
-document.getElementById("Language__c").value=
-localStorage.getItem("farmerLanguage") || "english";
-
-};
-
-/* Upload Image + Submit */
-
-async function uploadAndSubmit(event){
-
-event.preventDefault();
-
-document.getElementById("farmerName").value=
-localStorage.getItem("farmerName") || "";
-
-document.getElementById("farmerEmail").value=
-localStorage.getItem("farmerEmail") || "";
-
-document.getElementById("farmerPhone").value=
-localStorage.getItem("farmerPhone") || "";
-
-const file=document.getElementById("imageUpload").files[0];
-
-if(!file){
-alert("Upload image");
-return;
-}
-
-const apiKey="9d9a3054573db11bcb75e2a3da97e3de";
-
-const formData=new FormData();
-formData.append("image",file);
-
-const res=await fetch(
-`https://api.imgbb.com/1/upload?key=${apiKey}`,
-{method:"POST",body:formData});
-
-const data=await res.json();
-
-if(data.success){
-
-document.getElementById("cropImageURL").value=data.data.url;
-
-document.getElementById("pestForm").submit();
-
-}else{
-
-alert("Image upload failed");
-
-}
-
-}
-
-</script>
-
-</body>
-</html>
