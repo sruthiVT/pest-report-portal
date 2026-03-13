@@ -1,56 +1,64 @@
+```html
 <!DOCTYPE html>
 <html>
-
 <head>
-<title>Farmer Login</title>
+
+<title>Farmer Portal Login</title>
 
 <style>
-body {font-family: Arial; background: #f4f4f4; text-align: center; padding: 60px;}
-.container {background: white; width: 420px; margin: auto; padding: 30px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1);}
-input {width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ccc; border-radius: 5px;}
-button {background: green; color: white; padding: 12px; border: none; width: 100%; border-radius: 5px; font-size: 16px;}
-select {width: 100%; padding: 10px; margin-bottom: 15px;}
+
+body{
+margin:0;
+font-family:Arial;
+background:linear-gradient(120deg,#6bbf3f,#b8e994);
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+}
+
+.phone{
+width:360px;
+height:640px;
+background:black;
+border-radius:35px;
+padding:10px;
+}
+
+.screen{
+background:white;
+height:100%;
+border-radius:25px;
+padding:25px;
+text-align:center;
+}
+
+input,select{
+width:100%;
+padding:10px;
+margin:10px 0;
+border-radius:6px;
+border:1px solid #ccc;
+}
+
+button{
+width:100%;
+padding:12px;
+background:#4CAF50;
+border:none;
+color:white;
+font-size:16px;
+border-radius:6px;
+}
+
 </style>
 
 <script>
 
-function changeLanguage() {
+function saveLanguage(){
 
 let lang=document.getElementById("language").value;
-
-if(lang=="tamil"){
-
-document.getElementById("title").innerHTML="🌾 விவசாயி உள்நுழைவு";
-document.getElementById("name").placeholder="விவசாயி பெயர்";
-document.getElementById("email").placeholder="மின்னஞ்சல்";
-document.getElementById("phone").placeholder="தொலைபேசி எண்";
-document.getElementById("loginbtn").innerHTML="உள்நுழைவு";
-
-}else{
-
-document.getElementById("title").innerHTML="🌾 Farmer Login";
-document.getElementById("name").placeholder="Farmer Name";
-document.getElementById("email").placeholder="Email";
-document.getElementById("phone").placeholder="Phone Number";
-document.getElementById("loginbtn").innerHTML="Login";
-
-}
-
-}
-
-function saveData(){
-
-localStorage.setItem("farmerLanguage",
-document.getElementById("language").value);
-
-localStorage.setItem("farmerName",
-document.getElementById("name").value);
-
-localStorage.setItem("farmerEmail",
-document.getElementById("email").value);
-
-localStorage.setItem("farmerPhone",
-document.getElementById("phone").value);
+localStorage.setItem("farmerLanguage",lang);
 
 }
 
@@ -60,28 +68,33 @@ document.getElementById("phone").value);
 
 <body>
 
-<div class="container">
+<div class="phone">
 
-<select id="language" onchange="changeLanguage()">
+<div class="screen">
+
+<h2>🌾 Farmer Login</h2>
+
+<select id="language">
 <option value="english">English</option>
 <option value="tamil">தமிழ்</option>
 </select>
 
-<h2 id="title">🌾 Farmer Login</h2>
+<form action="report.html" onsubmit="saveLanguage()">
 
-<form action="report.html" onsubmit="saveData();">
+<input type="text" placeholder="Farmer Name" required>
 
-<input id="name" type="text" placeholder="Farmer Name" required>
+<input type="email" placeholder="Email" required>
 
-<input id="email" type="email" placeholder="Email" required>
+<input type="text" placeholder="Phone Number" required>
 
-<input id="phone" type="text" placeholder="Phone Number" required>
-
-<button id="loginbtn" type="submit">Login</button>
+<button type="submit">Login</button>
 
 </form>
 
 </div>
 
+</div>
+
 </body>
 </html>
+```
