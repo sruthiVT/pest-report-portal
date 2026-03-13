@@ -1,147 +1,154 @@
 <!DOCTYPE html>
 <html>
 <head>
-
 <title>Smart Monitoring Pest System</title>
 
 <style>
-
 body{
-margin:0;
-font-family:Arial;
-background:url("https://images.unsplash.com/photo-1500382017468-9049fed747ef") no-repeat center center/cover;
-height:100vh;
+  margin:0;
+  font-family:Arial;
+  background:url("https://images.unsplash.com/photo-1500382017468-9049fed747ef") no-repeat center center/cover;
+  height:100vh;
 }
 
 /* HEADER */
-
 .header{
-background:white;
-padding:15px 40px;
-display:flex;
-align-items:center;
-box-shadow:0 2px 5px rgba(0,0,0,0.2);
+  background:white;
+  padding:15px 40px;
+  display:flex;
+  align-items:center;
+  box-shadow:0 2px 5px rgba(0,0,0,0.2);
 }
 
-/* AGRICULTURE LOGO */
-
+/* LOGO */
 .logo{
-width:50px;
-margin-right:15px;
+  width:50px;
+  margin-right:15px;
 }
 
 /* TITLE */
-
 .title{
-font-size:22px;
-font-weight:bold;
-color:#f4511e;
+  font-size:22px;
+  font-weight:bold;
+  color:#f4511e;
 }
 
 .subtitle{
-font-size:14px;
-color:#2e7d32;
+  font-size:14px;
+  color:#2e7d32;
 }
 
 /* LOGIN CARD */
-
 .container{
-display:flex;
-justify-content:center;
-align-items:center;
-height:80vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:80vh;
 }
 
 .card{
-background:white;
-padding:30px;
-width:350px;
-border-radius:6px;
-box-shadow:0 5px 15px rgba(0,0,0,0.3);
-text-align:center;
+  background:white;
+  padding:30px;
+  width:350px;
+  border-radius:6px;
+  box-shadow:0 5px 15px rgba(0,0,0,0.3);
+  text-align:center;
 }
 
 input,select{
-width:100%;
-padding:10px;
-margin:10px 0;
-border:1px solid #ccc;
-border-radius:4px;
+  width:100%;
+  padding:10px;
+  margin:10px 0;
+  border:1px solid #ccc;
+  border-radius:4px;
 }
 
 button{
-background:#1976d2;
-color:white;
-border:none;
-padding:10px;
-width:100%;
-border-radius:4px;
-cursor:pointer;
+  background:#1976d2;
+  color:white;
+  border:none;
+  padding:10px;
+  width:100%;
+  border-radius:4px;
+  cursor:pointer;
 }
 
 button:hover{
-background:#0d47a1;
+  background:#0d47a1;
 }
-
 </style>
 
 <script>
-
-function saveLanguage(){
-
-let lang=document.getElementById("language").value;
-localStorage.setItem("farmerLanguage",lang);
-
+function showForm(role){
+  if(role === 'admin'){
+    document.getElementById('roleSelection').style.display = 'none';
+    document.getElementById('adminForm').style.display = 'block';
+  } else if(role === 'user'){
+    document.getElementById('roleSelection').style.display = 'none';
+    document.getElementById('userForm').style.display = 'block';
+  }
 }
 
+function saveLanguage(){
+  let lang = document.getElementById("languageAdmin")?.value || document.getElementById("languageUser").value;
+  localStorage.setItem("userLanguage", lang);
+}
 </script>
-
 </head>
 
 <body>
 
 <!-- HEADER -->
-
 <div class="header">
-
 <img src="https://cdn-icons-png.flaticon.com/512/628/628283.png" class="logo">
-
 <div>
-<div class="title">SMART MONITORING PEST SYSTEM</div>
-<div class="subtitle">Agriculture Department</div>
+  <div class="title">SMART MONITORING PEST SYSTEM</div>
+  <div class="subtitle">Agriculture Department</div>
+</div>
 </div>
 
+<!-- ROLE SELECTION -->
+<div class="container" id="roleSelection">
+  <div class="card">
+    <h2>Select Role</h2>
+    <button onclick="showForm('admin')">Admin / Officer</button>
+    <button onclick="showForm('user')">Farmer / User</button>
+  </div>
 </div>
 
-<!-- LOGIN FORM -->
-
-<div class="container">
-
-<div class="card">
-
-<h2>Log in</h2>
-
-<select id="language">
-<option value="english">English</option>
-<option value="tamil">தமிழ்</option>
-</select>
-
-<form action="report.html" onsubmit="saveLanguage()">
-
-<input type="text" placeholder="Farmer Name" required>
-
-<input type="email" placeholder="Email" required>
-
-<input type="text" placeholder="Phone Number" required>
-
-<button type="submit">Login</button>
-
-</form>
-
+<!-- ADMIN LOGIN FORM -->
+<div class="container" id="adminForm" style="display:none;">
+  <div class="card">
+    <h2>Officer Login</h2>
+    <form action="officer_dashboard.html" onsubmit="saveLanguage()">
+      <select id="languageAdmin">
+        <option value="english">English</option>
+        <option value="tamil">தமிழ்</option>
+      </select>
+      <input type="text" placeholder="Name" required>
+      <input type="email" placeholder="Email" required>
+      <input type="text" placeholder="Phone Number" required>
+      <button type="submit">Login</button>
+    </form>
+  </div>
 </div>
 
+<!-- USER LOGIN FORM -->
+<div class="container" id="userForm" style="display:none;">
+  <div class="card">
+    <h2>Farmer Login</h2>
+    <form action="farmer_dashboard.html" onsubmit="saveLanguage()">
+      <select id="languageUser">
+        <option value="english">English</option>
+        <option value="tamil">தமிழ்</option>
+      </select>
+      <input type="text" placeholder="Farmer Name" required>
+      <input type="email" placeholder="Email" required>
+      <input type="text" placeholder="Phone Number" required>
+      <button type="submit">Login</button>
+    </form>
+  </div>
 </div>
 
 </body>
 </html>
-
