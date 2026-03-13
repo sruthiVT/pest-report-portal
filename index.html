@@ -76,27 +76,99 @@ button{
 button:hover{
   background:#0d47a1;
 }
+
+/* ROLE SELECTION BOXES */
+#adminBtn, #userBtn {
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  background:#1976d2;
+  color:white;
+  border:none;
+  font-weight:bold;
+  cursor:pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+#adminBtn:hover, #userBtn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
 </style>
 
 <script>
+// Translation dictionary
+const translations = {
+  english: {
+    selectRole: "Select Role",
+    admin: "Admin / Officer",
+    user: "Farmer / User",
+    officerLogin: "Officer Login",
+    farmerLogin: "Farmer Login",
+    name: "Name",
+    farmerName: "Farmer Name",
+    email: "Email",
+    phone: "Phone Number",
+    login: "Login",
+    language: "Language"
+  },
+  tamil: {
+    selectRole: "பங்கு தேர்வு செய்க",
+    admin: "நிர்வாகி / அலுவலர்",
+    user: "விவசாயி / பயனர்",
+    officerLogin: "அலுவலர் உள்நுழைவு",
+    farmerLogin: "விவசாயி உள்நுழைவு",
+    name: "பெயர்",
+    farmerName: "விவசாயி பெயர்",
+    email: "மின்னஞ்சல்",
+    phone: "தொலைபேசி எண்",
+    login: "உள்நுழைவு",
+    language: "மொழி"
+  }
+};
+
+// Function to switch all text dynamically
+function setLanguage(lang){
+  localStorage.setItem("userLanguage", lang);
+
+  // Role selection
+  document.getElementById("roleSelectTitle").innerText = translations[lang].selectRole;
+  document.getElementById("adminBtn").innerText = translations[lang].admin;
+  document.getElementById("userBtn").innerText = translations[lang].user;
+
+  // Admin form
+  document.getElementById("adminFormTitle").innerText = translations[lang].officerLogin;
+  document.getElementById("adminName").placeholder = translations[lang].name;
+  document.getElementById("adminEmail").placeholder = translations[lang].email;
+  document.getElementById("adminPhone").placeholder = translations[lang].phone;
+  document.getElementById("adminLoginBtn").innerText = translations[lang].login;
+
+  // User form
+  document.getElementById("userFormTitle").innerText = translations[lang].farmerLogin;
+  document.getElementById("userName").placeholder = translations[lang].farmerName;
+  document.getElementById("userEmail").placeholder = translations[lang].email;
+  document.getElementById("userPhone").placeholder = translations[lang].phone;
+  document.getElementById("userLoginBtn").innerText = translations[lang].login;
+}
+
+// Show form based on role selection
 function showForm(role){
+  document.getElementById('roleSelection').style.display = 'none';
   if(role === 'admin'){
-    document.getElementById('roleSelection').style.display = 'none';
     document.getElementById('adminForm').style.display = 'block';
-  } else if(role === 'user'){
-    document.getElementById('roleSelection').style.display = 'none';
+  } else {
     document.getElementById('userForm').style.display = 'block';
   }
 }
 
+// Save selected language
 function saveLanguage(){
-  let lang = document.getElementById("languageAdmin")?.value || document.getElementById("languageUser").value;
-  localStorage.setItem("userLanguage", lang);
+  const lang = document.getElementById("languageAdmin")?.value || document.getElementById("languageUser").value;
+  setLanguage(lang);
 }
 </script>
 </head>
 
-<body>
+<body onload="setLanguage(localStorage.getItem('userLanguage') || 'english')">
 
 <!-- HEADER -->
 <div class="header">
@@ -110,25 +182,27 @@ function saveLanguage(){
 <!-- ROLE SELECTION -->
 <div class="container" id="roleSelection">
   <div class="card">
-    <h2>Select Role</h2>
-    <button onclick="showForm('admin')">Admin / Officer</button>
-    <button onclick="showForm('user')">Farmer / User</button>
+    <h2 id="roleSelectTitle">Select Role</h2>
+    <div style="display:flex; justify-content:space-between; margin-top:20px;">
+      <button id="adminBtn" style="width:48%; padding:20px;" onclick="showForm('admin')">Admin / Officer</button>
+      <button id="userBtn" style="width:48%; padding:20px;" onclick="showForm('user')">Farmer / User</button>
+    </div>
   </div>
 </div>
 
 <!-- ADMIN LOGIN FORM -->
 <div class="container" id="adminForm" style="display:none;">
   <div class="card">
-    <h2>Officer Login</h2>
+    <h2 id="adminFormTitle">Officer Login</h2>
     <form action="officer_dashboard.html" onsubmit="saveLanguage()">
-      <select id="languageAdmin">
+      <select id="languageAdmin" onchange="setLanguage(this.value)">
         <option value="english">English</option>
         <option value="tamil">தமிழ்</option>
       </select>
-      <input type="text" placeholder="Name" required>
-      <input type="email" placeholder="Email" required>
-      <input type="text" placeholder="Phone Number" required>
-      <button type="submit">Login</button>
+      <input id="adminName" type="text" placeholder="Name" required>
+      <input id="adminEmail" type="email" placeholder="Email" required>
+      <input id="adminPhone" type="text" placeholder="Phone Number" required>
+      <button id="adminLoginBtn" type="submit">Login</button>
     </form>
   </div>
 </div>
@@ -136,16 +210,16 @@ function saveLanguage(){
 <!-- USER LOGIN FORM -->
 <div class="container" id="userForm" style="display:none;">
   <div class="card">
-    <h2>Farmer Login</h2>
+    <h2 id="userFormTitle">Farmer Login</h2>
     <form action="farmer_dashboard.html" onsubmit="saveLanguage()">
-      <select id="languageUser">
+      <select id="languageUser" onchange="setLanguage(this.value)">
         <option value="english">English</option>
         <option value="tamil">தமிழ்</option>
       </select>
-      <input type="text" placeholder="Farmer Name" required>
-      <input type="email" placeholder="Email" required>
-      <input type="text" placeholder="Phone Number" required>
-      <button type="submit">Login</button>
+      <input id="userName" type="text" placeholder="Farmer Name" required>
+      <input id="userEmail" type="email" placeholder="Email" required>
+      <input id="userPhone" type="text" placeholder="Phone Number" required>
+      <button id="userLoginBtn" type="submit">Login</button>
     </form>
   </div>
 </div>
