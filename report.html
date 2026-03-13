@@ -1,32 +1,184 @@
-<form action="https://webto.salesforce.com/servlet/servlet.WebToCase?encoding=UTF-8&orgId=00Dm000000iSfdb" method="POST">
+<!DOCTYPE html>
+<html>
+<head>
+<title>Farmer Pest Report</title>
 
-<input type="hidden" name="orgid" value="00Dm000000iSfdb">
+<style>
+body{
+font-family:Arial;
+background:#f4f4f4;
+padding:30px;
+}
 
-<input type="hidden" name="retURL" value="https://sruthivt.github.io/pest-report-portal/success.html">
+.container{
+max-width:700px;
+margin:auto;
+background:white;
+padding:30px;
+border-radius:10px;
+box-shadow:0 0 10px rgba(0,0,0,0.1);
+}
 
-<h2>Pest Report Form</h2>
+h2{text-align:center;}
 
-<label>Farmer Name</label>
-<input type="text" name="name" required>
+label{font-weight:bold;}
 
-<label>Email</label>
-<input type="email" name="email" required>
+input,select,textarea{
+width:100%;
+padding:12px;
+margin:8px 0;
+border-radius:5px;
+border:1px solid #ccc;
+}
 
-<label>Phone</label>
-<input type="text" name="phone" required>
+button{
+width:100%;
+padding:12px;
+background:green;
+color:white;
+border:none;
+font-size:16px;
+border-radius:5px;
+cursor:pointer;
+}
+</style>
+</head>
 
-<label>Village</label>
-<input type="text" name="00Nm000000XXXXX" placeholder="Village">
+<body>
 
-<label>Pest Type</label>
-<input type="text" name="subject" required>
+<div class="container">
 
-<label>Image URL</label>
-<input type="text" name="00Nm000000YYYYY">
+<h2 id="title">🌾 Farmer Pest Report</h2>
 
-<label>Description</label>
+<form id="pestForm"
+onsubmit="uploadImage(event)"
+method="POST"
+action="https://webto.salesforce.com/servlet/servlet.WebToCase?encoding=UTF-8">
+
+<input type="hidden" name="orgid" value="00DdM00000iSfdB">
+
+<input type="hidden" name="retURL"
+value="https://sruthivt.github.io/pest-report-portal/success.html">
+
+<!-- Farmer Details Hidden -->
+
+<input type="hidden" name="suppliedname" id="farmerName">
+<input type="hidden" name="suppliedemail" id="farmerEmail">
+<input type="hidden" name="suppliedphone" id="farmerPhone">
+
+<input type="hidden" name="Crop_Image_URL__c" id="imageURL">
+
+<label id="villageLabel">Village</label>
+<select name="Village__c">
+<option>Pollachi</option>
+<option>Udumalpet</option>
+<option>Kinathukadavu</option>
+<option>Valparai</option>
+</select>
+
+<label id="cropLabel">Crop Type</label>
+<select name="Product__c">
+<option>Paddy</option>
+<option>Banana</option>
+<option>Maize</option>
+<option>Cotton</option>
+</select>
+
+<label id="periodLabel">Cultivation Period</label>
+<select name="Cultivation_Period__c">
+<option>60-90 Days</option>
+<option>90-120 Days</option>
+<option>120-150 Days</option>
+</select>
+
+<label id="pestLabel">Pest Type</label>
+<select name="subject">
+<option>Leaf Folder</option>
+<option>Stem Borer</option>
+<option>Brown Plant Hopper</option>
+<option>Armyworm</option>
+</select>
+
+<label id="severityLabel">Infected Level</label>
+<select name="Severity_Level__c">
+<option>Low</option>
+<option>Medium</option>
+<option>High</option>
+</select>
+
+<label id="imageLabel">Upload Crop Image</label>
+<input type="file" id="imageUpload" required>
+
+<label id="descLabel">Description</label>
 <textarea name="description"></textarea>
 
-<button type="submit">Submit Report</button>
+<button type="submit" id="submitBtn">Submit Report</button>
 
 </form>
+
+</div>
+
+<script>
+
+/* Load farmer details from login */
+
+document.getElementById("farmerName").value =
+localStorage.getItem("farmerName");
+
+document.getElementById("farmerEmail").value =
+localStorage.getItem("farmerEmail");
+
+document.getElementById("farmerPhone").value =
+localStorage.getItem("farmerPhone");
+
+/* Language system */
+
+let lang = localStorage.getItem("farmerLanguage");
+
+if(lang=="tamil"){
+
+document.getElementById("title").innerHTML="🌾 பூச்சி புகார் பதிவு";
+document.getElementById("villageLabel").innerHTML="கிராமம்";
+document.getElementById("cropLabel").innerHTML="பயிர் வகை";
+document.getElementById("periodLabel").innerHTML="சாகுபடி காலம்";
+document.getElementById("pestLabel").innerHTML="பூச்சி வகை";
+document.getElementById("severityLabel").innerHTML="பாதிப்பு அளவு";
+document.getElementById("imageLabel").innerHTML="பயிர் படம்";
+document.getElementById("descLabel").innerHTML="விளக்கம்";
+document.getElementById("submitBtn").innerHTML="புகார் சமர்ப்பிக்க";
+
+}
+
+/* Image Upload */
+
+async function uploadImage(event){
+
+event.preventDefault();
+
+const file=document.getElementById("imageUpload").files[0];
+
+const apiKey="9d9a3054573db11bcb75e2a3da97e3de";
+
+let formData=new FormData();
+
+formData.append("image",file);
+
+let res=await fetch(
+`https://api.imgbb.com/1/upload?key=${apiKey}`,
+{
+method:"POST",
+body:formData
+});
+
+let data=await res.json();
+
+document.getElementById("imageURL").value=data.data.url;
+
+document.getElementById("pestForm").submit();
+
+}
+
+</script>
+
+</body>
+</html>
