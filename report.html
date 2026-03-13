@@ -33,15 +33,14 @@ action="https://webto.salesforce.com/servlet/servlet.WebToCase?encoding=UTF-8">
     <input type="hidden" name="Language__c" id="Language__c">
 
     <!-- Farmer Info -->
-    <label id="farmerNameLabel"></label>
+    <label id="nameLabel"></label>
     <input type="text" name="suppliedname" id="farmerName" readonly required>
 
-    <label id="farmerEmailLabel"></label>
+    <label id="emailLabel"></label>
     <input type="email" name="suppliedemail" id="farmerEmail" readonly required>
 
-    <label id="farmerPhoneLabel"></label>
+    <label id="phoneLabel"></label>
     <input type="text" name="suppliedphone" id="farmerPhone" readonly required>
-
     <!-- Dropdowns -->
     <label id="villageLabel"></label>
     <select name="Village__c" id="Village__c"></select>
@@ -64,7 +63,7 @@ action="https://webto.salesforce.com/servlet/servlet.WebToCase?encoding=UTF-8">
 
     <!-- Description -->
     <label id="descriptionLabel"></label>
-    <textarea name="Description" placeholder="Enter details..." required></textarea>
+    <textarea name="description" placeholder="Enter details..." required></textarea>
     
     <button type="submit" id="submitBtn"></button>
 </form>
