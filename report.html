@@ -19,7 +19,11 @@ label {font-weight: bold; display: block; margin-top: 10px;}
 <!-- Hidden iframe for silent submission -->
 <iframe name="hidden_iframe" style="display:none;"></iframe>
 
-<form id="pestForm" target="hidden_iframe" onsubmit="uploadAndSubmit(event)" method="POST">
+<form id="pestForm"
+target="hidden_iframe"
+onsubmit="uploadAndSubmit(event)"
+method="POST"
+action="https://webto.salesforce.com/servlet/servlet.WebToCase?encoding=UTF-8">
     <!-- Salesforce Web-to-Case fields -->
     <input type="hidden" name="orgid" value="00DdM00000iSfdB">
     <input type="hidden" name="retURL" value="https://sruthivt.github.io/pest-report-portal/success.html">
