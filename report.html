@@ -2,181 +2,204 @@
 <html>
 <head>
 <title>Farmer Pest Report</title>
+
 <style>
-body {font-family: Arial; background: #f4f4f4; padding: 20px;}
-.container {background: white; max-width: 750px; margin: auto; padding: 30px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1);}
-input, textarea, select, button {width: 100%; padding: 12px; margin: 8px 0; border-radius: 5px; font-size: 16px;}
-input, select, textarea {border: 1px solid #ccc; box-sizing: border-box;}
-button {background: green; color: white; border: none; cursor: pointer;}
-label {font-weight: bold; display: block; margin-top: 10px;}
+body{
+font-family: Arial;
+background:#f4f4f4;
+padding:20px;
+}
+
+.container{
+background:white;
+max-width:750px;
+margin:auto;
+padding:30px;
+border-radius:10px;
+box-shadow:0 0 10px rgba(0,0,0,0.1);
+}
+
+input,textarea,select,button{
+width:100%;
+padding:12px;
+margin:8px 0;
+border-radius:5px;
+font-size:16px;
+}
+
+input,select,textarea{
+border:1px solid #ccc;
+}
+
+button{
+background:green;
+color:white;
+border:none;
+cursor:pointer;
+}
+
+label{
+font-weight:bold;
+}
 </style>
 </head>
+
 <body>
 
 <div class="container">
+
 <h2 id="formTitle">Farmer Pest Report</h2>
 
-<!-- Hidden iframe for silent submission -->
-<iframe name="hidden_iframe" style="display:none;"></iframe>
-
-<form id="pestForm"
-target="hidden_iframe"
-onsubmit="uploadAndSubmit(event)"
-method="POST"
+<form id="pestForm" onsubmit="uploadAndSubmit(event)" method="POST"
 action="https://webto.salesforce.com/servlet/servlet.WebToCase?encoding=UTF-8">
-    <!-- Salesforce Web-to-Case fields -->
-    <input type="hidden" name="orgid" value="00DdM00000iSfdB">
-    <input type="hidden" name="retURL" value="https://sruthivt.github.io/pest-report-portal/success.html">
-    <input type="hidden" name="origin" value="Web">
-    <input type="hidden" name="subject" id="subject">
-    <input type="hidden" name="Crop_Image_URL__c" id="cropImageURL">
-    <input type="hidden" name="Language__c" id="Language__c">
 
-    <!-- Farmer Info -->
-    <label id="nameLabel"></label>
-    <input type="text" name="suppliedname" id="farmerName" readonly required>
+<!-- Salesforce Required Fields -->
 
-    <label id="emailLabel"></label>
-    <input type="email" name="suppliedemail" id="farmerEmail" readonly required>
+<input type="hidden" name="orgid" value="00DdM00000iSfdB">
 
-    <label id="phoneLabel"></label>
-    <input type="text" name="suppliedphone" id="farmerPhone" readonly required>
-    <!-- Dropdowns -->
-    <label id="villageLabel"></label>
-    <select name="Village__c" id="Village__c"></select>
+<input type="hidden" name="retURL"
+value="https://sruthivt.github.io/pest-report-portal/success.html">
 
-    <label id="cropLabel"></label>
-    <select name="Product__c" id="Product__c"></select>
+<input type="hidden" name="origin" value="Web">
 
-    <label id="periodLabel"></label>
-    <select name="Cultivation_Period__c" id="Cultivation_Period__c"></select>
+<input type="hidden" name="subject" id="subject">
 
-    <label id="pestLabel"></label>
-    <select name="Pest_Type__c" id="Pest_Type__c" onchange="document.getElementById('subject').value=this.value;"></select>
+<input type="hidden" name="Crop_Image_URL__c" id="cropImageURL">
 
-    <label id="infectedLabel"></label>
-    <select name="Severity_Level__c" id="Infected_Level__c"></select>
+<input type="hidden" name="Language__c" id="Language__c">
 
-    <!-- Crop Image -->
-    <label id="cropImageLabel"></label>
-    <input type="file" id="imageUpload" accept="image/*" required>
+<!-- Farmer Details -->
 
-    <!-- Description -->
-    <label id="descriptionLabel"></label>
-    <textarea name="description" placeholder="Enter details..." required></textarea>
-    
-    <button type="submit" id="submitBtn"></button>
+<label id="nameLabel">Farmer Name</label>
+<input type="text" name="suppliedname" id="farmerName" readonly required>
+
+<label id="emailLabel">Email</label>
+<input type="email" name="suppliedemail" id="farmerEmail" readonly required>
+
+<label id="phoneLabel">Phone</label>
+<input type="text" name="suppliedphone" id="farmerPhone" readonly required>
+
+<!-- Village -->
+
+<label id="villageLabel">Village</label>
+<select name="Village__c" id="Village__c">
+<option value="">Select Village</option>
+<option>Pollachi</option>
+<option>Udumalpet</option>
+<option>Kinathukadavu</option>
+<option>Valparai</option>
+</select>
+
+<!-- Crop -->
+
+<label id="cropLabel">Crop Type</label>
+<select name="Product__c">
+<option value="">Select Crop</option>
+<option>Paddy</option>
+<option>Banana</option>
+<option>Maize</option>
+<option>Cotton</option>
+</select>
+
+<!-- Pest -->
+
+<label id="pestLabel">Pest Type</label>
+<select name="Pest_Type__c"
+onchange="document.getElementById('subject').value=this.value;">
+<option value="">Select Pest</option>
+<option>Leaf Folder</option>
+<option>Stem Borer</option>
+<option>Brown Plant Hopper</option>
+</select>
+
+<!-- Severity -->
+
+<label id="severityLabel">Infected Level</label>
+<select name="Severity_Level__c">
+<option>Low</option>
+<option>Medium</option>
+<option>High</option>
+</select>
+
+<!-- Image Upload -->
+
+<label id="imageLabel">Upload Crop Image</label>
+<input type="file" id="imageUpload" accept="image/*" required>
+
+<!-- Description -->
+
+<label id="descriptionLabel">Description</label>
+<textarea name="description" required></textarea>
+
+<button type="submit">Submit Report</button>
+
 </form>
 </div>
 
 <script>
-// Get selected language from localStorage
-let lang = localStorage.getItem("farmerLanguage") || "english";
-document.getElementById("Language__c").value = lang;
 
-// Farmer info from localStorage
-document.getElementById("farmerName").value = localStorage.getItem("farmerName") || "";
-document.getElementById("farmerEmail").value = localStorage.getItem("farmerEmail") || "";
-document.getElementById("farmerPhone").value = localStorage.getItem("farmerPhone") || "";
+/* Load Farmer Data */
 
-// All labels based on selected language
-const labels = {
-    english: {
-        formTitle: "Farmer Pest Report",
-        farmerName: "Farmer Name",
-        farmerEmail: "Email",
-        farmerPhone: "Phone",
-        village:"Village", crop:"Crop Type", period:"Cultivation Period", 
-        pest:"Pest Type", infected:"Infected Level", cropImage:"Upload Crop Image",
-        description:"Description", submitBtn:"Submit Report"
-    },
-    tamil: {
-        formTitle: "விவசாயி பூச்சி அறிக்கை",
-        farmerName: "விவசாயியின் பெயர்", 
-        farmerEmail: "மின்னஞ்சல்", 
-        farmerPhone: "தொலைபேசி",
-        village:"கிராமம்", crop:"பயிர் வகை", period:"பயிர் வளர்ப்பு காலம்", 
-        pest:"பூச்சி வகை", infected:"பருமாண நிலை", cropImage:"பயிர் படத்தைப் பதிவேற்று",
-        description:"விவரம்", submitBtn:"அறிக்கையை சமர்ப்பிக்கவும்"
-    }
-};
+document.getElementById("farmerName").value =
+localStorage.getItem("farmerName") || "";
 
-// Update labels on the page
-function setLabels(lang){
-    document.getElementById("formTitle").innerText = labels[lang].formTitle;
-    document.getElementById("farmerNameLabel").innerText = labels[lang].farmerName;
-    document.getElementById("farmerEmailLabel").innerText = labels[lang].farmerEmail;
-    document.getElementById("farmerPhoneLabel").innerText = labels[lang].farmerPhone;
-    document.getElementById("villageLabel").innerText = labels[lang].village;
-    document.getElementById("cropLabel").innerText = labels[lang].crop;
-    document.getElementById("periodLabel").innerText = labels[lang].period;
-    document.getElementById("pestLabel").innerText = labels[lang].pest;
-    document.getElementById("infectedLabel").innerText = labels[lang].infected;
-    document.getElementById("cropImageLabel").innerText = labels[lang].cropImage;
-    document.getElementById("descriptionLabel").innerText = labels[lang].description;
-    document.getElementById("submitBtn").innerText = labels[lang].submitBtn;
-}
-setLabels(lang);
+document.getElementById("farmerEmail").value =
+localStorage.getItem("farmerEmail") || "";
 
-// Dropdowns
-const villages = [
-    {en:"Select Village", ta:"கிராமத்தை தேர்வு செய்யவும்"}, {en:"Pollachi", ta:"பொள்ளாச்சி"}, {en:"Udumalpet", ta:"உடுமலைப்பேட்டை"},
-    {en:"Kinathukadavu", ta:"கிணத்துக்கடவு"}, {en:"Valparai", ta:"வால்பரை"}, {en:"Perundurai", ta:"பெருந்துறை"}
-];
-const crops = [
-    {en:"Select Crop", ta:"பயிர் தேர்வு செய்யவும்"}, {en:"Paddy", ta:"அரிசி"}, {en:"Sugarcane", ta:"சர்க்கரை களம்"}, 
-    {en:"Banana", ta:"வாழை"}, {en:"Maize", ta:"சோளம்"}, {en:"Cotton", ta:"பம்பரம்"}
-];
-const cultivation = [
-    {en:"Select Period", ta:"காலம் தேர்வு செய்யவும்"}, {en:"60-90 Days", ta:"60-90 நாட்கள்"}, {en:"90-120 Days", ta:"90-120 நாட்கள்"}, {en:"120-150 Days", ta:"120-150 நாட்கள்"}
-];
-const pests = [
-    {en:"Select Pest", ta:"பூச்சி தேர்வு செய்யவும்"}, {en:"Leaf Folder", ta:"இலை ஃபோல்டர்"}, {en:"Stem Borer", ta:"தண்டு புழு"}, {en:"Brown Plant Hopper", ta:"பழுப்பு செடி ஹாப்பர்"}
-];
-const infected = [
-    {en:"Select Level", ta:"நிலை தேர்வு செய்யவும்"}, {en:"Low", ta:"குறைவு"}, {en:"Medium", ta:"மத்திய"}, {en:"High", ta:"அதிகம்"}
-];
+document.getElementById("farmerPhone").value =
+localStorage.getItem("farmerPhone") || "";
 
-// Fill dropdowns
-function fillDropdown(arr, selectId){
-    const sel = document.getElementById(selectId);
-    sel.innerHTML = "";
-    arr.forEach(optData => {
-        const opt = document.createElement("option");
-        opt.value = optData.en;
-        opt.text = (lang==="tamil") ? optData.ta : optData.en;
-        opt.setAttribute("data-ta", optData.ta);
-        sel.appendChild(opt);
-    });
-}
-fillDropdown(villages, "Village__c");
-fillDropdown(crops, "Product__c");
-fillDropdown(cultivation, "Cultivation_Period__c");
-fillDropdown(pests, "Pest_Type__c");
-fillDropdown(infected, "Infected_Level__c");
+document.getElementById("Language__c").value =
+localStorage.getItem("farmerLanguage") || "english";
 
-// Upload image and submit form
+/* Image Upload */
+
 async function uploadAndSubmit(event){
-    event.preventDefault();
-    const file = document.getElementById("imageUpload").files[0];
-    if(!file){ alert("Please select an image"); return; }
-    const apiKey = "9d9a3054573db11bcb75e2a3da97e3de"; 
-    const formData = new FormData();
-    formData.append("image", file);
-    try{
-        const res = await fetch(`https://api.imgbb.com/1/upload?key=${apiKey}`, {method:"POST", body:formData});
-        const data = await res.json();
-        if(data.success){
-            document.getElementById("cropImageURL").value = data.data.url;
-            document.getElementById("pestForm").submit(); // submits silently to hidden iframe
-            alert((lang==="tamil") ? "அறிக்கை சமர்ப்பிக்கப்பட்டது!" : "Report submitted successfully!");
-        } else { 
-            alert("Image upload failed: "+data.error.message); 
-        }
-    } catch(err){ 
-        alert("Error uploading image: "+err.message); 
-    }
+
+event.preventDefault();
+
+const file=document.getElementById("imageUpload").files[0];
+
+if(!file){
+alert("Please upload image");
+return;
 }
+
+const apiKey="9d9a3054573db11bcb75e2a3da97e3de";
+
+const formData=new FormData();
+
+formData.append("image",file);
+
+try{
+
+const res=await fetch(
+`https://api.imgbb.com/1/upload?key=${apiKey}`,
+{method:"POST",body:formData});
+
+const data=await res.json();
+
+if(data.success){
+
+document.getElementById("cropImageURL").value=data.data.url;
+
+document.getElementById("pestForm").submit();
+
+}else{
+
+alert("Image upload failed");
+
+}
+
+}catch(err){
+
+alert("Upload error");
+
+}
+
+}
+
 </script>
+
 </body>
 </html>
