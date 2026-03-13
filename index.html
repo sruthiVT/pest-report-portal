@@ -13,31 +13,47 @@ select {width: 100%; padding: 10px; margin-bottom: 15px;}
 </style>
 
 <script>
+
 function changeLanguage() {
-    let lang = document.getElementById("language").value;
 
-    if (lang == "tamil") {
-        document.getElementById("title").innerHTML = "🌾 விவசாயி உள்நுழைவு";
-        document.getElementById("name").placeholder = "விவசாயி பெயர்";
-        document.getElementById("email").placeholder = "மின்னஞ்சல்";
-        document.getElementById("phone").placeholder = "தொலைபேசி எண்";
-        document.getElementById("loginbtn").innerHTML = "உள்நுழைவு";
-    } else {
-        document.getElementById("title").innerHTML = "🌾 Farmer Login";
-        document.getElementById("name").placeholder = "Farmer Name";
-        document.getElementById("email").placeholder = "Email";
-        document.getElementById("phone").placeholder = "Phone Number";
-        document.getElementById("loginbtn").innerHTML = "Login";
-    }
+let lang=document.getElementById("language").value;
+
+if(lang=="tamil"){
+
+document.getElementById("title").innerHTML="🌾 விவசாயி உள்நுழைவு";
+document.getElementById("name").placeholder="விவசாயி பெயர்";
+document.getElementById("email").placeholder="மின்னஞ்சல்";
+document.getElementById("phone").placeholder="தொலைபேசி எண்";
+document.getElementById("loginbtn").innerHTML="உள்நுழைவு";
+
+}else{
+
+document.getElementById("title").innerHTML="🌾 Farmer Login";
+document.getElementById("name").placeholder="Farmer Name";
+document.getElementById("email").placeholder="Email";
+document.getElementById("phone").placeholder="Phone Number";
+document.getElementById("loginbtn").innerHTML="Login";
+
 }
 
-function saveData() {
-    // Save farmer info to localStorage
-    localStorage.setItem("farmerLanguage", document.getElementById("language").value);
-    localStorage.setItem("farmerName", document.getElementById("name").value);
-    localStorage.setItem("farmerEmail", document.getElementById("email").value);
-    localStorage.setItem("farmerPhone", document.getElementById("phone").value);
 }
+
+function saveData(){
+
+localStorage.setItem("farmerLanguage",
+document.getElementById("language").value);
+
+localStorage.setItem("farmerName",
+document.getElementById("name").value);
+
+localStorage.setItem("farmerEmail",
+document.getElementById("email").value);
+
+localStorage.setItem("farmerPhone",
+document.getElementById("phone").value);
+
+}
+
 </script>
 
 </head>
@@ -53,11 +69,16 @@ function saveData() {
 
 <h2 id="title">🌾 Farmer Login</h2>
 
-<form action="report.html" onsubmit="saveData()">
+<form action="report.html" onsubmit="saveData();">
+
 <input id="name" type="text" placeholder="Farmer Name" required>
+
 <input id="email" type="email" placeholder="Email" required>
+
 <input id="phone" type="text" placeholder="Phone Number" required>
+
 <button id="loginbtn" type="submit">Login</button>
+
 </form>
 
 </div>
