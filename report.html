@@ -41,7 +41,22 @@ font-size:16px;
 border-radius:5px;
 cursor:pointer;
 }
+
+.pestInfo{
+color:green;
+font-weight:bold;
+margin-top:5px;
+}
 </style>
+
+<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+
+<script>
+(function(){
+emailjs.init("YOUR_PUBLIC_KEY");
+})();
+</script>
+
 </head>
 
 <body>
@@ -60,8 +75,6 @@ action="https://webto.salesforce.com/servlet/servlet.WebToCase?encoding=UTF-8">
 <input type="hidden" name="retURL"
 value="https://sruthivt.github.io/pest-report-portal/success.html">
 
-<!-- Farmer Details Hidden -->
-
 <input type="hidden" name="suppliedname" id="farmerName">
 <input type="hidden" name="suppliedemail" id="farmerEmail">
 <input type="hidden" name="suppliedphone" id="farmerPhone">
@@ -74,30 +87,106 @@ value="https://sruthivt.github.io/pest-report-portal/success.html">
 <option>Udumalpet</option>
 <option>Kinathukadavu</option>
 <option>Valparai</option>
+<option>Perundurai</option>
+<option>Gobichettipalayam</option>
+<option>Sathyamangalam</option>
+<option>Bhavani</option>
+<option>Anthiyur</option>
+<option>Nambiyur</option>
+<option>Kodumudi</option>
+<option>Avinashi</option>
+<option>Tiruppur</option>
+<option>Dharapuram</option>
+<option>Kangeyam</option>
+<option>Palladam</option>
+<option>Thanjavur</option>
+<option>Kumbakonam</option>
+<option>Orathanadu</option>
+<option>Pattukkottai</option>
+<option>Mayiladuthurai</option>
+<option>Sirkazhi</option>
+<option>Nagapattinam</option>
+<option>Velankanni</option>
+<option>Cuddalore</option>
+<option>Panruti</option>
+<option>Chidambaram</option>
+<option>Villupuram</option>
+<option>Tindivanam</option>
+<option>Salem</option>
+<option>Attur</option>
+<option>Omalur</option>
+<option>Edappadi</option>
+<option>Mettur</option>
+<option>Namakkal</option>
+<option>Rasipuram</option>
+<option>Tiruchengode</option>
+<option>Erode</option>
+<option>Karur</option>
+<option>Kulithalai</option>
+<option>Trichy</option>
+<option>Musiri</option>
+<option>Lalgudi</option>
+<option>Madurai</option>
+<option>Usilampatti</option>
+<option>Dindigul</option>
+<option>Palani</option>
+<option>Oddanchatram</option>
+<option>Theni</option>
+<option>Periyakulam</option>
+<option>Bodinayakanur</option>
+<option>Virudhunagar</option>
+<option>Sivakasi</option>
+<option>Rajapalayam</option>
+<option>Tirunelveli</option>
+<option>Ambasamudram</option>
+<option>Tenkasi</option>
+<option>Thoothukudi</option>
+<option>Kovilpatti</option>
+<option>Kanyakumari</option>
+<option>Nagercoil</option>
 </select>
 
 <label id="cropLabel">Crop Type</label>
 <select name="Product__c">
-<option>Paddy</option>
-<option>Banana</option>
+<option>Paddy (Rice)</option>
 <option>Maize</option>
+<option>Ragi</option>
+<option>Sorghum</option>
+<option>Sugarcane</option>
 <option>Cotton</option>
+<option>Groundnut</option>
+<option>Sunflower</option>
+<option>Banana</option>
+<option>Coconut</option>
+<option>Tomato</option>
+<option>Chilli</option>
+<option>Onion</option>
+<option>Brinjal</option>
+<option>Potato</option>
 </select>
 
 <label id="periodLabel">Cultivation Period</label>
 <select name="Cultivation_Period__c">
-<option>60-90 Days</option>
-<option>90-120 Days</option>
-<option>120-150 Days</option>
+<option>0 - 30 Days</option>
+<option>30 - 60 Days</option>
+<option>60 - 90 Days</option>
+<option>90 - 120 Days</option>
+<option>120+ Days</option>
 </select>
 
 <label id="pestLabel">Pest Type</label>
-<select name="subject">
+<select name="subject" id="pestType" onchange="showPestInfo()">
+
 <option>Leaf Folder</option>
 <option>Stem Borer</option>
 <option>Brown Plant Hopper</option>
 <option>Armyworm</option>
+<option>Aphids</option>
+<option>Whiteflies</option>
+
 </select>
+
+<p id="pestDescription" class="pestInfo"></p>
 
 <label id="severityLabel">Infected Level</label>
 <select name="Severity_Level__c">
@@ -120,18 +209,13 @@ value="https://sruthivt.github.io/pest-report-portal/success.html">
 
 <script>
 
-/* Load farmer details from login */
+let farmerName = localStorage.getItem("farmerName");
+let farmerEmail = localStorage.getItem("farmerEmail");
+let farmerPhone = localStorage.getItem("farmerPhone");
 
-document.getElementById("farmerName").value =
-localStorage.getItem("farmerName");
-
-document.getElementById("farmerEmail").value =
-localStorage.getItem("farmerEmail");
-
-document.getElementById("farmerPhone").value =
-localStorage.getItem("farmerPhone");
-
-/* Language system */
+document.getElementById("farmerName").value = farmerName;
+document.getElementById("farmerEmail").value = farmerEmail;
+document.getElementById("farmerPhone").value = farmerPhone;
 
 let lang = localStorage.getItem("farmerLanguage");
 
@@ -149,7 +233,32 @@ document.getElementById("submitBtn").innerHTML="புகார் சமர்�
 
 }
 
-/* Image Upload */
+function showPestInfo(){
+
+let pest=document.getElementById("pestType").value;
+let text="";
+
+if(pest=="Leaf Folder")
+text="Damages rice leaves by folding them and feeding inside.";
+
+else if(pest=="Stem Borer")
+text="Attacks crops like rice and maize by boring into stems.";
+
+else if(pest=="Brown Plant Hopper")
+text="Major pest in rice fields that sucks plant sap.";
+
+else if(pest=="Armyworm")
+text="Eats large areas of crops such as maize and grasses.";
+
+else if(pest=="Aphids")
+text="Small insects that suck sap from plants like cotton and vegetables.";
+
+else if(pest=="Whiteflies")
+text="Spread plant viruses and damage crops like tomato and cotton.";
+
+document.getElementById("pestDescription").innerText=text;
+
+}
 
 async function uploadImage(event){
 
@@ -160,19 +269,27 @@ const file=document.getElementById("imageUpload").files[0];
 const apiKey="9d9a3054573db11bcb75e2a3da97e3de";
 
 let formData=new FormData();
-
 formData.append("image",file);
 
-let res=await fetch(
-`https://api.imgbb.com/1/upload?key=${apiKey}`,
-{
+let res=await fetch(`https://api.imgbb.com/1/upload?key=${apiKey}`,{
 method:"POST",
 body:formData
 });
 
 let data=await res.json();
 
-document.getElementById("imageURL").value=data.data.url;
+let imageURL=data.data.url;
+
+document.getElementById("imageURL").value=imageURL;
+
+emailjs.send("service_5be3jfq","template_f6nyiit",{
+
+farmer_name:farmerName,
+farmer_email:farmerEmail,
+pest_type:document.querySelector("[name='subject']").value,
+village:document.querySelector("[name='Village__c']").value
+
+});
 
 document.getElementById("pestForm").submit();
 
