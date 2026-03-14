@@ -15,30 +15,34 @@ button { padding:5px 10px; cursor:pointer; }
 <body>
 
 <h1 id="dashboardTitle">🌾 Admin - Farmer Complaints Dashboard</h1>
+
 <table id="complaintsTable">
-<thead>
-<tr>
-<th>Farmer Name</th>
-<th>Email</th>
-<th>Phone</th>
-<th>Crop</th>
-<th>Pest Problem</th>
-<th>Status</th>
-<th>Action</th>
-</tr>
-</thead>
-<tbody></tbody>
+  <thead>
+    <tr>
+      <th>Farmer Name</th>
+      <th>Email</th>
+      <th>Phone</th>
+      <th>Crop</th>
+      <th>Pest Problem</th>
+      <th>Status</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody></tbody>
 </table>
 
 <script>
+// Get the table body
 const tableBody = document.querySelector('#complaintsTable tbody');
+
+// Load cases from localStorage
 let cases = JSON.parse(localStorage.getItem("cases")) || [];
 const adminName = localStorage.getItem("adminName") || "Admin";
 document.getElementById("dashboardTitle").innerText = `🌾 ${adminName} - Farmer Complaints Dashboard`;
 
-// Display all cases
+// Function to render all cases
 function renderCases(){
-  tableBody.innerHTML = "";
+  tableBody.innerHTML = ""; // clear previous rows
   cases.forEach((c, index) => {
     const row = document.createElement('tr');
     row.innerHTML = `
@@ -56,13 +60,14 @@ function renderCases(){
   });
 }
 
-// Update case status
+// Function to update status
 function updateStatus(index, status){
   cases[index].status = status;
   localStorage.setItem("cases", JSON.stringify(cases));
   renderCases();
 }
 
+// Initial render
 renderCases();
 </script>
 
