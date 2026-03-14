@@ -6,7 +6,6 @@
 body{
   margin:0;
   font-family: Arial;
-  /* Same background as login page */
   background: url("https://images.unsplash.com/photo-1500382017468-9049fed747ef") no-repeat center center/cover;
   min-height:100vh;
   display: flex;
@@ -48,6 +47,30 @@ th{
 tr:hover{
   background-color: #f1f1f1;
 }
+
+/* Submit button */
+#submitBtn{
+  margin-top: 20px;
+  float: right; /* right corner */
+  padding: 12px 25px;
+  background: green;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+#submitBtn:hover{
+  background: #006400;
+}
+
+/* Clear floats after container */
+.container::after{
+  content: "";
+  display: table;
+  clear: both;
+}
 </style>
 </head>
 <body>
@@ -60,6 +83,9 @@ tr:hover{
 </thead>
 <tbody></tbody>
 </table>
+
+<!-- Submit button -->
+<button id="submitBtn" onclick="goToSuccess()">Submit & Finish</button>
 </div>
 
 <script>
@@ -75,6 +101,11 @@ allCases.forEach(c => {
     tableBody.appendChild(row);
   }
 });
+
+// Redirect to success page
+function goToSuccess(){
+  window.location.href = "success.html";
+}
 </script>
 
 </body>
