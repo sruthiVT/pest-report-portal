@@ -13,7 +13,6 @@ body{
   justify-content:center;
   align-items:center;
 }
-
 .container{
   width:420px;
   background:white;
@@ -22,7 +21,6 @@ body{
   box-shadow:0 0 15px rgba(0,0,0,0.3);
   text-align:center;
 }
-
 input, select, textarea, button{
   width:100%;
   padding:10px;
@@ -31,19 +29,16 @@ input, select, textarea, button{
   border:1px solid #ccc;
   font-size:14px;
 }
-
 textarea{
   height:100px;
   resize:none;
 }
-
 button{
   background:green;
   color:white;
   font-weight:bold;
   cursor:pointer;
 }
-
 button:hover{
   background:#006400;
 }
@@ -52,36 +47,33 @@ button:hover{
 <!-- EmailJS SDK -->
 <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 <script>
-emailjs.init("3oTB5lj9pKw_10I6R"); // Replace with your EmailJS public key
+  // **CRT EmailJS Initialization**
+  // Replace with your EmailJS Public Key
+  emailjs.init("3oTB5lj9pKw_10I6R");
 </script>
-
 </head>
 <body>
 
 <div class="container">
 <h2 id="title">🌾 Pest Report</h2>
 
-<!-- Dropdowns -->
 <select id="village"></select>
 <select id="crop"></select>
 <select id="pestType"></select>
 <select id="cultivatedPeriod"></select>
 <select id="infectedLevel"></select>
 
-<!-- Problem description -->
 <textarea id="problem" placeholder="Describe Pest Problem"></textarea>
-
-<!-- Image upload -->
 <input type="file" id="imageFile" accept="image/*">
 
-<button onclick="submitPestReport()" id="submitBtn">Submit & Review</button>
+<button onclick="submitPestReport()">Submit & Review</button>
 </div>
 
 <script>
 // Language
 const lang = localStorage.getItem("farmerLanguage") || "english";
 
-// Dropdown options
+// Dropdowns
 const villages = ["Pollachi","Udumalpet","Kinathukadavu","Valparai","Perundurai"];
 const crops = ["Paddy (Rice)","Maize","Ragi","Sorghum","Sugarcane"];
 const pestTypes = ["Leaf Folder","Stem Borer","Brown Plant Hopper","Armyworm","Aphids"];
@@ -97,7 +89,10 @@ const translations = {
     period:"Select Cultivated Period",
     level:"Select Infection Level",
     problem:"Describe Pest Problem",
-    submit:"Submit & Review"
+    submit:"Submit & Review",
+    fillFields:"Please fill all fields!",
+    imgFail:"Image upload failed. Try again.",
+    emailFail:"Email sending failed. Try again."
   },
   tamil:{
     village:"ஊரை தேர்வு செய்க",
@@ -106,11 +101,14 @@ const translations = {
     period:"பயிர் வளர்ச்சி காலம் தேர்வு செய்க",
     level:"பாதிப்பு நிலை தேர்வு செய்க",
     problem:"பூச்சி பிரச்சனை விவரிக்கவும்",
-    submit:"சமர்ப்பிக்கவும்"
+    submit:"சமர்ப்பிக்கவும்",
+    fillFields:"அனைத்து பகுதிகளையும் நிரப்பவும்!",
+    imgFail:"படத்தை பதிவேற்ற முடியவில்லை. மீண்டும் முயற்சிக்கவும்.",
+    emailFail:"மின்னஞ்சல் அனுப்ப முடியவில்லை. மீண்டும் முயற்சிக்கவும்."
   }
 };
 
-// Fill dropdowns dynamically
+// Fill dropdowns
 function fillDropdown(id, options, placeholder){
   const sel = document.getElementById(id);
   sel.innerHTML = `<option value="">${placeholder}</option>`;
@@ -123,7 +121,7 @@ fillDropdown("pestType", pestTypes, translations[lang].pestType);
 fillDropdown("cultivatedPeriod", periods, translations[lang].period);
 fillDropdown("infectedLevel", levels, translations[lang].level);
 document.getElementById("problem").placeholder = translations[lang].problem;
-document.getElementById("submitBtn").innerText = translations[lang].submit;
+document.querySelector("button").innerText = translations[lang].submit;
 
 // Submit function
 async function submitPestReport(){
@@ -140,13 +138,13 @@ async function submitPestReport(){
   const file = document.getElementById("imageFile").files[0];
 
   if(!village||!crop||!pestType||!period||!level||!problem){
-    alert(lang==="english"?"Please fill all fields!":"அனைத்து பகுதிகளையும் நிரப்பவும்!");
+    alert(translations[lang].fillFields);
     return;
   }
 
   let imageUrl = "";
 
-  // Upload image to ImgBB
+  // Upload to ImgBB
   if(file){
     const formData = new FormData();
     formData.append("image", file);
@@ -159,12 +157,12 @@ async function submitPestReport(){
       const data = await res.json();
       imageUrl = data.data.url;
     }catch(err){
-      alert(lang==="english"?"Image upload failed. Please try again.":"படத்தை பதிவேற்ற முடியவில்லை. மீண்டும் முயற்சிக்கவும்.");
+      alert(translations[lang].imgFail);
       return;
     }
   }
 
-  // Save to localStorage
+  // Save locally
   let cases = JSON.parse(localStorage.getItem("cases"))||[];
   cases.push({name,email,phone,village,crop,pestType,period,level,problem,status:"Pending",suggestion:"",image:imageUrl});
   localStorage.setItem("cases", JSON.stringify(cases));
@@ -184,7 +182,7 @@ async function submitPestReport(){
   }).then(()=>{
     window.location.href="farmercases.html";
   }, (err)=>{
-    alert(lang==="english"?"Email sending failed. Please try again.":"மின்னஞ்சல் அனுப்ப முடியவில்லை. மீண்டும் முயற்சிக்கவும்.");
+    alert(translations[lang].emailFail);
     console.log(err);
   });
 }
