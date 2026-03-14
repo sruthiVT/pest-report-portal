@@ -50,7 +50,7 @@ body{
   text-align:center;
 }
 
-input,select{
+input,select,textarea{
   width:100%;
   padding:10px;
   margin:10px 0;
@@ -79,50 +79,6 @@ button:hover{
 }
 </style>
 <script>
-const translations = {
-  english:{
-    selectRole:"Select Role",
-    admin:"Admin / Officer",
-    user:"Farmer / User",
-    officerLogin:"Officer Login",
-    farmerLogin:"Farmer Login",
-    name:"Name",
-    farmerName:"Farmer Name",
-    email:"Email",
-    phone:"Phone Number",
-    login:"Login"
-  },
-  tamil:{
-    selectRole:"பங்கு தேர்வு செய்க",
-    admin:"நிர்வாகி / அலுவலர்",
-    user:"விவசாயி / பயனர்",
-    officerLogin:"அலுவலர் உள்நுழைவு",
-    farmerLogin:"விவசாயி உள்நுழைவு",
-    name:"பெயர்",
-    farmerName:"விவசாயி பெயர்",
-    email:"மின்னஞ்சல்",
-    phone:"தொலைபேசி எண்",
-    login:"உள்நுழைவு"
-  }
-};
-
-function setLanguage(lang){
-  localStorage.setItem("farmerLanguage",lang);
-  document.getElementById("roleSelectTitle").innerText=translations[lang].selectRole;
-  document.getElementById("adminBtn").innerText=translations[lang].admin;
-  document.getElementById("userBtn").innerText=translations[lang].user;
-  document.getElementById("adminFormTitle").innerText=translations[lang].officerLogin;
-  document.getElementById("adminName").placeholder=translations[lang].name;
-  document.getElementById("adminEmail").placeholder=translations[lang].email;
-  document.getElementById("adminPhone").placeholder=translations[lang].phone;
-  document.getElementById("adminLoginBtn").innerText=translations[lang].login;
-  document.getElementById("userFormTitle").innerText=translations[lang].farmerLogin;
-  document.getElementById("userName").placeholder=translations[lang].farmerName;
-  document.getElementById("userEmail").placeholder=translations[lang].email;
-  document.getElementById("userPhone").placeholder=translations[lang].phone;
-  document.getElementById("userLoginBtn").innerText=translations[lang].login;
-}
-
 function showForm(role){
   document.getElementById('roleSelection').style.display='none';
   if(role==='admin'){
@@ -132,21 +88,25 @@ function showForm(role){
   }
 }
 
+/* Farmer login and case submission */
 function loginUser(){
-  // Save farmer info
   const name = document.getElementById("userName").value;
   const email = document.getElementById("userEmail").value;
   const phone = document.getElementById("userPhone").value;
+  const crop = document.getElementById("userCrop").value;
+  const problem = document.getElementById("userProblem").value;
 
-  if(!name || !email || !phone){
+  if(!name || !email || !phone || !crop || !problem){
     alert("Please fill all fields!");
     return;
   }
 
-  // Save farmer to localStorage (can store multiple submissions)
-  let allFarmers = JSON.parse(localStorage.getItem("farmers")) || [];
-  allFarmers.push({name,email,phone,status:"Pending"});
-  localStorage.setItem("farmers", JSON.stringify(allFarmers));
+  // Get existing cases
+  let cases = JSON.parse(localStorage.getItem("cases")) || [];
+  cases.push({
+    name, email, phone, crop, problem, status: "Pending"
+  });
+  localStorage.setItem("cases", JSON.stringify(cases));
 
   localStorage.setItem("userRole","user");
   localStorage.setItem("farmerName",name);
@@ -154,6 +114,7 @@ function loginUser(){
   window.location.href="farmercases.html";
 }
 
+/* Admin login */
 function loginAdmin(){
   const name = document.getElementById("adminName").value;
   const email = document.getElementById("adminEmail").value;
@@ -171,8 +132,7 @@ function loginAdmin(){
 }
 </script>
 </head>
-
-<body onload="setLanguage(localStorage.getItem('farmerLanguage') || 'english')">
+<body>
 
 <div class="header">
 <img src="https://cdn-icons-png.flaticon.com/512/628/628283.png" class="logo">
@@ -185,7 +145,7 @@ function loginAdmin(){
 <!-- ROLE SELECTION -->
 <div class="container" id="roleSelection">
 <div class="card">
-<h2 id="roleSelectTitle">Select Role</h2>
+<h2>Select Role</h2>
 <div style="display:flex; justify-content:space-between; margin-top:20px;">
 <button id="adminBtn" style="width:48%; padding:20px;" onclick="showForm('admin')">Admin / Officer</button>
 <button id="userBtn" style="width:48%; padding:20px;" onclick="showForm('user')">Farmer / User</button>
@@ -196,11 +156,7 @@ function loginAdmin(){
 <!-- ADMIN LOGIN -->
 <div class="container" id="adminForm" style="display:none;">
 <div class="card">
-<h2 id="adminFormTitle">Officer Login</h2>
-<select onchange="setLanguage(this.value)">
-<option value="english">English</option>
-<option value="tamil">தமிழ்</option>
-</select>
+<h2>Officer Login</h2>
 <input id="adminName" type="text" placeholder="Name" required>
 <input id="adminEmail" type="email" placeholder="Email" required>
 <input id="adminPhone" type="text" placeholder="Phone Number" required>
@@ -211,15 +167,13 @@ function loginAdmin(){
 <!-- FARMER LOGIN -->
 <div class="container" id="userForm" style="display:none;">
 <div class="card">
-<h2 id="userFormTitle">Farmer Login</h2>
-<select onchange="setLanguage(this.value)">
-<option value="english">English</option>
-<option value="tamil">தமிழ்</option>
-</select>
+<h2>Farmer Login & Submit Pest Details</h2>
 <input id="userName" type="text" placeholder="Farmer Name" required>
 <input id="userEmail" type="email" placeholder="Email" required>
 <input id="userPhone" type="text" placeholder="Phone Number" required>
-<button onclick="loginUser()" id="userLoginBtn">Login</button>
+<input id="userCrop" type="text" placeholder="Crop Name" required>
+<textarea id="userProblem" placeholder="Pest Problem / Description" required></textarea>
+<button onclick="loginUser()" id="userLoginBtn">Submit & Login</button>
 </div>
 </div>
 
