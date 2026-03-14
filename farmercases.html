@@ -3,14 +3,56 @@
 <head>
 <title>Farmer Dashboard</title>
 <style>
-body { font-family: Arial; margin:20px; }
-table { border-collapse: collapse; width: 100%; }
-th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
-th { background-color: #f4f4f4; }
+body{
+  margin:0;
+  font-family: Arial;
+  /* Same background as login page */
+  background: url("https://images.unsplash.com/photo-1500382017468-9049fed747ef") no-repeat center center/cover;
+  min-height:100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container{
+  width: 90%;
+  max-width: 800px;
+  background: white;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.3);
+  overflow-x: auto;
+  text-align: center;
+}
+
+h1{
+  color:#2e7d32;
+  margin-bottom:20px;
+}
+
+table{
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td{
+  border: 1px solid #ccc;
+  padding: 12px;
+  text-align: left;
+}
+
+th{
+  background-color: #f4f4f4;
+}
+
+tr:hover{
+  background-color: #f1f1f1;
+}
 </style>
 </head>
 <body>
 
+<div class="container">
 <h1>🌾 Your Submitted Cases</h1>
 <table id="casesTable">
 <thead>
@@ -18,6 +60,7 @@ th { background-color: #f4f4f4; }
 </thead>
 <tbody></tbody>
 </table>
+</div>
 
 <script>
 const tableBody = document.querySelector('#casesTable tbody');
