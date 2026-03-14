@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <title>Pest Report</title>
 <style>
@@ -15,7 +15,7 @@ body{
 }
 
 .container{
-  width:400px;
+  width:420px;
   background:white;
   padding:30px;
   border-radius:10px;
@@ -29,6 +29,7 @@ input, select, textarea, button{
   margin:10px 0;
   border-radius:5px;
   border:1px solid #ccc;
+  font-size:14px;
 }
 
 textarea{
@@ -47,12 +48,13 @@ button:hover{
   background:#006400;
 }
 </style>
+
+<!-- EmailJS SDK -->
 <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 <script>
-(function(){
-   emailjs.init("sruthiteddy07@gmail.com"); // Replace with your EmailJS user ID
-})();
+emailjs.init("YOUR_EMAILJS_PUBLIC_KEY"); // Replace with your EmailJS public key
 </script>
+
 </head>
 <body>
 
@@ -76,25 +78,52 @@ button:hover{
 </div>
 
 <script>
-// Language and dropdowns
+// Language
 const lang = localStorage.getItem("farmerLanguage") || "english";
-const villages = ["Pollachi","Udumalpet","Kinathukadavu"];
-const crops = ["Paddy (Rice)","Maize","Ragi"];
-const pestTypes = ["Leaf Folder","Stem Borer","Brown Plant Hopper"];
-const periods = ["0 - 30 Days","30 - 60 Days","60 - 90 Days"];
+
+// Dropdown options
+const villages = ["Pollachi","Udumalpet","Kinathukadavu","Valparai","Perundurai"];
+const crops = ["Paddy (Rice)","Maize","Ragi","Sorghum","Sugarcane"];
+const pestTypes = ["Leaf Folder","Stem Borer","Brown Plant Hopper","Armyworm","Aphids"];
+const periods = ["0 - 30 Days","30 - 60 Days","60 - 90 Days","90 - 120 Days","120+ Days"];
 const levels = ["Low","Medium","High"];
 
+// Language translations
+const translations = {
+  english:{
+    village:"Select Village",
+    crop:"Select Crop",
+    pestType:"Select Pest Type",
+    period:"Select Cultivated Period",
+    level:"Select Infection Level",
+    problem:"Describe Pest Problem",
+    submit:"Submit & Review"
+  },
+  tamil:{
+    village:"ஊரை தேர்வு செய்க",
+    crop:"பயிரை தேர்வு செய்க",
+    pestType:"பூச்சி வகை தேர்வு செய்க",
+    period:"பயிர் வளர்ச்சி காலம் தேர்வு செய்க",
+    level:"பாதிப்பு நிலை தேர்வு செய்க",
+    problem:"பூச்சி பிரச்சனை விவரிக்கவும்",
+    submit:"சமர்ப்பிக்கவும்"
+  }
+};
+
+// Fill dropdowns dynamically
 function fillDropdown(id, options, placeholder){
   const sel = document.getElementById(id);
   sel.innerHTML = `<option value="">${placeholder}</option>`;
-  options.forEach(opt=>{sel.innerHTML+=`<option value="${opt}">${opt}</option>`});
+  options.forEach(opt => sel.innerHTML += `<option value="${opt}">${opt}</option>`);
 }
 
-fillDropdown("village", villages, "Select Village");
-fillDropdown("crop", crops, "Select Crop");
-fillDropdown("pestType", pestTypes, "Select Pest Type");
-fillDropdown("cultivatedPeriod", periods, "Select Cultivated Period");
-fillDropdown("infectedLevel", levels, "Select Infection Level");
+fillDropdown("village", villages, translations[lang].village);
+fillDropdown("crop", crops, translations[lang].crop);
+fillDropdown("pestType", pestTypes, translations[lang].pestType);
+fillDropdown("cultivatedPeriod", periods, translations[lang].period);
+fillDropdown("infectedLevel", levels, translations[lang].level);
+document.getElementById("problem").placeholder = translations[lang].problem;
+document.getElementById("submitBtn").innerText = translations[lang].submit;
 
 // Submit function
 async function submitPestReport(){
@@ -111,7 +140,7 @@ async function submitPestReport(){
   const file = document.getElementById("imageFile").files[0];
 
   if(!village||!crop||!pestType||!period||!level||!problem){
-    alert("Please fill all fields!");
+    alert(lang==="english"?"Please fill all fields!":"அனைத்து பகுதிகளையும் நிரப்பவும்!");
     return;
   }
 
@@ -121,7 +150,7 @@ async function submitPestReport(){
   if(file){
     const formData = new FormData();
     formData.append("image", file);
-    const imgbbApiKey = "9d9a3054573db11bcb75e2a3da97e3de"; // Replace with your ImgBB API key
+    const imgbbApiKey = "YOUR_IMGBB_API_KEY"; // Replace with your ImgBB API key
     try{
       const res = await fetch(`https://api.imgbb.com/1/upload?key=${imgbbApiKey}`, {
         method:"POST",
@@ -130,7 +159,7 @@ async function submitPestReport(){
       const data = await res.json();
       imageUrl = data.data.url;
     }catch(err){
-      alert("Image upload failed. Please try again.");
+      alert(lang==="english"?"Image upload failed. Please try again.":"படத்தை பதிவேற்ற முடியவில்லை. மீண்டும் முயற்சிக்கவும்.");
       return;
     }
   }
@@ -141,7 +170,7 @@ async function submitPestReport(){
   localStorage.setItem("cases", JSON.stringify(cases));
 
   // Send Email via EmailJS
-  emailjs.send("service_5be3jfq","template_f6nyiit",{
+  emailjs.send("YOUR_SERVICE_ID","YOUR_TEMPLATE_ID",{
     farmer_name: name,
     farmer_email: email,
     phone: phone,
@@ -153,10 +182,10 @@ async function submitPestReport(){
     problem: problem,
     image_url: imageUrl
   }).then(()=>{
-    console.log("Email sent successfully");
     window.location.href="farmercases.html";
   }, (err)=>{
-    alert("Email sending failed. Please try again.");
+    alert(lang==="english"?"Email sending failed. Please try again.":"மின்னஞ்சல் அனுப்ப முடியவில்லை. மீண்டும் முயற்சிக்கவும்.");
+    console.log(err);
   });
 }
 </script>
