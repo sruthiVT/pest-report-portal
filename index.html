@@ -7,13 +7,11 @@ body{
   margin:0;
   font-family: Arial;
   background:url("https://images.unsplash.com/photo-1500382017468-9049fed747ef") no-repeat center center/cover;
+  background-size: cover;
   min-height:100vh;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  flex-direction:column;
 }
 
+/* Header stays at top */
 .header{
   background:white;
   width: 100%;
@@ -21,7 +19,10 @@ body{
   display:flex;
   align-items:center;
   box-shadow:0 2px 5px rgba(0,0,0,0.2);
-  margin-bottom:20px;
+  position: fixed;
+  top:0;
+  left:0;
+  z-index: 1000;
 }
 
 .logo{
@@ -40,6 +41,7 @@ body{
   color:#2e7d32;
 }
 
+/* Container for login form */
 .container{
   width:400px;
   background:white;
@@ -47,8 +49,10 @@ body{
   border-radius:10px;
   box-shadow:0 0 15px rgba(0,0,0,0.3);
   text-align:center;
+  margin: 150px auto 0 auto; /* push below header */
 }
 
+/* Input fields and buttons */
 input, button{
   width:100%;
   padding:10px;
@@ -82,11 +86,11 @@ button:hover{
 
 <!-- Farmer Login Form -->
 <div class="container">
-<h2>🌾 Farmer Login</h2>
-<input id="farmerName" type="text" placeholder="Name" required>
-<input id="farmerEmail" type="email" placeholder="Email" required>
-<input id="farmerPhone" type="text" placeholder="Phone Number" required>
-<button onclick="loginFarmer()">Login & Next</button>
+  <h2>🌾 Farmer Login</h2>
+  <input id="farmerName" type="text" placeholder="Name" required>
+  <input id="farmerEmail" type="email" placeholder="Email" required>
+  <input id="farmerPhone" type="text" placeholder="Phone Number" required>
+  <button onclick="loginFarmer()">Login & Next</button>
 </div>
 
 <script>
