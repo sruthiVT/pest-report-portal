@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Farmer Login</title>
+<title>SMART MONITORING PEST SYSTEM</title>
 <style>
 body{
   margin:0;
@@ -11,7 +11,6 @@ body{
   min-height:100vh;
 }
 
-/* Header stays at top */
 .header{
   background:white;
   width: 100%;
@@ -19,10 +18,6 @@ body{
   display:flex;
   align-items:center;
   box-shadow:0 2px 5px rgba(0,0,0,0.2);
-  position: fixed;
-  top:0;
-  left:0;
-  z-index: 1000;
 }
 
 .logo{
@@ -41,7 +36,6 @@ body{
   color:#2e7d32;
 }
 
-/* Container for login form */
 .container{
   width:400px;
   background:white;
@@ -49,10 +43,10 @@ body{
   border-radius:10px;
   box-shadow:0 0 15px rgba(0,0,0,0.3);
   text-align:center;
-  margin: 150px auto 0 auto; /* push below header */
+  margin: 40px auto;
 }
 
-select, input, button{
+input, select, button{
   width:100%;
   padding:10px;
   margin:10px 0;
@@ -74,7 +68,6 @@ button:hover{
 </head>
 <body>
 
-<!-- Header with logo and title -->
 <div class="header">
   <img src="https://cdn-icons-png.flaticon.com/512/628/628283.png" class="logo">
   <div>
@@ -83,72 +76,80 @@ button:hover{
   </div>
 </div>
 
-<!-- Farmer Login Form -->
 <div class="container">
-  <h2 id="formTitle">🌾 Farmer Login</h2>
+<h2 id="loginTitle">🌾 Farmer / Admin Login</h2>
 
-  <!-- Language selection -->
-  <select id="languageSelect" onchange="setLanguage(this.value)">
-    <option value="english">English</option>
-    <option value="tamil">தமிழ்</option>
-  </select>
+<select id="languageSelect" onchange="setLanguage(this.value)">
+  <option value="english">English</option>
+  <option value="tamil">தமிழ்</option>
+</select>
 
-  <input id="farmerName" type="text" placeholder="Name" required>
-  <input id="farmerEmail" type="email" placeholder="Email" required>
-  <input id="farmerPhone" type="text" placeholder="Phone Number" required>
-  <button onclick="loginFarmer()" id="loginBtn">Login & Next</button>
+<input id="userName" type="text" placeholder="Name" required>
+<input id="userEmail" type="email" placeholder="Email" required>
+<input id="userPhone" type="text" placeholder="Phone Number" required>
+
+<select id="roleSelect">
+  <option value="farmer">Farmer</option>
+  <option value="admin">Admin</option>
+</select>
+
+<button onclick="loginUser()" id="loginBtn">Login & Next</button>
 </div>
 
 <script>
-// Language translations
 const translations = {
   english:{
-    formTitle:"🌾 Farmer Login",
-    name:"Name",
-    email:"Email",
-    phone:"Phone Number",
+    loginTitle:"🌾 Farmer / Admin Login",
+    userName:"Name",
+    userEmail:"Email",
+    userPhone:"Phone Number",
+    roleSelect:"Select Role",
     loginBtn:"Login & Next"
   },
   tamil:{
-    formTitle:"🌾 விவசாயி உள்நுழைவு",
-    name:"பெயர்",
-    email:"மின்னஞ்சல்",
-    phone:"தொலைபேசி எண்",
-    loginBtn:"உள்நுழைவு & அடுத்தது"
+    loginTitle:"🌾 விவசாயி / நிர்வாகி உள்நுழைவு",
+    userName:"பெயர்",
+    userEmail:"மின்னஞ்சல்",
+    userPhone:"தொலைபேசி எண்",
+    roleSelect:"பங்கு தேர்வு செய்க",
+    loginBtn:"உள்நுழைவு"
   }
 };
 
-// Set language
 function setLanguage(lang){
-  localStorage.setItem("farmerLanguage", lang); // persist
+  localStorage.setItem("farmerLanguage", lang);
   const t = translations[lang];
-  document.getElementById("formTitle").innerText = t.formTitle;
-  document.getElementById("farmerName").placeholder = t.name;
-  document.getElementById("farmerEmail").placeholder = t.email;
-  document.getElementById("farmerPhone").placeholder = t.phone;
+  document.getElementById("loginTitle").innerText = t.loginTitle;
+  document.getElementById("userName").placeholder = t.userName;
+  document.getElementById("userEmail").placeholder = t.userEmail;
+  document.getElementById("userPhone").placeholder = t.userPhone;
   document.getElementById("loginBtn").innerText = t.loginBtn;
 }
 
-// Initialize language
 setLanguage(localStorage.getItem("farmerLanguage") || "english");
 
-// Login function
-function loginFarmer(){
-  const name = document.getElementById("farmerName").value;
-  const email = document.getElementById("farmerEmail").value;
-  const phone = document.getElementById("farmerPhone").value;
+function loginUser(){
+  const name = document.getElementById("userName").value;
+  const email = document.getElementById("userEmail").value;
+  const phone = document.getElementById("userPhone").value;
+  const role = document.getElementById("roleSelect").value;
 
   if(!name || !email || !phone){
-    alert(localStorage.getItem("farmerLanguage") === "tamil" ? "அனைத்து புலங்களையும் நிரப்பவும்!" : "Please fill all fields!");
+    alert("Please fill all fields!");
     return;
   }
 
-  localStorage.setItem("farmerName", name);
-  localStorage.setItem("farmerEmail", email);
-  localStorage.setItem("farmerPhone", phone);
+  localStorage.setItem("userName", name);
+  localStorage.setItem("userEmail", email);
+  localStorage.setItem("userPhone", phone);
+  localStorage.setItem("userRole", role);
 
-  // Redirect to pest report page
-  window.location.href = "pestreport.html";
+  // Redirect based on role
+  if(role==="farmer"){
+    window.location.href = "pestreport.html";
+  } else {
+    window.location.href = "admin.html";
+  }
 }
 </script>
 
