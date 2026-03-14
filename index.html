@@ -1,20 +1,23 @@
 <!DOCTYPE html>
 <html>
 <head>
+
 <title>SMART MONITORING PEST SYSTEM</title>
+
 <style>
+
 body{
   margin:0;
   font-family: Arial;
   background:url("https://images.unsplash.com/photo-1500382017468-9049fed747ef") no-repeat center center/cover;
-  background-size: cover;
   min-height:100vh;
 }
 
 /* Header */
+
 .header{
   background:white;
-  width: 100%;
+  width:100%;
   padding:15px 40px;
   display:flex;
   align-items:center;
@@ -37,137 +40,241 @@ body{
   color:#2e7d32;
 }
 
-/* Login box */
+/* Center box */
+
 .container{
-  width:400px;
+  width:420px;
   background:white;
   padding:30px;
   border-radius:10px;
   box-shadow:0 0 15px rgba(0,0,0,0.3);
   text-align:center;
-  margin:50px auto;
+  margin:80px auto;
 }
 
-/* Input fields and buttons */
-input, button, select{
+/* Inputs */
+
+input,select,button{
   width:100%;
   padding:10px;
   margin:10px 0;
   border-radius:5px;
   border:1px solid #ccc;
+  font-size:14px;
 }
 
+/* Buttons */
+
 button{
-  background:green;
+  background:#2e7dff;
   color:white;
   font-weight:bold;
+  border:none;
   cursor:pointer;
 }
 
 button:hover{
-  background:#006400;
+  background:#1b5fcc;
 }
 
-/* Role buttons side by side */
+/* Role buttons */
+
 .roleBtns{
   display:flex;
   justify-content:space-between;
-  gap:10px;
+  gap:15px;
 }
 
 .roleBtns button{
   width:48%;
+  padding:12px;
 }
+
 </style>
+
 </head>
+
 <body>
 
+<!-- Header -->
+
 <div class="header">
-  <img src="https://cdn-icons-png.flaticon.com/512/628/628283.png" class="logo">
-  <div>
-    <div class="title">SMART MONITORING PEST SYSTEM</div>
-    <div class="subtitle">Agriculture Department</div>
-  </div>
+
+<img src="https://cdn-icons-png.flaticon.com/512/628/628283.png" class="logo">
+
+<div>
+<div class="title">SMART MONITORING PEST SYSTEM</div>
+<div class="subtitle">Agriculture Department</div>
 </div>
+
+</div>
+
+
+<!-- Container -->
 
 <div class="container">
-  <h2 id="loginTitle">🌾 Login</h2>
-  
-  <!-- Language select -->
-  <select id="languageSelect" onchange="setLanguage(this.value)">
-    <option value="english">English</option>
-    <option value="tamil">தமிழ்</option>
-  </select>
 
-  <!-- Common inputs -->
-  <input id="userName" type="text" placeholder="Name" required>
-  <input id="userEmail" type="email" placeholder="Email" required>
-  <input id="userPhone" type="text" placeholder="Phone Number" required>
 
-  <!-- Role buttons -->
-  <div class="roleBtns">
-    <button onclick="loginUser('farmer')" id="farmerBtn">Farmer</button>
-    <button onclick="loginUser('admin')" id="adminBtn">Admin</button>
-  </div>
+<!-- ROLE SELECTION -->
+
+<div id="roleSection">
+
+<h2>Select Role</h2>
+
+<div class="roleBtns">
+
+<button onclick="selectRole('admin')">
+Admin / Officer
+</button>
+
+<button onclick="selectRole('farmer')">
+Farmer / User
+</button>
+
 </div>
 
+</div>
+
+
+<!-- LOGIN FORM -->
+
+<div id="loginSection" style="display:none;">
+
+<h2 id="loginTitle">🌾 Login</h2>
+
+<select id="languageSelect" onchange="setLanguage(this.value)">
+<option value="english">English</option>
+<option value="tamil">தமிழ்</option>
+</select>
+
+<input id="userName" type="text" placeholder="Name">
+
+<input id="userEmail" type="email" placeholder="Email">
+
+<input id="userPhone" type="text" placeholder="Phone Number">
+
+<button onclick="loginUser()">Login</button>
+
+</div>
+
+</div>
+
+
 <script>
+
+/* Language translations */
+
 const translations = {
-  english:{
-    loginTitle:"🌾 Login",
-    name:"Name",
-    email:"Email",
-    phone:"Phone Number",
-    farmerBtn:"Farmer",
-    adminBtn:"Admin"
-  },
-  tamil:{
-    loginTitle:"🌾 உள்நுழைவு",
-    name:"பெயர்",
-    email:"மின்னஞ்சல்",
-    phone:"தொலைபேசி எண்",
-    farmerBtn:"விவசாயி",
-    adminBtn:"நிர்வாகி"
-  }
+
+english:{
+loginTitle:"🌾 Login",
+name:"Name",
+email:"Email",
+phone:"Phone Number"
+},
+
+tamil:{
+loginTitle:"🌾 உள்நுழைவு",
+name:"பெயர்",
+email:"மின்னஞ்சல்",
+phone:"தொலைபேசி எண்"
+}
+
 };
 
-function setLanguage(lang){
-  localStorage.setItem("farmerLanguage", lang);
-  const t = translations[lang];
-  document.getElementById("loginTitle").innerText = t.loginTitle;
-  document.getElementById("userName").placeholder = t.name;
-  document.getElementById("userEmail").placeholder = t.email;
-  document.getElementById("userPhone").placeholder = t.phone;
-  document.getElementById("farmerBtn").innerText = t.farmerBtn;
-  document.getElementById("adminBtn").innerText = t.adminBtn;
+let selectedRole="";
+
+
+/* Role Selection */
+
+function selectRole(role){
+
+selectedRole = role;
+
+localStorage.setItem("userRole",role);
+
+document.getElementById("roleSection").style.display="none";
+
+document.getElementById("loginSection").style.display="block";
+
 }
 
-// Initialize language
+
+/* Language */
+
+function setLanguage(lang){
+
+localStorage.setItem("farmerLanguage",lang);
+
+const t = translations[lang];
+
+document.getElementById("loginTitle").innerText = t.loginTitle;
+
+document.getElementById("userName").placeholder = t.name;
+
+document.getElementById("userEmail").placeholder = t.email;
+
+document.getElementById("userPhone").placeholder = t.phone;
+
+}
+
+
+/* Load saved language */
+
 setLanguage(localStorage.getItem("farmerLanguage") || "english");
 
-function loginUser(role){
-  const name = document.getElementById("userName").value;
-  const email = document.getElementById("userEmail").value;
-  const phone = document.getElementById("userPhone").value;
 
-  if(!name || !email || !phone){
-    alert("Please fill all fields!");
-    return;
-  }
+/* Login */
 
-  localStorage.setItem("userRole", role);
-  if(role==="farmer"){
-    localStorage.setItem("farmerName", name);
-    localStorage.setItem("farmerEmail", email);
-    localStorage.setItem("farmerPhone", phone);
-    window.location.href = "pestreport.html";
-  } else {
-    localStorage.setItem("adminName", name);
-    localStorage.setItem("adminEmail", email);
-    localStorage.setItem("adminPhone", phone);
-    window.location.href = "admin.html";
-  }
+function loginUser(){
+
+const name=document.getElementById("userName").value;
+
+const email=document.getElementById("userEmail").value;
+
+const phone=document.getElementById("userPhone").value;
+
+
+if(!name || !email || !phone){
+
+alert("Please fill all fields!");
+
+return;
+
 }
+
+
+/* Farmer */
+
+if(selectedRole==="farmer"){
+
+localStorage.setItem("farmerName",name);
+
+localStorage.setItem("farmerEmail",email);
+
+localStorage.setItem("farmerPhone",phone);
+
+window.location.href="pestreport.html";
+
+}
+
+
+/* Admin */
+
+if(selectedRole==="admin"){
+
+localStorage.setItem("adminName",name);
+
+localStorage.setItem("adminEmail",email);
+
+localStorage.setItem("adminPhone",phone);
+
+window.location.href="admin.html";
+
+}
+
+}
+
 </script>
 
 </body>
