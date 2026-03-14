@@ -1,20 +1,17 @@
 <!DOCTYPE html>
 <html>
 <head>
-
 <title>SMART MONITORING PEST SYSTEM</title>
-
 <style>
-
 body{
   margin:0;
   font-family: Arial;
   background:url("https://images.unsplash.com/photo-1500382017468-9049fed747ef") no-repeat center center/cover;
+  background-size: cover;
   min-height:100vh;
 }
 
 /* Header */
-
 .header{
   background:white;
   width:100%;
@@ -41,7 +38,6 @@ body{
 }
 
 /* Center box */
-
 .container{
   width:420px;
   background:white;
@@ -53,7 +49,6 @@ body{
 }
 
 /* Inputs */
-
 input,select,button{
   width:100%;
   padding:10px;
@@ -64,7 +59,6 @@ input,select,button{
 }
 
 /* Buttons */
-
 button{
   background:#2e7dff;
   color:white;
@@ -78,7 +72,6 @@ button:hover{
 }
 
 /* Role buttons */
-
 .roleBtns{
   display:flex;
   justify-content:space-between;
@@ -89,192 +82,109 @@ button:hover{
   width:48%;
   padding:12px;
 }
-
 </style>
-
 </head>
-
 <body>
 
 <!-- Header -->
-
 <div class="header">
-
 <img src="https://cdn-icons-png.flaticon.com/512/628/628283.png" class="logo">
-
 <div>
-<div class="title">SMART MONITORING PEST SYSTEM</div>
-<div class="subtitle">Agriculture Department</div>
+  <div class="title">SMART MONITORING PEST SYSTEM</div>
+  <div class="subtitle">Agriculture Department</div>
 </div>
-
 </div>
-
 
 <!-- Container -->
-
 <div class="container">
 
+  <!-- ROLE SELECTION -->
+  <div id="roleSection">
+    <h2>Select Role</h2>
+    <div class="roleBtns">
+      <button onclick="selectRole('admin')">Admin / Officer</button>
+      <button onclick="selectRole('farmer')">Farmer / User</button>
+    </div>
+  </div>
 
-<!-- ROLE SELECTION -->
+  <!-- LOGIN FORM -->
+  <div id="loginSection" style="display:none;">
+    <h2 id="loginTitle">🌾 Login</h2>
+    
+    <!-- Language -->
+    <select id="languageSelect" onchange="setLanguage(this.value)">
+      <option value="english">English</option>
+      <option value="tamil">தமிழ்</option>
+    </select>
 
-<div id="roleSection">
+    <!-- Email & Password -->
+    <input id="userEmail" type="email" placeholder="Email" required>
+    <input id="userPassword" type="password" placeholder="Password" required>
 
-<h2>Select Role</h2>
-
-<div class="roleBtns">
-
-<button onclick="selectRole('admin')">
-Admin / Officer
-</button>
-
-<button onclick="selectRole('farmer')">
-Farmer / User
-</button>
-
-</div>
-
-</div>
-
-
-<!-- LOGIN FORM -->
-
-<div id="loginSection" style="display:none;">
-
-<h2 id="loginTitle">🌾 Login</h2>
-
-<select id="languageSelect" onchange="setLanguage(this.value)">
-<option value="english">English</option>
-<option value="tamil">தமிழ்</option>
-</select>
-
-<input id="userName" type="text" placeholder="Name">
-
-<input id="userEmail" type="email" placeholder="Email">
-
-<input id="userPhone" type="text" placeholder="Phone Number">
-
-<button onclick="loginUser()">Login</button>
+    <button onclick="loginUser()">Login</button>
+  </div>
 
 </div>
-
-</div>
-
 
 <script>
-
-/* Language translations */
-
+// Language translations
 const translations = {
-
-english:{
-loginTitle:"🌾 Login",
-name:"Name",
-email:"Email",
-phone:"Phone Number"
-},
-
-tamil:{
-loginTitle:"🌾 உள்நுழைவு",
-name:"பெயர்",
-email:"மின்னஞ்சல்",
-phone:"தொலைபேசி எண்"
-}
-
+  english:{
+    loginTitle:"🌾 Login",
+    email:"Email",
+    password:"Password"
+  },
+  tamil:{
+    loginTitle:"🌾 உள்நுழைவு",
+    email:"மின்னஞ்சல்",
+    password:"கடவுச்சொல்"
+  }
 };
 
 let selectedRole="";
 
-
-/* Role Selection */
-
+// Role selection
 function selectRole(role){
-
-selectedRole = role;
-
-localStorage.setItem("userRole",role);
-
-document.getElementById("roleSection").style.display="none";
-
-document.getElementById("loginSection").style.display="block";
-
+  selectedRole = role;
+  localStorage.setItem("userRole",role);
+  document.getElementById("roleSection").style.display="none";
+  document.getElementById("loginSection").style.display="block";
 }
 
-
-/* Language */
-
+// Language
 function setLanguage(lang){
-
-localStorage.setItem("farmerLanguage",lang);
-
-const t = translations[lang];
-
-document.getElementById("loginTitle").innerText = t.loginTitle;
-
-document.getElementById("userName").placeholder = t.name;
-
-document.getElementById("userEmail").placeholder = t.email;
-
-document.getElementById("userPhone").placeholder = t.phone;
-
+  localStorage.setItem("farmerLanguage",lang);
+  const t = translations[lang];
+  document.getElementById("loginTitle").innerText = t.loginTitle;
+  document.getElementById("userEmail").placeholder = t.email;
+  document.getElementById("userPassword").placeholder = t.password;
 }
 
-
-/* Load saved language */
-
+// Load saved language
 setLanguage(localStorage.getItem("farmerLanguage") || "english");
 
-
-/* Login */
-
+// Login
 function loginUser(){
+  const email = document.getElementById("userEmail").value;
+  const password = document.getElementById("userPassword").value;
 
-const name=document.getElementById("userName").value;
+  if(!email || !password){
+    alert("Please fill all fields!");
+    return;
+  }
 
-const email=document.getElementById("userEmail").value;
+  if(selectedRole==="farmer"){
+    localStorage.setItem("farmerEmail", email);
+    localStorage.setItem("farmerPassword", password);
+    window.location.href="pestreport.html";
+  }
 
-const phone=document.getElementById("userPhone").value;
-
-
-if(!name || !email || !phone){
-
-alert("Please fill all fields!");
-
-return;
-
+  if(selectedRole==="admin"){
+    localStorage.setItem("adminEmail", email);
+    localStorage.setItem("adminPassword", password);
+    window.location.href="admin.html";
+  }
 }
-
-
-/* Farmer */
-
-if(selectedRole==="farmer"){
-
-localStorage.setItem("farmerName",name);
-
-localStorage.setItem("farmerEmail",email);
-
-localStorage.setItem("farmerPhone",phone);
-
-window.location.href="pestreport.html";
-
-}
-
-
-/* Admin */
-
-if(selectedRole==="admin"){
-
-localStorage.setItem("adminName",name);
-
-localStorage.setItem("adminEmail",email);
-
-localStorage.setItem("adminPhone",phone);
-
-window.location.href="admin.html";
-
-}
-
-}
-
 </script>
 
 </body>
