@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Pest Report</title>
+<style>
+body{
+  margin:0;
+  font-family:Arial;
+  /* Same background as login page */
+  background:url("https://images.unsplash.com/photo-1500382017468-9049fed747ef") no-repeat center center/cover;
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+.container{
+  width:400px;
+  background:white;
+  padding:30px;
+  border-radius:10px;
+  box-shadow:0 0 15px rgba(0,0,0,0.3);
+  text-align:center;
+}
+
+h2{
+  color:#2e7d32;
+  margin-bottom:20px;
+}
+
+input, textarea{
+  width:100%;
+  padding:10px;
+  margin:8px 0;
+  border:1px solid #ccc;
+  border-radius:4px;
+}
+
+textarea{
+  height:100px;
+  resize:none;
+}
+
+button{
+  padding:12px;
+  width:100%;
+  background:green;
+  color:white;
+  border:none;
+  border-radius:6px;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+button:hover{
+  background:#006400;
+}
+</style>
+
+<script>
+function savePestReport(){
+  const name = prompt("Enter your name");
+  const email = prompt("Enter your email");
+  const phone = prompt("Enter phone number");
+
+  const crop = document.getElementById("crop").value;
+  const problem = document.getElementById("problem").value;
+
+  if(!crop || !problem){
+    alert("Please fill all fields!");
+    return;
+  }
+
+  let cases = JSON.parse(localStorage.getItem("cases")) || [];
+  cases.push({name,email,phone,crop,problem,status:"Pending",suggestion:""});
+  localStorage.setItem("cases", JSON.stringify(cases));
+
+  // Redirect to farmer review page
+  window.location.href = "farmercases.html";
+}
+</script>
+</head>
+<body>
+<div class="container">
+<h2>🌾 Pest Report</h2>
+<input id="crop" placeholder="Enter Crop Name">
+<textarea id="problem" placeholder="Describe Pest Problem"></textarea>
+<button onclick="savePestReport()">Submit & Review</button>
+</div>
+</body>
+</html>
