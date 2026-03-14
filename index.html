@@ -52,8 +52,7 @@ body{
   margin: 150px auto 0 auto; /* push below header */
 }
 
-/* Input fields and buttons */
-input, button{
+select, input, button{
   width:100%;
   padding:10px;
   margin:10px 0;
@@ -86,30 +85,69 @@ button:hover{
 
 <!-- Farmer Login Form -->
 <div class="container">
-  <h2>🌾 Farmer Login</h2>
+  <h2 id="formTitle">🌾 Farmer Login</h2>
+
+  <!-- Language selection -->
+  <select id="languageSelect" onchange="setLanguage(this.value)">
+    <option value="english">English</option>
+    <option value="tamil">தமிழ்</option>
+  </select>
+
   <input id="farmerName" type="text" placeholder="Name" required>
   <input id="farmerEmail" type="email" placeholder="Email" required>
   <input id="farmerPhone" type="text" placeholder="Phone Number" required>
-  <button onclick="loginFarmer()">Login & Next</button>
+  <button onclick="loginFarmer()" id="loginBtn">Login & Next</button>
 </div>
 
 <script>
+// Language translations
+const translations = {
+  english:{
+    formTitle:"🌾 Farmer Login",
+    name:"Name",
+    email:"Email",
+    phone:"Phone Number",
+    loginBtn:"Login & Next"
+  },
+  tamil:{
+    formTitle:"🌾 விவசாயி உள்நுழைவு",
+    name:"பெயர்",
+    email:"மின்னஞ்சல்",
+    phone:"தொலைபேசி எண்",
+    loginBtn:"உள்நுழைவு & அடுத்தது"
+  }
+};
+
+// Set language
+function setLanguage(lang){
+  localStorage.setItem("farmerLanguage", lang); // persist
+  const t = translations[lang];
+  document.getElementById("formTitle").innerText = t.formTitle;
+  document.getElementById("farmerName").placeholder = t.name;
+  document.getElementById("farmerEmail").placeholder = t.email;
+  document.getElementById("farmerPhone").placeholder = t.phone;
+  document.getElementById("loginBtn").innerText = t.loginBtn;
+}
+
+// Initialize language
+setLanguage(localStorage.getItem("farmerLanguage") || "english");
+
+// Login function
 function loginFarmer(){
   const name = document.getElementById("farmerName").value;
   const email = document.getElementById("farmerEmail").value;
   const phone = document.getElementById("farmerPhone").value;
 
   if(!name || !email || !phone){
-    alert("Please fill all fields!");
+    alert(localStorage.getItem("farmerLanguage") === "tamil" ? "அனைத்து புலங்களையும் நிரப்பவும்!" : "Please fill all fields!");
     return;
   }
 
-  // Save farmer details in localStorage
   localStorage.setItem("farmerName", name);
   localStorage.setItem("farmerEmail", email);
   localStorage.setItem("farmerPhone", phone);
 
-  // Redirect to pest details page
+  // Redirect to pest report page
   window.location.href = "pestreport.html";
 }
 </script>
