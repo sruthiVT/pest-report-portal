@@ -52,7 +52,7 @@ button:hover{
 <!-- EmailJS SDK -->
 <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 <script>
-emailjs.init("YOUR_EMAILJS_PUBLIC_KEY"); // Replace with your EmailJS public key
+emailjs.init("3oTB5lj9pKw_10I6R"); // Replace with your EmailJS public key
 </script>
 
 </head>
@@ -150,7 +150,7 @@ async function submitPestReport(){
   if(file){
     const formData = new FormData();
     formData.append("image", file);
-    const imgbbApiKey = "YOUR_IMGBB_API_KEY"; // Replace with your ImgBB API key
+    const imgbbApiKey = "9d9a3054573db11bcb75e2a3da97e3de"; // Replace with your ImgBB API key
     try{
       const res = await fetch(`https://api.imgbb.com/1/upload?key=${imgbbApiKey}`, {
         method:"POST",
@@ -170,7 +170,7 @@ async function submitPestReport(){
   localStorage.setItem("cases", JSON.stringify(cases));
 
   // Send Email via EmailJS
-  emailjs.send("YOUR_SERVICE_ID","YOUR_TEMPLATE_ID",{
+  emailjs.send("service_5be3jfq","template_f6nyiit",{
     farmer_name: name,
     farmer_email: email,
     phone: phone,
