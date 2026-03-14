@@ -11,6 +11,7 @@ body{
   min-height:100vh;
 }
 
+/* Header */
 .header{
   background:white;
   width: 100%;
@@ -36,14 +37,23 @@ body{
   color:#2e7d32;
 }
 
+/* Container for role boxes */
 .container{
-  width:400px;
+  display:flex;
+  justify-content:center;
+  flex-wrap:wrap;
+  gap:40px;
+  margin:40px auto;
+}
+
+/* Individual role box */
+.roleBox{
+  width:350px;
   background:white;
   padding:30px;
   border-radius:10px;
   box-shadow:0 0 15px rgba(0,0,0,0.3);
   text-align:center;
-  margin: 40px auto;
 }
 
 input, select, button{
@@ -77,79 +87,102 @@ button:hover{
 </div>
 
 <div class="container">
-<h2 id="loginTitle">🌾 Farmer / Admin Login</h2>
 
-<select id="languageSelect" onchange="setLanguage(this.value)">
-  <option value="english">English</option>
-  <option value="tamil">தமிழ்</option>
-</select>
+  <!-- Admin Box -->
+  <div class="roleBox" id="adminBox">
+    <h2 id="adminTitle">🌾 Admin / Officer Login</h2>
+    <select id="adminLanguage" onchange="setLanguage(this.value)">
+      <option value="english">English</option>
+      <option value="tamil">தமிழ்</option>
+    </select>
+    <input id="adminName" type="text" placeholder="Name">
+    <input id="adminEmail" type="email" placeholder="Email">
+    <input id="adminPhone" type="text" placeholder="Phone Number">
+    <button onclick="loginAdmin()" id="adminBtn">Login</button>
+  </div>
 
-<input id="userName" type="text" placeholder="Name" required>
-<input id="userEmail" type="email" placeholder="Email" required>
-<input id="userPhone" type="text" placeholder="Phone Number" required>
+  <!-- Farmer Box -->
+  <div class="roleBox" id="farmerBox">
+    <h2 id="farmerTitle">🌾 Farmer / User Login</h2>
+    <select id="farmerLanguage" onchange="setLanguage(this.value)">
+      <option value="english">English</option>
+      <option value="tamil">தமிழ்</option>
+    </select>
+    <input id="farmerName" type="text" placeholder="Name">
+    <input id="farmerEmail" type="email" placeholder="Email">
+    <input id="farmerPhone" type="text" placeholder="Phone Number">
+    <button onclick="loginFarmer()" id="farmerBtn">Login</button>
+  </div>
 
-<select id="roleSelect">
-  <option value="farmer">Farmer</option>
-  <option value="admin">Admin</option>
-</select>
-
-<button onclick="loginUser()" id="loginBtn">Login & Next</button>
 </div>
 
 <script>
 const translations = {
   english:{
-    loginTitle:"🌾 Farmer / Admin Login",
-    userName:"Name",
-    userEmail:"Email",
-    userPhone:"Phone Number",
-    roleSelect:"Select Role",
-    loginBtn:"Login & Next"
+    adminTitle:"🌾 Admin / Officer Login",
+    farmerTitle:"🌾 Farmer / User Login",
+    name:"Name",
+    email:"Email",
+    phone:"Phone Number",
+    loginBtn:"Login"
   },
   tamil:{
-    loginTitle:"🌾 விவசாயி / நிர்வாகி உள்நுழைவு",
-    userName:"பெயர்",
-    userEmail:"மின்னஞ்சல்",
-    userPhone:"தொலைபேசி எண்",
-    roleSelect:"பங்கு தேர்வு செய்க",
+    adminTitle:"🌾 நிர்வாகி / அலுவலர் உள்நுழைவு",
+    farmerTitle:"🌾 விவசாயி / பயனர் உள்நுழைவு",
+    name:"பெயர்",
+    email:"மின்னஞ்சல்",
+    phone:"தொலைபேசி எண்",
     loginBtn:"உள்நுழைவு"
   }
 };
 
+// set language for both boxes
 function setLanguage(lang){
   localStorage.setItem("farmerLanguage", lang);
   const t = translations[lang];
-  document.getElementById("loginTitle").innerText = t.loginTitle;
-  document.getElementById("userName").placeholder = t.userName;
-  document.getElementById("userEmail").placeholder = t.userEmail;
-  document.getElementById("userPhone").placeholder = t.userPhone;
-  document.getElementById("loginBtn").innerText = t.loginBtn;
+  document.getElementById("adminTitle").innerText = t.adminTitle;
+  document.getElementById("farmerTitle").innerText = t.farmerTitle;
+  document.getElementById("adminName").placeholder = t.name;
+  document.getElementById("adminEmail").placeholder = t.email;
+  document.getElementById("adminPhone").placeholder = t.phone;
+  document.getElementById("adminBtn").innerText = t.loginBtn;
+  document.getElementById("farmerName").placeholder = t.name;
+  document.getElementById("farmerEmail").placeholder = t.email;
+  document.getElementById("farmerPhone").placeholder = t.phone;
+  document.getElementById("farmerBtn").innerText = t.loginBtn;
 }
 
+// initialize language
 setLanguage(localStorage.getItem("farmerLanguage") || "english");
 
-function loginUser(){
-  const name = document.getElementById("userName").value;
-  const email = document.getElementById("userEmail").value;
-  const phone = document.getElementById("userPhone").value;
-  const role = document.getElementById("roleSelect").value;
+// Admin login
+function loginAdmin(){
+  const name = document.getElementById("adminName").value;
+  const email = document.getElementById("adminEmail").value;
+  const phone = document.getElementById("adminPhone").value;
+  if(!name || !email || !phone){ alert("Please fill all fields!"); return; }
 
-  if(!name || !email || !phone){
-    alert("Please fill all fields!");
-    return;
-  }
+  localStorage.setItem("userRole","admin");
+  localStorage.setItem("adminName", name);
+  localStorage.setItem("adminEmail", email);
+  localStorage.setItem("adminPhone", phone);
 
-  localStorage.setItem("userName", name);
-  localStorage.setItem("userEmail", email);
-  localStorage.setItem("userPhone", phone);
-  localStorage.setItem("userRole", role);
+  window.location.href = "admin.html";
+}
 
-  // Redirect based on role
-  if(role==="farmer"){
-    window.location.href = "pestreport.html";
-  } else {
-    window.location.href = "admin.html";
-  }
+// Farmer login
+function loginFarmer(){
+  const name = document.getElementById("farmerName").value;
+  const email = document.getElementById("farmerEmail").value;
+  const phone = document.getElementById("farmerPhone").value;
+  if(!name || !email || !phone){ alert("Please fill all fields!"); return; }
+
+  localStorage.setItem("userRole","farmer");
+  localStorage.setItem("farmerName", name);
+  localStorage.setItem("farmerEmail", email);
+  localStorage.setItem("farmerPhone", phone);
+
+  window.location.href = "pestreport.html";
 }
 </script>
 
