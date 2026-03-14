@@ -2,7 +2,6 @@
 <html>
 <head>
 <title>Smart Monitoring Pest System</title>
-
 <style>
 body{
   margin:0;
@@ -79,9 +78,7 @@ button:hover{
   font-weight:bold;
 }
 </style>
-
 <script>
-
 const translations = {
   english:{
     selectRole:"Select Role",
@@ -110,19 +107,15 @@ const translations = {
 };
 
 function setLanguage(lang){
-
   localStorage.setItem("farmerLanguage",lang);
-
   document.getElementById("roleSelectTitle").innerText=translations[lang].selectRole;
   document.getElementById("adminBtn").innerText=translations[lang].admin;
   document.getElementById("userBtn").innerText=translations[lang].user;
-
   document.getElementById("adminFormTitle").innerText=translations[lang].officerLogin;
   document.getElementById("adminName").placeholder=translations[lang].name;
   document.getElementById("adminEmail").placeholder=translations[lang].email;
   document.getElementById("adminPhone").placeholder=translations[lang].phone;
   document.getElementById("adminLoginBtn").innerText=translations[lang].login;
-
   document.getElementById("userFormTitle").innerText=translations[lang].farmerLogin;
   document.getElementById("userName").placeholder=translations[lang].farmerName;
   document.getElementById("userEmail").placeholder=translations[lang].email;
@@ -132,7 +125,6 @@ function setLanguage(lang){
 
 function showForm(role){
   document.getElementById('roleSelection').style.display='none';
-
   if(role==='admin'){
     document.getElementById('adminForm').style.display='block';
   }else{
@@ -140,27 +132,43 @@ function showForm(role){
   }
 }
 
-/* SAVE FARMER DATA AND REDIRECT */
-
 function loginUser(){
+  // Save farmer info
+  const name = document.getElementById("userName").value;
+  const email = document.getElementById("userEmail").value;
+  const phone = document.getElementById("userPhone").value;
+
+  if(!name || !email || !phone){
+    alert("Please fill all fields!");
+    return;
+  }
+
+  // Save farmer to localStorage (can store multiple submissions)
+  let allFarmers = JSON.parse(localStorage.getItem("farmers")) || [];
+  allFarmers.push({name,email,phone,status:"Pending"});
+  localStorage.setItem("farmers", JSON.stringify(allFarmers));
 
   localStorage.setItem("userRole","user");
-  localStorage.setItem("farmerName",document.getElementById("userName").value);
-  localStorage.setItem("farmerEmail",document.getElementById("userEmail").value);
-  localStorage.setItem("farmerPhone",document.getElementById("userPhone").value);
+  localStorage.setItem("farmerName",name);
 
-  window.location.href="report.html";
-
+  window.location.href="farmercases.html";
 }
 
 function loginAdmin(){
+  const name = document.getElementById("adminName").value;
+  const email = document.getElementById("adminEmail").value;
+  const phone = document.getElementById("adminPhone").value;
+
+  if(!name || !email || !phone){
+    alert("Please fill all fields!");
+    return;
+  }
 
   localStorage.setItem("userRole","admin");
+  localStorage.setItem("adminName",name);
 
-  window.location.href="report.html";
-
+  window.location.href="admin.html";
 }
-
 </script>
 </head>
 
@@ -175,62 +183,43 @@ function loginAdmin(){
 </div>
 
 <!-- ROLE SELECTION -->
-
 <div class="container" id="roleSelection">
 <div class="card">
-
 <h2 id="roleSelectTitle">Select Role</h2>
-
 <div style="display:flex; justify-content:space-between; margin-top:20px;">
-
 <button id="adminBtn" style="width:48%; padding:20px;" onclick="showForm('admin')">Admin / Officer</button>
-
 <button id="userBtn" style="width:48%; padding:20px;" onclick="showForm('user')">Farmer / User</button>
-
 </div>
-
 </div>
 </div>
 
 <!-- ADMIN LOGIN -->
-
 <div class="container" id="adminForm" style="display:none;">
 <div class="card">
-
 <h2 id="adminFormTitle">Officer Login</h2>
-
 <select onchange="setLanguage(this.value)">
 <option value="english">English</option>
 <option value="tamil">தமிழ்</option>
 </select>
-
 <input id="adminName" type="text" placeholder="Name" required>
 <input id="adminEmail" type="email" placeholder="Email" required>
 <input id="adminPhone" type="text" placeholder="Phone Number" required>
-
 <button onclick="loginAdmin()" id="adminLoginBtn">Login</button>
-
 </div>
 </div>
 
 <!-- FARMER LOGIN -->
-
 <div class="container" id="userForm" style="display:none;">
 <div class="card">
-
 <h2 id="userFormTitle">Farmer Login</h2>
-
 <select onchange="setLanguage(this.value)">
 <option value="english">English</option>
 <option value="tamil">தமிழ்</option>
 </select>
-
 <input id="userName" type="text" placeholder="Farmer Name" required>
 <input id="userEmail" type="email" placeholder="Email" required>
 <input id="userPhone" type="text" placeholder="Phone Number" required>
-
 <button onclick="loginUser()" id="userLoginBtn">Login</button>
-
 </div>
 </div>
 
