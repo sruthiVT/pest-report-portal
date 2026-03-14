@@ -1,45 +1,51 @@
-```html
 <!DOCTYPE html>
 <html>
-
 <head>
-
 <title>Report Submitted</title>
 
 <style>
 
 body{
+margin:0;
 font-family:Arial;
-background:linear-gradient(120deg,#6bbf3f,#b8e994);
-height:100vh;
+
+/* SAME BACKGROUND AS LOGIN PAGE */
+
+background:url("https://images.unsplash.com/photo-1500382017468-9049fed747ef") no-repeat center center/cover;
+
+min-height:100vh;
 display:flex;
 justify-content:center;
 align-items:center;
 }
 
-.phone{
-width:360px;
-height:640px;
-background:black;
-border-radius:35px;
-padding:10px;
-}
-
-.screen{
+.container{
+width:420px;
 background:white;
-height:100%;
-border-radius:25px;
-padding:40px;
+padding:30px;
+border-radius:10px;
+box-shadow:0 0 15px rgba(0,0,0,0.3);
 text-align:center;
 }
 
+h2{
+color:green;
+}
+
+p{
+font-size:16px;
+}
+
 button{
-background:#4CAF50;
-border:none;
+margin-top:20px;
 padding:12px;
-color:white;
-border-radius:6px;
 width:100%;
+background:green;
+color:white;
+border:none;
+border-radius:5px;
+font-size:16px;
+cursor:pointer;
 }
 
 </style>
@@ -48,22 +54,45 @@ width:100%;
 
 <body>
 
-<div class="phone">
+<div class="container">
 
-<div class="screen">
+<h2 id="successTitle">✅ Report Submitted Successfully</h2>
 
-<h2>✅ Report Submitted</h2>
+<p id="successMsg">
+Your pest complaint has been sent to the agriculture officer.  
+You will receive suggestions soon.
+</p>
 
-<p>Your pest complaint has been received.</p>
-
-<button onclick="window.location.href='index.html'">
-Back to Home
-</button>
-
-</div>
+<button onclick="goBack()" id="backBtn">Submit Another Report</button>
 
 </div>
+
+<script>
+
+/* LANGUAGE SUPPORT */
+
+let lang = localStorage.getItem("farmerLanguage");
+
+if(lang=="tamil"){
+
+document.getElementById("successTitle").innerHTML="✅ புகார் வெற்றிகரமாக பதிவு செய்யப்பட்டது";
+
+document.getElementById("successMsg").innerHTML=
+"உங்கள் பூச்சி புகார் விவசாய அலுவலருக்கு அனுப்பப்பட்டுள்ளது. விரைவில் பரிந்துரைகள் கிடைக்கும்.";
+
+document.getElementById("backBtn").innerHTML="மற்றொரு புகார் பதிவு செய்ய";
+
+}
+
+/* GO BACK TO REPORT PAGE */
+
+function goBack(){
+
+window.location.href="report.html";
+
+}
+
+</script>
 
 </body>
 </html>
-```
