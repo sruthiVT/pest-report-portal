@@ -3,127 +3,101 @@
 <head>
 <title>Admin - Farmer Complaints Dashboard</title>
 <style>
-body{
-  margin:0;
-  font-family: Arial, sans-serif;
-  /* Same background as login page */
-  background: url("https://images.unsplash.com/photo-1500382017468-9049fed747ef") no-repeat center center/cover;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+body { 
+  font-family: Arial, sans-serif; 
+  margin:0; 
+  padding:0;
+  background:url("https://images.unsplash.com/photo-1500382017468-9049fed747ef") no-repeat center center/cover;
+  background-size:cover;
+  min-height:100vh;
 }
-
 .container{
-  width: 90%;
-  max-width: 1000px;
-  background: white;
-  padding: 30px;
-  border-radius: 10px;
-  box-shadow: 0 0 20px rgba(0,0,0,0.3);
-  overflow-x: auto;
+  width:90%;
+  max-width:1000px;
+  margin:50px auto;
+  background:white;
+  padding:20px;
+  border-radius:10px;
+  box-shadow:0 0 20px rgba(0,0,0,0.3);
+  overflow-x:auto;
 }
-
-h1 {
-  text-align:center;
-  margin-bottom: 20px;
-  color:#2e7d32;
-}
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-th, td {
-  padding: 12px;
-  text-align: left;
-  border-bottom: 1px solid #ccc;
-}
-
-th {
-  background-color: #4CAF50;
-  color: white;
-}
-
-tr:hover {
-  background-color: #f1f1f1;
-}
-
-button {
-  padding:5px 10px;
-  cursor:pointer;
-  background: #1976d2;
-  color: white;
-  border: none;
-  border-radius: 4px;
-}
-
-button:hover{
-  background:#0d47a1;
-}
+h1 { text-align:center; color:#2e7d32; }
+table { width:100%; border-collapse: collapse; }
+th, td { border:1px solid #ccc; padding:12px; text-align:left; }
+th { background-color:#4CAF50; color:white; }
+tr:hover { background-color:#f1f1f1; }
+input, textarea { width:100%; padding:5px; }
+button { padding:6px 12px; cursor:pointer; background:green; color:white; border:none; border-radius:5px; }
+button:hover { background:#006400; }
 </style>
 </head>
 <body>
 
 <div class="container">
-<h1 id="dashboardTitle">🌾 Admin - Farmer Complaints Dashboard</h1>
-
+<h1>🌾 Admin - Farmer Complaints Dashboard</h1>
 <table id="complaintsTable">
-  <thead>
-    <tr>
-      <th>Farmer Name</th>
-      <th>Email</th>
-      <th>Phone</th>
-      <th>Crop</th>
-      <th>Pest Problem</th>
-      <th>Status</th>
-      <th>Action</th>
-    </tr>
-  </thead>
-  <tbody></tbody>
+<thead>
+<tr>
+<th>Farmer Name</th>
+<th>Email</th>
+<th>Phone</th>
+<th>Village</th>
+<th>Crop</th>
+<th>Pest Type</th>
+<th>Cultivated Period</th>
+<th>Infected Level</th>
+<th>Problem</th>
+<th>Status</th>
+<th>Suggestion</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody></tbody>
 </table>
 </div>
 
 <script>
-// Get the table body
 const tableBody = document.querySelector('#complaintsTable tbody');
-
-// Load cases from localStorage
 let cases = JSON.parse(localStorage.getItem("cases")) || [];
-const adminName = localStorage.getItem("adminName") || "Admin";
-document.getElementById("dashboardTitle").innerText = `🌾 ${adminName} - Farmer Complaints Dashboard`;
 
-// Function to render all cases
+// Render all cases
 function renderCases(){
-  tableBody.innerHTML = ""; // clear previous rows
-  cases.forEach((c, index) => {
+  tableBody.innerHTML = "";
+  cases.forEach((c,index)=>{
     const row = document.createElement('tr');
     row.innerHTML = `
       <td>${c.name}</td>
       <td>${c.email}</td>
       <td>${c.phone}</td>
-      <td>${c.crop}</td>
+      <td>${c.village||""}</td>
+      <td>${c.crop||""}</td>
+      <td>${c.pestType||""}</td>
+      <td>${c.period||""}</td>
+      <td>${c.level||""}</td>
       <td>${c.problem}</td>
       <td>${c.status}</td>
       <td>
-        <button onclick="updateStatus(${index}, 'Resolved')">Mark Resolved</button>
+        <textarea id="suggestion${index}" placeholder="Enter suggestion">${c.suggestion||""}</textarea>
+      </td>
+      <td>
+        <button onclick="saveSuggestion(${index})">Submit</button>
       </td>
     `;
     tableBody.appendChild(row);
   });
 }
 
-// Function to update status
-function updateStatus(index, status){
-  cases[index].status = status;
+// Save suggestion
+function saveSuggestion(index){
+  const suggestion = document.getElementById(`suggestion${index}`).value;
+  cases[index].suggestion = suggestion;
+  cases[index].status = "Resolved"; // optional: mark as resolved
   localStorage.setItem("cases", JSON.stringify(cases));
+  alert("Suggestion saved successfully!");
   renderCases();
 }
 
-// Initial render
 renderCases();
 </script>
-
 </body>
 </html>
