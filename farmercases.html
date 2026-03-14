@@ -1,71 +1,37 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Farmer Cases Dashboard</title>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 20px; }
-        table { border-collapse: collapse; width: 100%; }
-        th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
-        th { background-color: #f4f4f4; }
-        button { padding: 5px 10px; margin: 0 5px; cursor: pointer; }
-    </style>
+<title>Farmer Dashboard</title>
+<style>
+body { font-family: Arial; margin:20px; }
+table { border-collapse: collapse; width: 100%; }
+th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+th { background-color: #f4f4f4; }
+</style>
 </head>
 <body>
 
-<h1>Farmer Cases</h1>
+<h1>🌾 Your Submitted Cases</h1>
 <table id="casesTable">
-    <thead>
-        <tr>
-            <th>Case Number</th>
-            <th>Farmer Name</th>
-            <th>Subject</th>
-            <th>Description</th>
-            <th>Feedback</th>
-        </tr>
-    </thead>
-    <tbody>
-        <!-- Cases will appear here -->
-    </tbody>
+<thead>
+<tr><th>Crop</th><th>Pest Problem</th><th>Status</th></tr>
+</thead>
+<tbody></tbody>
 </table>
 
 <script>
-async function loadCases() {
-    try {
-        // Replace with your Salesforce REST endpoint
-        const response = await fetch('/services/apexrest/farmercases');
-        const cases = await response.json();
+const tableBody = document.querySelector('#casesTable tbody');
+const allCases = JSON.parse(localStorage.getItem("cases")) || [];
+const currentUser = localStorage.getItem("farmerName") || "";
 
-        const tableBody = document.querySelector('#casesTable tbody');
-        tableBody.innerHTML = '';
-
-        cases.forEach(c => {
-            const row = document.createElement('tr');
-            
-            row.innerHTML = `
-                <td>${c.CaseNumber || ''}</td>
-                <td>${c.SuppliedName || 'Anonymous'}</td>
-                <td>${c.Subject || ''}</td>
-                <td>${c.Description || ''}</td>
-                <td>
-                    <button onclick="sendFeedback('${c.Id}', true)">Helpful</button>
-                    <button onclick="sendFeedback('${c.Id}', false)">Not Helpful</button>
-                </td>
-            `;
-            tableBody.appendChild(row);
-        });
-    } catch (err) {
-        console.error('Error loading cases:', err);
-    }
-}
-
-// Mock feedback function (you will connect this to Salesforce later)
-function sendFeedback(caseId, helpful) {
-    alert(`Case ${caseId} marked as ${helpful ? 'Helpful' : 'Not Helpful'}`);
-    // Here you can call another Apex REST API to save feedback
-}
-
-// Load cases on page load
-loadCases();
+// Show only current farmer's submissions
+allCases.forEach(c => {
+  if(c.name === currentUser){
+    const row = document.createElement('tr');
+    row.innerHTML = `<td>${c.crop}</td><td>${c.problem}</td><td>${c.status}</td>`;
+    tableBody.appendChild(row);
+  }
+});
 </script>
 
 </body>
