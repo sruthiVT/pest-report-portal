@@ -7,6 +7,7 @@ body{
   margin:0;
   font-family:Arial;
   background:url("https://images.unsplash.com/photo-1500382017468-9049fed747ef") no-repeat center center/cover;
+  background-size:cover;
   min-height:100vh;
   display:flex;
   justify-content:center;
@@ -22,7 +23,7 @@ body{
   text-align:center;
 }
 
-input, textarea, button{
+input, select, textarea, button{
   width:100%;
   padding:10px;
   margin:10px 0;
@@ -46,38 +47,117 @@ button:hover{
   background:#006400;
 }
 </style>
+<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+<script>
+(function(){
+   emailjs.init("YOUR_EMAILJS_USER_ID"); // Replace with your EmailJS user ID
+})();
+</script>
 </head>
 <body>
 
 <div class="container">
-<h2>🌾 Pest Report</h2>
-<input id="crop" placeholder="Crop Name" required>
-<textarea id="problem" placeholder="Describe Pest Problem" required></textarea>
-<button onclick="submitPestReport()">Submit & Review</button>
+<h2 id="title">🌾 Pest Report</h2>
+
+<!-- Dropdowns -->
+<select id="village"></select>
+<select id="crop"></select>
+<select id="pestType"></select>
+<select id="cultivatedPeriod"></select>
+<select id="infectedLevel"></select>
+
+<!-- Problem description -->
+<textarea id="problem" placeholder="Describe Pest Problem"></textarea>
+
+<!-- Image upload -->
+<input type="file" id="imageFile" accept="image/*">
+
+<button onclick="submitPestReport()" id="submitBtn">Submit & Review</button>
 </div>
 
 <script>
-function submitPestReport(){
-  const name = localStorage.getItem("farmerName");
-  const email = localStorage.getItem("farmerEmail");
-  const phone = localStorage.getItem("farmerPhone");
+// Language and dropdowns
+const lang = localStorage.getItem("farmerLanguage") || "english";
+const villages = ["Pollachi","Udumalpet","Kinathukadavu"];
+const crops = ["Paddy (Rice)","Maize","Ragi"];
+const pestTypes = ["Leaf Folder","Stem Borer","Brown Plant Hopper"];
+const periods = ["0 - 30 Days","30 - 60 Days","60 - 90 Days"];
+const levels = ["Low","Medium","High"];
 
+function fillDropdown(id, options, placeholder){
+  const sel = document.getElementById(id);
+  sel.innerHTML = `<option value="">${placeholder}</option>`;
+  options.forEach(opt=>{sel.innerHTML+=`<option value="${opt}">${opt}</option>`});
+}
+
+fillDropdown("village", villages, "Select Village");
+fillDropdown("crop", crops, "Select Crop");
+fillDropdown("pestType", pestTypes, "Select Pest Type");
+fillDropdown("cultivatedPeriod", periods, "Select Cultivated Period");
+fillDropdown("infectedLevel", levels, "Select Infection Level");
+
+// Submit function
+async function submitPestReport(){
+  const name = localStorage.getItem("userName");
+  const email = localStorage.getItem("userEmail");
+  const phone = localStorage.getItem("userPhone");
+
+  const village = document.getElementById("village").value;
   const crop = document.getElementById("crop").value;
+  const pestType = document.getElementById("pestType").value;
+  const period = document.getElementById("cultivatedPeriod").value;
+  const level = document.getElementById("infectedLevel").value;
   const problem = document.getElementById("problem").value;
+  const file = document.getElementById("imageFile").files[0];
 
-  if(!crop || !problem){
+  if(!village||!crop||!pestType||!period||!level||!problem){
     alert("Please fill all fields!");
     return;
   }
 
-  let cases = JSON.parse(localStorage.getItem("cases")) || [];
-  cases.push({
-    name, email, phone, crop, problem, status:"Pending", suggestion:""
-  });
+  let imageUrl = "";
+
+  // Upload image to ImgBB
+  if(file){
+    const formData = new FormData();
+    formData.append("image", file);
+    const imgbbApiKey = "9d9a3054573db11bcb75e2a3da97e3de"; // Replace with your ImgBB API key
+    try{
+      const res = await fetch(`https://api.imgbb.com/1/upload?key=${imgbbApiKey}`, {
+        method:"POST",
+        body: formData
+      });
+      const data = await res.json();
+      imageUrl = data.data.url;
+    }catch(err){
+      alert("Image upload failed. Please try again.");
+      return;
+    }
+  }
+
+  // Save to localStorage
+  let cases = JSON.parse(localStorage.getItem("cases"))||[];
+  cases.push({name,email,phone,village,crop,pestType,period,level,problem,status:"Pending",suggestion:"",image:imageUrl});
   localStorage.setItem("cases", JSON.stringify(cases));
 
-  // Redirect to farmer dashboard to review
-  window.location.href = "farmercases.html";
+  // Send Email via EmailJS
+  emailjs.send("service_5be3jfq","template_f6nyiit",{
+    farmer_name: name,
+    farmer_email: email,
+    phone: phone,
+    village: village,
+    crop: crop,
+    pestType: pestType,
+    period: period,
+    level: level,
+    problem: problem,
+    image_url: imageUrl
+  }).then(()=>{
+    console.log("Email sent successfully");
+    window.location.href="farmercases.html";
+  }, (err)=>{
+    alert("Email sending failed. Please try again.");
+  });
 }
 </script>
 
