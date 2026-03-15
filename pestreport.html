@@ -67,7 +67,7 @@ justify-content:center;
 align-items:center;
 }
 
-/* SMALL FORM BOX */
+/* FORM BOX */
 
 .container{
 width:340px;
@@ -78,15 +78,11 @@ box-shadow:0 0 15px rgba(0,0,0,0.2);
 display:none;
 }
 
-/* TITLE */
-
 h2{
 text-align:center;
 margin-bottom:12px;
 font-size:20px;
 }
-
-/* INPUT */
 
 input,select,textarea{
 width:100%;
@@ -96,8 +92,6 @@ border-radius:5px;
 border:1px solid #ccc;
 font-size:14px;
 }
-
-/* SUBMIT BUTTON */
 
 button.submitBtn{
 width:100%;
@@ -157,43 +151,35 @@ SMART MONITORING PEST SYSTEM
 
 <h2 id="title">🌾 Farmer Pest Report</h2>
 
-<form id="pestForm"
-onsubmit="uploadImage(event)"
-method="POST"
-action="https://webto.salesforce.com/servlet/servlet.WebToCase?encoding=UTF-8">
+<form id="pestForm" onsubmit="uploadImage(event)">
 
-<input type="hidden" name="orgid" value="00DdM00000iSfdB">
+<input type="hidden" id="imageURL">
 
-<input type="hidden" name="retURL"
-value="https://sruthivt.github.io/pest-report-portal/success.html">
-
-<input type="hidden" name="Crop_Image_URL__c" id="imageURL">
-
-<label id="villageLabel">Village</label>
-<select name="Village__c">
+<label>Village</label>
+<select id="village">
 <option>Pollachi</option>
 <option>Udumalpet</option>
 <option>Avinashi</option>
 <option>Tiruppur</option>
 </select>
 
-<label id="cropLabel">Crop Type</label>
-<select name="Product__c">
+<label>Crop Type</label>
+<select id="crop">
 <option>Paddy</option>
 <option>Maize</option>
 <option>Cotton</option>
 <option>Groundnut</option>
 </select>
 
-<label id="periodLabel">Cultivation Period</label>
-<select name="Cultivation_Period__c">
+<label>Cultivation Period</label>
+<select id="period">
 <option>0 - 30 Days</option>
 <option>30 - 60 Days</option>
 <option>60 - 90 Days</option>
 </select>
 
-<label id="pestLabel">Pest Type</label>
-<select name="subject" id="pestType" onchange="showPestInfo()">
+<label>Pest Type</label>
+<select id="pestType" onchange="showPestInfo()">
 
 <option>Leaf Folder</option>
 <option>Stem Borer</option>
@@ -204,20 +190,20 @@ value="https://sruthivt.github.io/pest-report-portal/success.html">
 
 <p id="pestDescription" class="pestInfo"></p>
 
-<label id="severityLabel">Infected Level</label>
-<select name="Severity_Level__c">
+<label>Infected Level</label>
+<select id="level">
 <option>Low</option>
 <option>Medium</option>
 <option>High</option>
 </select>
 
-<label id="imageLabel">Upload Crop Image</label>
+<label>Upload Crop Image</label>
 <input type="file" id="imageUpload" required>
 
-<label id="descLabel">Description</label>
-<textarea name="description"></textarea>
+<label>Description</label>
+<textarea id="description"></textarea>
 
-<button class="submitBtn" id="submitBtn">Submit Report</button>
+<button class="submitBtn">Submit Report</button>
 
 </form>
 
@@ -227,7 +213,7 @@ value="https://sruthivt.github.io/pest-report-portal/success.html">
 
 <script>
 
-/* OPEN REPORT WITH ANIMATION */
+/* OPEN FORM */
 
 function openReport(){
 
@@ -242,24 +228,6 @@ box.style.transition="all 0.3s ease";
 box.style.transform="scale(1)";
 box.style.opacity="1";
 },50);
-
-}
-
-/* LANGUAGE SWITCH */
-
-let lang=localStorage.getItem("farmerLanguage");
-
-if(lang=="tamil"){
-
-document.getElementById("title").innerHTML="🌾 பூச்சி புகார் பதிவு";
-document.getElementById("villageLabel").innerHTML="கிராமம்";
-document.getElementById("cropLabel").innerHTML="பயிர் வகை";
-document.getElementById("periodLabel").innerHTML="சாகுபடி காலம்";
-document.getElementById("pestLabel").innerHTML="பூச்சி வகை";
-document.getElementById("severityLabel").innerHTML="பாதிப்பு அளவு";
-document.getElementById("imageLabel").innerHTML="பயிர் படம்";
-document.getElementById("descLabel").innerHTML="விளக்கம்";
-document.getElementById("submitBtn").innerHTML="புகார் சமர்ப்பிக்க";
 
 }
 
@@ -286,7 +254,8 @@ document.getElementById("pestDescription").innerText=text;
 
 }
 
-/* IMAGE + EMAIL + SALESFORCE */
+
+/* IMAGE UPLOAD + SAVE + EMAIL */
 
 async function uploadImage(event){
 
@@ -308,16 +277,39 @@ let data=await res.json();
 
 let imageURL=data.data.url;
 
-document.getElementById("imageURL").value=imageURL;
+/* SAVE CASE */
+
+let cases = JSON.parse(localStorage.getItem("cases")) || [];
+
+let newCase = {
+
+village:document.getElementById("village").value,
+crop:document.getElementById("crop").value,
+period:document.getElementById("period").value,
+pestType:document.getElementById("pestType").value,
+level:document.getElementById("level").value,
+problem:document.getElementById("description").value,
+image:imageURL,
+status:"Pending"
+
+};
+
+cases.push(newCase);
+
+localStorage.setItem("cases",JSON.stringify(cases));
+
+/* SEND EMAIL */
 
 emailjs.send("service_5be3jfq","template_f6nyiit",{
 
-pest_type:document.querySelector("[name='subject']").value,
-village:document.querySelector("[name='Village__c']").value
+pest_type:newCase.pestType,
+village:newCase.village
 
 });
 
-document.getElementById("pestForm").submit();
+/* REDIRECT TO FARMER DASHBOARD */
+
+window.location.href="farmercases.html";
 
 }
 
