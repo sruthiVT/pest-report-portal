@@ -1,17 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Farmer Dashboard</title>
+<title>Smart Monitoring Pest System</title>
 
 <style>
 
 body{
-font-family:Arial;
 margin:0;
-padding:0;
-background:url("https://images.unsplash.com/photo-1500382017468-9049fed747ef") no-repeat center center/cover;
-background-size:cover;
-min-height:100vh;
+font-family:Arial;
 }
 
 /* HEADER */
@@ -20,8 +16,8 @@ min-height:100vh;
 background:white;
 padding:15px 40px;
 display:flex;
-align-items:center;
 justify-content:space-between;
+align-items:center;
 box-shadow:0 2px 5px rgba(0,0,0,0.1);
 }
 
@@ -38,111 +34,103 @@ width:35px;
 }
 
 .logoText{
-font-size:22px;
+font-size:24px;
 font-weight:bold;
 color:#ff5722;
 }
 
 .logoText span{
 display:block;
-font-size:13px;
+font-size:14px;
 color:green;
-}
-
-/* NAVIGATION TABS */
-
-.navbar{
-display:flex;
-gap:30px;
-font-weight:600;
-}
-
-.navbar button{
-background:none;
-border:none;
-font-size:15px;
-cursor:pointer;
-padding:10px 5px;
-}
-
-.navbar button.active{
-color:green;
-border-bottom:3px solid green;
-}
-
-/* SECTIONS */
-
-.section{
-display:none;
-}
-
-.section.active{
-display:block;
-}
-
-/* CARD CONTAINER */
-
-.container{
-width:90%;
-max-width:1100px;
-margin:40px auto;
-background:white;
-padding:25px;
-border-radius:10px;
-box-shadow:0 0 20px rgba(0,0,0,0.25);
-overflow-x:auto;
-}
-
-/* TITLES */
-
-h1{
-text-align:center;
-color:#2e7d32;
-margin-bottom:20px;
 }
 
 /* BUTTON */
 
-.reportBtn{
-padding:12px 20px;
-background:green;
+.nav button{
+background:#2d7ef7;
 color:white;
 border:none;
+padding:10px 20px;
 border-radius:6px;
+font-size:15px;
 cursor:pointer;
 }
 
-/* TABLE */
+/* BACKGROUND */
 
-table{
+.hero{
+background:url("https://images.unsplash.com/photo-1500382017468-9049fed747ef") no-repeat center center/cover;
+min-height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+}
+
+/* FORM BOX */
+
+.container{
+width:340px;
+background:white;
+padding:18px;
+border-radius:10px;
+box-shadow:0 0 15px rgba(0,0,0,0.2);
+display:none;
+}
+
+/* FORM TITLE */
+
+.title{
+display:flex;
+align-items:center;
+justify-content:center;
+gap:8px;
+font-size:20px;
+margin-bottom:10px;
+}
+
+.title img{
+width:22px;
+}
+
+/* INPUTS */
+
+input,select,textarea{
 width:100%;
-border-collapse:collapse;
-}
-
-th,td{
+padding:8px;
+margin:6px 0;
+border-radius:5px;
 border:1px solid #ccc;
-padding:10px;
-text-align:left;
+font-size:14px;
 }
 
-th{
+button.submitBtn{
+width:100%;
+padding:10px;
 background:green;
 color:white;
+border:none;
+font-size:15px;
+border-radius:5px;
+cursor:pointer;
 }
 
-.status{
-font-weight:bold;
-}
-
-.resolved{
+.pestInfo{
 color:green;
-}
-
-.pending{
-color:red;
+font-weight:bold;
+margin-top:5px;
 }
 
 </style>
+
+<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+
+<script>
+(function(){
+emailjs.init("3oTB5lj9pKw_10I6R");
+})();
+</script>
+
 </head>
 
 <body>
@@ -158,129 +146,187 @@ color:red;
 SMART MONITORING PEST SYSTEM
 <span>Agriculture Department</span>
 </div>
+
 </div>
 
-<!-- NAVIGATION -->
-
-<div class="navbar">
-
-<button id="reportTab" class="active" onclick="showSection('report')">
-Pest Report
-</button>
-
-<button id="suggestionTab" onclick="showSection('suggestion')">
-Farmer Suggestions
-</button>
-
+<div class="nav">
+<button onclick="openReport()">Pest Report</button>
 </div>
 
 </div>
 
 
-<!-- PEST REPORT SECTION -->
+<!-- BACKGROUND -->
 
-<div id="report" class="section active container">
+<div class="hero">
 
-<h1>Submit Pest Report</h1>
+<div class="container" id="reportContainer">
 
-<p>Click below to submit a pest complaint.</p>
+<h2 class="title">
+<img src="https://cdn-icons-png.flaticon.com/512/2909/2909762.png">
+Farmer Pest Report
+</h2>
 
-<button class="reportBtn" onclick="goReport()">
-Submit Pest Report
-</button>
+<form id="pestForm" onsubmit="uploadImage(event)">
+
+<label>Village</label>
+<select id="village">
+<option>Pollachi</option>
+<option>Udumalpet</option>
+<option>Avinashi</option>
+<option>Tiruppur</option>
+</select>
+
+<label>Crop Type</label>
+<select id="crop">
+<option>Paddy</option>
+<option>Maize</option>
+<option>Cotton</option>
+<option>Groundnut</option>
+</select>
+
+<label>Cultivation Period</label>
+<select id="period">
+<option>0 - 30 Days</option>
+<option>30 - 60 Days</option>
+<option>60 - 90 Days</option>
+</select>
+
+<label>Pest Type</label>
+<select id="pestType" onchange="showPestInfo()">
+
+<option>Leaf Folder</option>
+<option>Stem Borer</option>
+<option>Brown Plant Hopper</option>
+<option>Armyworm</option>
+
+</select>
+
+<p id="pestDescription" class="pestInfo"></p>
+
+<label>Infected Level</label>
+<select id="level">
+<option>Low</option>
+<option>Medium</option>
+<option>High</option>
+</select>
+
+<label>Upload Crop Image</label>
+<input type="file" id="imageUpload" required>
+
+<label>Description</label>
+<textarea id="description"></textarea>
+
+<button class="submitBtn">Submit Report</button>
+
+</form>
 
 </div>
-
-
-<!-- FARMER SUGGESTIONS -->
-
-<div id="suggestion" class="section container">
-
-<h1>🌾 Officer Suggestions</h1>
-
-<table id="casesTable">
-
-<thead>
-<tr>
-<th>Crop</th>
-<th>Pest Type</th>
-<th>Problem</th>
-<th>Status</th>
-<th>Officer Suggestion</th>
-<th>Treatment Procedure</th>
-</tr>
-</thead>
-
-<tbody></tbody>
-
-</table>
 
 </div>
 
 
 <script>
 
-/* LOAD CASES */
+/* OPEN FORM */
 
-const tableBody=document.querySelector("#casesTable tbody");
+function openReport(){
 
-let cases=JSON.parse(localStorage.getItem("cases")) || [];
+let box=document.getElementById("reportContainer");
 
-function renderCases(){
+box.style.display="block";
+box.style.transform="scale(0.9)";
+box.style.opacity="0";
 
-tableBody.innerHTML="";
-
-if(cases.length===0) return;
-
-let c=cases[cases.length-1];
-
-let statusClass=c.status==="Resolved" ? "resolved" : "pending";
-
-let row=document.createElement("tr");
-
-row.innerHTML=`
-<td>${c.crop || ""}</td>
-<td>${c.pestType || ""}</td>
-<td>${c.problem || ""}</td>
-<td class="status ${statusClass}">${c.status || "Pending"}</td>
-<td>${c.suggestion || "Waiting for officer response"}</td>
-<td>${c.procedure || "Waiting for officer response"}</td>
-`;
-
-tableBody.appendChild(row);
+setTimeout(()=>{
+box.style.transition="all 0.3s ease";
+box.style.transform="scale(1)";
+box.style.opacity="1";
+},50);
 
 }
 
-renderCases();
+
+/* PEST INFO */
+
+function showPestInfo(){
+
+let pest=document.getElementById("pestType").value;
+let text="";
+
+if(pest=="Leaf Folder")
+text="Damages rice leaves by folding them.";
+
+else if(pest=="Stem Borer")
+text="Bores inside crop stems.";
+
+else if(pest=="Brown Plant Hopper")
+text="Sucks sap from rice plants.";
+
+else if(pest=="Armyworm")
+text="Consumes leaves quickly.";
+
+document.getElementById("pestDescription").innerText=text;
+
+}
 
 
-/* TAB SWITCH */
+/* SUBMIT REPORT */
 
-function showSection(section){
+async function uploadImage(event){
 
-document.querySelectorAll(".section").forEach(s=>{
-s.classList.remove("active");
+event.preventDefault();
+
+const file=document.getElementById("imageUpload").files[0];
+
+const apiKey="9d9a3054573db11bcb75e2a3da97e3de";
+
+let formData=new FormData();
+formData.append("image",file);
+
+let res=await fetch(`https://api.imgbb.com/1/upload?key=${apiKey}`,{
+method:"POST",
+body:formData
 });
 
-document.querySelectorAll(".navbar button").forEach(b=>{
-b.classList.remove("active");
+let data=await res.json();
+
+let imageURL=data.data.url;
+
+/* SAVE CASE */
+
+let cases = JSON.parse(localStorage.getItem("cases")) || [];
+
+let newCase = {
+
+village:document.getElementById("village").value,
+crop:document.getElementById("crop").value,
+period:document.getElementById("period").value,
+pestType:document.getElementById("pestType").value,
+level:document.getElementById("level").value,
+problem:document.getElementById("description").value,
+image:imageURL,
+status:"Pending"
+
+};
+
+cases.push(newCase);
+
+localStorage.setItem("cases",JSON.stringify(cases));
+
+/* EMAIL */
+
+emailjs.send("service_5be3jfq","template_f6nyiit",{
+
+pest_type:newCase.pestType,
+village:newCase.village
+
 });
 
-document.getElementById(section).classList.add("active");
+/* REDIRECT */
 
-if(section==="report"){
-document.getElementById("reportTab").classList.add("active");
-}else{
-document.getElementById("suggestionTab").classList.add("active");
-}
+window.location.href="farmer-suggestion.html";
 
-}
-
-
-/* GO REPORT PAGE */
-
-function goReport(){
-window.location.href="report.html";
 }
 
 </script>
