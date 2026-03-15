@@ -47,10 +47,6 @@ background:green;
 color:white;
 }
 
-tr:hover{
-background:#f1f1f1;
-}
-
 .status{
 font-weight:bold;
 }
@@ -90,7 +86,6 @@ cursor:pointer;
 <table id="casesTable">
 
 <thead>
-
 <tr>
 <th>Crop</th>
 <th>Pest Type</th>
@@ -99,14 +94,11 @@ cursor:pointer;
 <th>Officer Suggestion</th>
 <th>Treatment Procedure</th>
 </tr>
-
 </thead>
 
 <tbody></tbody>
 
 </table>
-
-<!-- BUTTON TO SUCCESS PAGE -->
 
 <button class="nextBtn" onclick="goSuccess()">Continue</button>
 
@@ -116,13 +108,21 @@ cursor:pointer;
 
 const tableBody = document.querySelector("#casesTable tbody");
 
+/* GET DATA FROM LOCAL STORAGE */
+
 let cases = JSON.parse(localStorage.getItem("cases")) || [];
+
+/* SHOW ONLY LATEST REPORT */
 
 function renderCases(){
 
 tableBody.innerHTML="";
 
-cases.forEach(c => {
+if(cases.length === 0) return;
+
+/* get only latest case */
+
+let c = cases[cases.length - 1];
 
 let statusClass = c.status === "Resolved" ? "resolved" : "pending";
 
@@ -150,13 +150,11 @@ ${c.procedure ? c.procedure : "Waiting for officer response"}
 
 tableBody.appendChild(row);
 
-});
-
 }
 
 renderCases();
 
-/* REDIRECT TO SUCCESS PAGE */
+/* GO TO SUCCESS PAGE */
 
 function goSuccess(){
 
