@@ -16,7 +16,7 @@ min-height:100vh;
 
 .container{
 width:95%;
-max-width:1200px;
+max-width:1300px;
 margin:40px auto;
 background:white;
 padding:20px;
@@ -96,6 +96,7 @@ background:#006400;
 <th>Problem</th>
 <th>Status</th>
 <th>Suggestion</th>
+<th>Procedure</th>
 <th>Action</th>
 
 </tr>
@@ -142,6 +143,10 @@ row.innerHTML=`
 </td>
 
 <td>
+<textarea id="procedure${index}" placeholder="Enter treatment procedure">${c.procedure || ""}</textarea>
+</td>
+
+<td>
 <button onclick="saveSuggestion(${index})">Save</button>
 </td>
 
@@ -153,19 +158,23 @@ tableBody.appendChild(row);
 
 }
 
-/* Save admin suggestion */
+/* Save admin suggestion + procedure */
 
 function saveSuggestion(index){
 
 let suggestion=document.getElementById("suggestion"+index).value;
 
+let procedure=document.getElementById("procedure"+index).value;
+
 cases[index].suggestion=suggestion;
+
+cases[index].procedure=procedure;
 
 cases[index].status="Resolved";
 
 localStorage.setItem("cases",JSON.stringify(cases));
 
-alert("Suggestion saved successfully!");
+alert("Suggestion and Procedure saved successfully!");
 
 renderCases();
 
