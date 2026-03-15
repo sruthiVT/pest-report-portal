@@ -21,13 +21,25 @@ align-items:center;
 box-shadow:0 2px 5px rgba(0,0,0,0.1);
 }
 
-.logo{
+/* LOGO AREA */
+
+.logoBox{
+display:flex;
+align-items:center;
+gap:10px;
+}
+
+.logoBox img{
+width:45px;
+}
+
+.logoText{
 font-size:24px;
 font-weight:bold;
 color:#ff5722;
 }
 
-.logo span{
+.logoText span{
 display:block;
 font-size:14px;
 color:green;
@@ -55,10 +67,10 @@ justify-content:center;
 align-items:center;
 }
 
-/* FORM */
+/* FORM BOX */
 
 .container{
-max-width:700px;
+width:500px;
 background:white;
 padding:30px;
 border-radius:10px;
@@ -66,9 +78,14 @@ box-shadow:0 0 20px rgba(0,0,0,0.2);
 display:none;
 }
 
-h2{text-align:center;}
+h2{
+text-align:center;
+margin-bottom:20px;
+}
 
-label{font-weight:bold;}
+label{
+font-weight:bold;
+}
 
 input,select,textarea{
 width:100%;
@@ -113,9 +130,15 @@ emailjs.init("3oTB5lj9pKw_10I6R");
 
 <div class="header">
 
-<div class="logo">
-🌱 SMART MONITORING PEST SYSTEM
+<div class="logoBox">
+
+<img src="https://cdn-icons-png.flaticon.com/512/2909/2909762.png">
+
+<div class="logoText">
+SMART MONITORING PEST SYSTEM
 <span>Agriculture Department</span>
+</div>
+
 </div>
 
 <div class="nav">
@@ -124,8 +147,7 @@ emailjs.init("3oTB5lj9pKw_10I6R");
 
 </div>
 
-
-<!-- HERO BACKGROUND -->
+<!-- BACKGROUND -->
 
 <div class="hero">
 
@@ -143,13 +165,9 @@ action="https://webto.salesforce.com/servlet/servlet.WebToCase?encoding=UTF-8">
 <input type="hidden" name="retURL"
 value="https://sruthivt.github.io/pest-report-portal/success.html">
 
-<input type="hidden" name="suppliedname" id="farmerName">
-<input type="hidden" name="suppliedemail" id="farmerEmail">
-<input type="hidden" name="suppliedphone" id="farmerPhone">
-
 <input type="hidden" name="Crop_Image_URL__c" id="imageURL">
 
-<label>Village</label>
+<label id="villageLabel">Village</label>
 <select name="Village__c">
 <option>Pollachi</option>
 <option>Udumalpet</option>
@@ -157,7 +175,7 @@ value="https://sruthivt.github.io/pest-report-portal/success.html">
 <option>Tiruppur</option>
 </select>
 
-<label>Crop Type</label>
+<label id="cropLabel">Crop Type</label>
 <select name="Product__c">
 <option>Paddy</option>
 <option>Maize</option>
@@ -165,14 +183,14 @@ value="https://sruthivt.github.io/pest-report-portal/success.html">
 <option>Groundnut</option>
 </select>
 
-<label>Cultivation Period</label>
+<label id="periodLabel">Cultivation Period</label>
 <select name="Cultivation_Period__c">
 <option>0 - 30 Days</option>
 <option>30 - 60 Days</option>
 <option>60 - 90 Days</option>
 </select>
 
-<label>Pest Type</label>
+<label id="pestLabel">Pest Type</label>
 <select name="subject" id="pestType" onchange="showPestInfo()">
 
 <option>Leaf Folder</option>
@@ -184,20 +202,20 @@ value="https://sruthivt.github.io/pest-report-portal/success.html">
 
 <p id="pestDescription" class="pestInfo"></p>
 
-<label>Infected Level</label>
+<label id="severityLabel">Infected Level</label>
 <select name="Severity_Level__c">
 <option>Low</option>
 <option>Medium</option>
 <option>High</option>
 </select>
 
-<label>Upload Crop Image</label>
+<label id="imageLabel">Upload Crop Image</label>
 <input type="file" id="imageUpload" required>
 
-<label>Description</label>
+<label id="descLabel">Description</label>
 <textarea name="description"></textarea>
 
-<button class="submitBtn">Submit Report</button>
+<button class="submitBtn" id="submitBtn">Submit Report</button>
 
 </form>
 
@@ -205,13 +223,39 @@ value="https://sruthivt.github.io/pest-report-portal/success.html">
 
 </div>
 
-
 <script>
 
 /* OPEN FORM */
 
 function openReport(){
 document.getElementById("reportContainer").style.display="block";
+}
+
+
+/* LANGUAGE CHANGE */
+
+let lang = localStorage.getItem("farmerLanguage");
+
+if(lang=="tamil"){
+
+document.getElementById("title").innerHTML="🌾 பூச்சி புகார் பதிவு";
+
+document.getElementById("villageLabel").innerHTML="கிராமம்";
+
+document.getElementById("cropLabel").innerHTML="பயிர் வகை";
+
+document.getElementById("periodLabel").innerHTML="சாகுபடி காலம்";
+
+document.getElementById("pestLabel").innerHTML="பூச்சி வகை";
+
+document.getElementById("severityLabel").innerHTML="பாதிப்பு அளவு";
+
+document.getElementById("imageLabel").innerHTML="பயிர் படம்";
+
+document.getElementById("descLabel").innerHTML="விளக்கம்";
+
+document.getElementById("submitBtn").innerHTML="புகார் சமர்ப்பிக்க";
+
 }
 
 
@@ -264,8 +308,10 @@ let imageURL=data.data.url;
 document.getElementById("imageURL").value=imageURL;
 
 emailjs.send("service_5be3jfq","template_f6nyiit",{
+
 pest_type:document.querySelector("[name='subject']").value,
 village:document.querySelector("[name='Village__c']").value
+
 });
 
 document.getElementById("pestForm").submit();
