@@ -134,8 +134,8 @@ SMART MONITORING PEST SYSTEM
 </div>
 
 <div class="nav">
-<button class="active" onclick="openDashboard()">Farmer Dashboard</button>
-<button onclick="goReport()">Pest Report</button>
+<button id="dashboardBtn" class="active" onclick="setActive(this);openDashboard()">Farmer Dashboard</button>
+<button id="reportBtn" onclick="setActive(this);goReport()">Pest Report</button>
 </div>
 
 </div>
@@ -197,6 +197,14 @@ tableBody.appendChild(row);
 }
 
 renderCases();
+
+/* ACTIVE BUTTON STYLE */
+
+function setActive(button){
+let buttons = document.querySelectorAll(".nav button");
+buttons.forEach(btn => btn.classList.remove("active"));
+button.classList.add("active");
+}
 
 /* NAVIGATION */
 
