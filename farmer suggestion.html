@@ -14,6 +14,62 @@ background-size:cover;
 min-height:100vh;
 }
 
+/* HEADER */
+
+.header{
+background:white;
+padding:15px 40px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+box-shadow:0 2px 5px rgba(0,0,0,0.1);
+}
+
+.logoBox{
+display:flex;
+align-items:center;
+gap:10px;
+}
+
+.logoBox img{
+width:35px;
+}
+
+.logoText{
+font-size:24px;
+font-weight:bold;
+color:#ff5722;
+}
+
+.logoText span{
+display:block;
+font-size:14px;
+color:green;
+}
+
+/* NAV BUTTONS */
+
+.nav{
+display:flex;
+gap:10px;
+}
+
+.nav button{
+background:#2d7ef7;
+color:white;
+border:none;
+padding:10px 18px;
+border-radius:6px;
+font-size:15px;
+cursor:pointer;
+}
+
+.nav button.active{
+background:green;
+}
+
+/* DASHBOARD */
+
 .container{
 width:90%;
 max-width:1100px;
@@ -59,25 +115,32 @@ color:green;
 color:red;
 }
 
-.nextBtn{
-margin-top:20px;
-display:block;
-margin-left:auto;
-margin-right:auto;
-padding:10px 25px;
-background:green;
-color:white;
-border:none;
-border-radius:6px;
-font-size:16px;
-cursor:pointer;
-}
-
 </style>
 
 </head>
 
 <body>
+
+<!-- HEADER -->
+
+<div class="header">
+
+<div class="logoBox">
+<img src="https://cdn-icons-png.flaticon.com/512/415/415733.png">
+<div class="logoText">
+SMART MONITORING PEST SYSTEM
+<span>Agriculture Department</span>
+</div>
+</div>
+
+<div class="nav">
+<button class="active">Farmer Dashboard</button>
+<button onclick="goReport()">Pest Report</button>
+</div>
+
+</div>
+
+<!-- DASHBOARD TABLE -->
 
 <div class="container">
 
@@ -100,27 +163,19 @@ cursor:pointer;
 
 </table>
 
-<button class="nextBtn" onclick="goSuccess()">Continue</button>
-
 </div>
 
 <script>
 
 const tableBody = document.querySelector("#casesTable tbody");
 
-/* GET DATA FROM LOCAL STORAGE */
-
 let cases = JSON.parse(localStorage.getItem("cases")) || [];
-
-/* SHOW ONLY LATEST REPORT */
 
 function renderCases(){
 
 tableBody.innerHTML="";
 
 if(cases.length === 0) return;
-
-/* get only latest case */
 
 let c = cases[cases.length - 1];
 
@@ -129,23 +184,12 @@ let statusClass = c.status === "Resolved" ? "resolved" : "pending";
 let row = document.createElement("tr");
 
 row.innerHTML = `
-
 <td>${c.crop || ""}</td>
 <td>${c.pestType || ""}</td>
 <td>${c.problem || ""}</td>
-
-<td class="status ${statusClass}">
-${c.status || "Pending"}
-</td>
-
-<td>
-${c.suggestion ? c.suggestion : "Waiting for officer response"}
-</td>
-
-<td>
-${c.procedure ? c.procedure : "Waiting for officer response"}
-</td>
-
+<td class="status ${statusClass}">${c.status || "Pending"}</td>
+<td>${c.suggestion ? c.suggestion : "Waiting for officer response"}</td>
+<td>${c.procedure ? c.procedure : "Waiting for officer response"}</td>
 `;
 
 tableBody.appendChild(row);
@@ -154,12 +198,10 @@ tableBody.appendChild(row);
 
 renderCases();
 
-/* GO TO SUCCESS PAGE */
+/* NAVIGATION */
 
-function goSuccess(){
-
-window.location.href="success.html";
-
+function goReport(){
+window.location.href="report.html";
 }
 
 </script>
