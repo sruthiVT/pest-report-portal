@@ -30,7 +30,7 @@ gap:10px;
 }
 
 .logoBox img{
-width:45px;
+width:35px;
 }
 
 .logoText{
@@ -61,7 +61,7 @@ cursor:pointer;
 
 .hero{
 background:url("https://images.unsplash.com/photo-1500382017468-9049fed747ef") no-repeat center center/cover;
-height:100vh;
+min-height:100vh;
 display:flex;
 justify-content:center;
 align-items:center;
@@ -70,9 +70,9 @@ align-items:center;
 /* FORM BOX */
 
 .container{
-width:500px;
+width:380px;
 background:white;
-padding:30px;
+padding:25px;
 border-radius:10px;
 box-shadow:0 0 20px rgba(0,0,0,0.2);
 display:none;
@@ -89,7 +89,7 @@ font-weight:bold;
 
 input,select,textarea{
 width:100%;
-padding:12px;
+padding:10px;
 margin:8px 0;
 border-radius:5px;
 border:1px solid #ccc;
@@ -132,7 +132,7 @@ emailjs.init("3oTB5lj9pKw_10I6R");
 
 <div class="logoBox">
 
-<img src="https://cdn-icons-png.flaticon.com/512/2909/2909762.png">
+<img src="https://cdn-icons-png.flaticon.com/512/415/415733.png">
 
 <div class="logoText">
 SMART MONITORING PEST SYSTEM
@@ -231,7 +231,6 @@ function openReport(){
 document.getElementById("reportContainer").style.display="block";
 }
 
-
 /* LANGUAGE CHANGE */
 
 let lang = localStorage.getItem("farmerLanguage");
@@ -239,25 +238,16 @@ let lang = localStorage.getItem("farmerLanguage");
 if(lang=="tamil"){
 
 document.getElementById("title").innerHTML="🌾 பூச்சி புகார் பதிவு";
-
 document.getElementById("villageLabel").innerHTML="கிராமம்";
-
 document.getElementById("cropLabel").innerHTML="பயிர் வகை";
-
 document.getElementById("periodLabel").innerHTML="சாகுபடி காலம்";
-
 document.getElementById("pestLabel").innerHTML="பூச்சி வகை";
-
 document.getElementById("severityLabel").innerHTML="பாதிப்பு அளவு";
-
 document.getElementById("imageLabel").innerHTML="பயிர் படம்";
-
 document.getElementById("descLabel").innerHTML="விளக்கம்";
-
 document.getElementById("submitBtn").innerHTML="புகார் சமர்ப்பிக்க";
 
 }
-
 
 /* PEST DESCRIPTION */
 
@@ -281,7 +271,6 @@ text="Consumes leaves quickly.";
 document.getElementById("pestDescription").innerText=text;
 
 }
-
 
 /* IMAGE + EMAIL + SALESFORCE */
 
