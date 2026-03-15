@@ -1,81 +1,100 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Submission Success</title>
+<title>Submission Successful</title>
+
 <style>
+
 body{
-  margin:0;
-  font-family:Arial;
-  background:url("https://images.unsplash.com/photo-1500382017468-9049fed747ef") no-repeat center center/cover;
-  min-height:100vh;
-  display:flex;
-  justify-content:center;
-  align-items:center;
+margin:0;
+font-family:Arial;
+background:url("https://images.unsplash.com/photo-1500382017468-9049fed747ef") no-repeat center center/cover;
+min-height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
 }
+
 .container{
-  width:420px;
-  background:white;
-  padding:30px;
-  border-radius:10px;
-  box-shadow:0 0 15px rgba(0,0,0,0.3);
-  text-align:center;
+width:420px;
+background:white;
+padding:30px;
+border-radius:10px;
+box-shadow:0 0 15px rgba(0,0,0,0.3);
+text-align:center;
 }
-h2{ color:green; }
-p{ font-size:16px; }
+
+h2{
+color:green;
+}
+
+p{
+font-size:16px;
+margin-top:10px;
+}
+
 button{
-  margin-top:20px;
-  padding:12px;
-  width:100%;
-  background:green;
-  color:white;
-  border:none;
-  border-radius:5px;
-  font-size:16px;
-  cursor:pointer;
+margin-top:20px;
+padding:12px;
+width:100%;
+background:green;
+color:white;
+border:none;
+border-radius:5px;
+font-size:16px;
+cursor:pointer;
 }
+
+button:hover{
+background:#006400;
+}
+
 </style>
+
 </head>
+
 <body>
+
 <div class="container">
-  <h2 id="successTitle">✅ Submission Successful</h2>
-  <p id="successMsg">Your pest complaint has been sent to the agriculture officer. You will receive suggestions soon.</p>
-  <button id="backBtn">Thank You</button>
+
+<h2 id="successTitle">✅ Report Submitted Successfully</h2>
+
+<p id="successMsg">
+Your pest complaint has been sent to the agriculture officer.
+You will receive suggestions soon.
+</p>
+
+<button id="backBtn">Thank You</button>
+
 </div>
 
 <script>
-const role = localStorage.getItem("userRole"); // "user" or "admin"
+
+/* LANGUAGE SUPPORT */
+
 const lang = localStorage.getItem("farmerLanguage") || "english";
 
-// LANGUAGE SUPPORT for Tamil
 if(lang === "tamil"){
-  document.getElementById("backBtn").innerHTML = "நன்றி";
+
+document.getElementById("successTitle").innerText =
+"✅ புகார் வெற்றிகரமாக பதிவு செய்யப்பட்டது";
+
+document.getElementById("successMsg").innerText =
+"உங்கள் பூச்சி புகார் விவசாய அலுவலருக்கு அனுப்பப்பட்டுள்ளது. விரைவில் பரிந்துரைகள் கிடைக்கும்.";
+
+document.getElementById("backBtn").innerText="நன்றி";
+
 }
 
-// Customize message based on role
-if(role === "admin"){
-  document.getElementById("successTitle").innerText = "✅ Thank You!";
-  document.getElementById("successMsg").innerText = "Visit again.";
-} 
-else if(role === "user"){
-  if(lang === "tamil"){
-    document.getElementById("successTitle").innerText = "✅ புகார் வெற்றிகரமாக பதிவு செய்யப்பட்டது";
-    document.getElementById("successMsg").innerText = 
-      "உங்கள் பூச்சி புகார் விவசாய அலுவலருக்கு அனுப்பப்பட்டுள்ளது. விரைவில் பரிந்துரைகள் கிடைக்கும்.";
-  } else {
-    document.getElementById("successTitle").innerText = "✅ Report Submitted Successfully";
-    document.getElementById("successMsg").innerText = 
-      "Your pest complaint has been sent to the agriculture officer. You will receive suggestions soon.";
-  }
+/* RETURN TO LOGIN */
+
+document.getElementById("backBtn").onclick=function(){
+
+window.location.href="login.html";
+
 }
 
-// Redirect or action on clicking button
-document.getElementById("backBtn").onclick = function(){
-  if(role === "admin"){
-    window.location.href = "admin.html"; // admin goes back to dashboard
-  } else {
-    window.location.href = "login.html"; // farmer goes back to login
-  }
-}
 </script>
+
 </body>
 </html>
