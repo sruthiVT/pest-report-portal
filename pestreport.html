@@ -124,8 +124,6 @@ emailjs.init("3oTB5lj9pKw_10I6R");
 
 <body>
 
-<!-- HEADER -->
-
 <div class="header">
 
 <div class="logoBox">
@@ -142,18 +140,13 @@ SMART MONITORING PEST SYSTEM
 
 </div>
 
-
-<!-- BACKGROUND -->
-
 <div class="hero">
 
 <div class="container" id="reportContainer">
 
-<h2 id="title">🌾 Farmer Pest Report</h2>
+<h2>🌾 Farmer Pest Report</h2>
 
 <form id="pestForm" onsubmit="uploadImage(event)">
-
-<input type="hidden" id="imageURL">
 
 <label>Village</label>
 <select id="village">
@@ -254,8 +247,7 @@ document.getElementById("pestDescription").innerText=text;
 
 }
 
-
-/* IMAGE UPLOAD + SAVE + EMAIL */
+/* SUBMIT REPORT */
 
 async function uploadImage(event){
 
@@ -298,7 +290,7 @@ cases.push(newCase);
 
 localStorage.setItem("cases",JSON.stringify(cases));
 
-/* SEND EMAIL */
+/* EMAIL */
 
 emailjs.send("service_5be3jfq","template_f6nyiit",{
 
@@ -307,9 +299,9 @@ village:newCase.village
 
 });
 
-/* REDIRECT TO FARMER DASHBOARD */
+/* REDIRECT */
 
-window.location.href="farmer suggestion.html";
+window.location.href="farmer-suggestion.html";
 
 }
 
