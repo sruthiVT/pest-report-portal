@@ -134,7 +134,7 @@ SMART MONITORING PEST SYSTEM
 </div>
 
 <div class="nav">
-<button class="active">Farmer Dashboard</button>
+<button class="active" onclick="openDashboard()">Farmer Dashboard</button>
 <button onclick="goReport()">Pest Report</button>
 </div>
 
@@ -202,6 +202,10 @@ renderCases();
 
 function goReport(){
 window.location.href="report.html";
+}
+
+function openDashboard(){
+window.location.href="farmerdashboard.html";
 }
 
 </script>
