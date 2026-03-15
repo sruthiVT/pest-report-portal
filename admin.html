@@ -2,102 +2,180 @@
 <html>
 <head>
 <title>Admin - Farmer Complaints Dashboard</title>
+
 <style>
-body { 
-  font-family: Arial, sans-serif; 
-  margin:0; 
-  padding:0;
-  background:url("https://images.unsplash.com/photo-1500382017468-9049fed747ef") no-repeat center center/cover;
-  background-size:cover;
-  min-height:100vh;
+
+body{
+font-family:Arial;
+margin:0;
+padding:0;
+background:url("https://images.unsplash.com/photo-1500382017468-9049fed747ef") no-repeat center center/cover;
+background-size:cover;
+min-height:100vh;
 }
+
 .container{
-  width:90%;
-  max-width:1000px;
-  margin:50px auto;
-  background:white;
-  padding:20px;
-  border-radius:10px;
-  box-shadow:0 0 20px rgba(0,0,0,0.3);
-  overflow-x:auto;
+width:95%;
+max-width:1200px;
+margin:40px auto;
+background:white;
+padding:20px;
+border-radius:10px;
+box-shadow:0 0 20px rgba(0,0,0,0.3);
+overflow-x:auto;
 }
-h1 { text-align:center; color:#2e7d32; }
-table { width:100%; border-collapse: collapse; }
-th, td { border:1px solid #ccc; padding:12px; text-align:left; }
-th { background-color:#4CAF50; color:white; }
-tr:hover { background-color:#f1f1f1; }
-input, textarea { width:100%; padding:5px; }
-button { padding:6px 12px; cursor:pointer; background:green; color:white; border:none; border-radius:5px; }
-button:hover { background:#006400; }
+
+h1{
+text-align:center;
+color:#2e7d32;
+margin-bottom:20px;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+}
+
+th,td{
+border:1px solid #ccc;
+padding:10px;
+text-align:left;
+}
+
+th{
+background:green;
+color:white;
+}
+
+tr:hover{
+background:#f1f1f1;
+}
+
+textarea{
+width:100%;
+padding:6px;
+}
+
+button{
+padding:6px 12px;
+background:green;
+color:white;
+border:none;
+border-radius:5px;
+cursor:pointer;
+}
+
+button:hover{
+background:#006400;
+}
+
 </style>
+
 </head>
+
 <body>
 
 <div class="container">
+
 <h1>🌾 Admin - Farmer Complaints Dashboard</h1>
+
 <table id="complaintsTable">
+
 <thead>
+
 <tr>
+
 <th>Farmer Name</th>
 <th>Email</th>
 <th>Phone</th>
 <th>Village</th>
 <th>Crop</th>
 <th>Pest Type</th>
-<th>Cultivated Period</th>
+<th>Cultivation Period</th>
 <th>Infected Level</th>
 <th>Problem</th>
 <th>Status</th>
 <th>Suggestion</th>
 <th>Action</th>
+
 </tr>
+
 </thead>
+
 <tbody></tbody>
+
 </table>
+
 </div>
 
 <script>
+
 const tableBody = document.querySelector('#complaintsTable tbody');
+
 let cases = JSON.parse(localStorage.getItem("cases")) || [];
 
-// Render all cases
+/* Render complaints */
+
 function renderCases(){
-  tableBody.innerHTML = "";
-  cases.forEach((c,index)=>{
-    const row = document.createElement('tr');
-    row.innerHTML = `
-      <td>${c.name}</td>
-      <td>${c.email}</td>
-      <td>${c.phone}</td>
-      <td>${c.village||""}</td>
-      <td>${c.crop||""}</td>
-      <td>${c.pestType||""}</td>
-      <td>${c.period||""}</td>
-      <td>${c.level||""}</td>
-      <td>${c.problem}</td>
-      <td>${c.status}</td>
-      <td>
-        <textarea id="suggestion${index}" placeholder="Enter suggestion">${c.suggestion||""}</textarea>
-      </td>
-      <td>
-        <button onclick="saveSuggestion(${index})">Submit</button>
-      </td>
-    `;
-    tableBody.appendChild(row);
-  });
+
+tableBody.innerHTML="";
+
+cases.forEach((c,index)=>{
+
+let row=document.createElement("tr");
+
+row.innerHTML=`
+
+<td>${c.name || ""}</td>
+<td>${c.email || ""}</td>
+<td>${c.phone || ""}</td>
+<td>${c.village || ""}</td>
+<td>${c.crop || ""}</td>
+<td>${c.pestType || ""}</td>
+<td>${c.period || ""}</td>
+<td>${c.level || ""}</td>
+<td>${c.problem || ""}</td>
+<td>${c.status || "Pending"}</td>
+
+<td>
+<textarea id="suggestion${index}" placeholder="Enter officer suggestion">${c.suggestion || ""}</textarea>
+</td>
+
+<td>
+<button onclick="saveSuggestion(${index})">Save</button>
+</td>
+
+`;
+
+tableBody.appendChild(row);
+
+});
+
 }
 
-// Save suggestion
+/* Save admin suggestion */
+
 function saveSuggestion(index){
-  const suggestion = document.getElementById(`suggestion${index}`).value;
-  cases[index].suggestion = suggestion;
-  cases[index].status = "Resolved"; // optional: mark as resolved
-  localStorage.setItem("cases", JSON.stringify(cases));
-  alert("Suggestion saved successfully!");
-  renderCases();
-}
+
+let suggestion=document.getElementById("suggestion"+index).value;
+
+cases[index].suggestion=suggestion;
+
+cases[index].status="Resolved";
+
+localStorage.setItem("cases",JSON.stringify(cases));
+
+alert("Suggestion saved successfully!");
 
 renderCases();
+
+}
+
+/* Load data */
+
+renderCases();
+
 </script>
+
 </body>
 </html>
