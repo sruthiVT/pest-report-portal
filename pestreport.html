@@ -21,7 +21,7 @@ align-items:center;
 box-shadow:0 2px 5px rgba(0,0,0,0.1);
 }
 
-/* LOGO AREA */
+/* LOGO */
 
 .logoBox{
 display:flex;
@@ -45,7 +45,7 @@ font-size:14px;
 color:green;
 }
 
-/* NAV BUTTON */
+/* BUTTON */
 
 .nav button{
 background:#2d7ef7;
@@ -67,41 +67,45 @@ justify-content:center;
 align-items:center;
 }
 
-/* FORM BOX */
+/* SMALL FORM BOX */
 
 .container{
-width:380px;
+width:340px;
 background:white;
-padding:25px;
+padding:18px;
 border-radius:10px;
-box-shadow:0 0 20px rgba(0,0,0,0.2);
+box-shadow:0 0 15px rgba(0,0,0,0.2);
 display:none;
 }
 
+/* TITLE */
+
 h2{
 text-align:center;
-margin-bottom:20px;
+margin-bottom:12px;
+font-size:20px;
 }
 
-label{
-font-weight:bold;
-}
+/* INPUT */
 
 input,select,textarea{
 width:100%;
-padding:10px;
-margin:8px 0;
+padding:8px;
+margin:6px 0;
 border-radius:5px;
 border:1px solid #ccc;
+font-size:14px;
 }
+
+/* SUBMIT BUTTON */
 
 button.submitBtn{
 width:100%;
-padding:12px;
+padding:10px;
 background:green;
 color:white;
 border:none;
-font-size:16px;
+font-size:15px;
 border-radius:5px;
 cursor:pointer;
 }
@@ -131,14 +135,11 @@ emailjs.init("3oTB5lj9pKw_10I6R");
 <div class="header">
 
 <div class="logoBox">
-
 <img src="https://cdn-icons-png.flaticon.com/512/415/415733.png">
-
 <div class="logoText">
 SMART MONITORING PEST SYSTEM
 <span>Agriculture Department</span>
 </div>
-
 </div>
 
 <div class="nav">
@@ -146,6 +147,7 @@ SMART MONITORING PEST SYSTEM
 </div>
 
 </div>
+
 
 <!-- BACKGROUND -->
 
@@ -225,15 +227,27 @@ value="https://sruthivt.github.io/pest-report-portal/success.html">
 
 <script>
 
-/* OPEN FORM */
+/* OPEN REPORT WITH ANIMATION */
 
 function openReport(){
-document.getElementById("reportContainer").style.display="block";
+
+let box=document.getElementById("reportContainer");
+
+box.style.display="block";
+box.style.transform="scale(0.9)";
+box.style.opacity="0";
+
+setTimeout(()=>{
+box.style.transition="all 0.3s ease";
+box.style.transform="scale(1)";
+box.style.opacity="1";
+},50);
+
 }
 
-/* LANGUAGE CHANGE */
+/* LANGUAGE SWITCH */
 
-let lang = localStorage.getItem("farmerLanguage");
+let lang=localStorage.getItem("farmerLanguage");
 
 if(lang=="tamil"){
 
@@ -249,7 +263,7 @@ document.getElementById("submitBtn").innerHTML="புகார் சமர்�
 
 }
 
-/* PEST DESCRIPTION */
+/* PEST INFO */
 
 function showPestInfo(){
 
