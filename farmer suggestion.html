@@ -47,28 +47,35 @@ font-size:14px;
 color:green;
 }
 
-/* NAV BUTTONS */
+/* MENU TABS */
 
-.nav{
+.menu{
 display:flex;
-gap:10px;
+gap:25px;
+font-weight:bold;
 }
 
-.nav button{
-background:#2d7ef7;
-color:white;
-border:none;
-padding:10px 18px;
-border-radius:6px;
-font-size:15px;
+.menu div{
 cursor:pointer;
+padding:8px 10px;
 }
 
-.nav button.active{
-background:green;
+.menu div.active{
+color:green;
+border-bottom:3px solid green;
 }
 
-/* DASHBOARD */
+/* CONTENT SECTIONS */
+
+.section{
+display:none;
+}
+
+.section.active{
+display:block;
+}
+
+/* TABLE */
 
 .container{
 width:90%;
@@ -133,18 +140,34 @@ SMART MONITORING PEST SYSTEM
 </div>
 </div>
 
-<div class="nav">
-<button id="dashboardBtn" class="active" onclick="setActive(this);openDashboard()">Farmer Dashboard</button>
-<button id="reportBtn" onclick="setActive(this);goReport()">Pest Report</button>
+<div class="menu">
+<div id="reportTab" class="active" onclick="showSection('report')">Pest Report</div>
+<div id="suggestionTab" onclick="showSection('suggestion')">Farmer Suggestions</div>
 </div>
 
 </div>
 
-<!-- DASHBOARD TABLE -->
 
-<div class="container">
+<!-- PEST REPORT SECTION -->
 
-<h1>🌾 Farmer Complaint Status</h1>
+<div id="report" class="section active container">
+
+<h1>Submit Pest Report</h1>
+
+<p>Click below to submit a pest complaint.</p>
+
+<button onclick="goReport()" style="padding:12px 20px;background:green;color:white;border:none;border-radius:6px;">
+Submit Pest Report
+</button>
+
+</div>
+
+
+<!-- FARMER SUGGESTIONS SECTION -->
+
+<div id="suggestion" class="section container">
+
+<h1>🌾 Officer Suggestions</h1>
 
 <table id="casesTable">
 
@@ -164,6 +187,7 @@ SMART MONITORING PEST SYSTEM
 </table>
 
 </div>
+
 
 <script>
 
@@ -198,22 +222,34 @@ tableBody.appendChild(row);
 
 renderCases();
 
-/* ACTIVE BUTTON STYLE */
 
-function setActive(button){
-let buttons = document.querySelectorAll(".nav button");
-buttons.forEach(btn => btn.classList.remove("active"));
-button.classList.add("active");
+/* TAB SWITCHING */
+
+function showSection(section){
+
+document.querySelectorAll(".section").forEach(s=>{
+s.classList.remove("active");
+});
+
+document.querySelectorAll(".menu div").forEach(t=>{
+t.classList.remove("active");
+});
+
+document.getElementById(section).classList.add("active");
+
+if(section==="report"){
+document.getElementById("reportTab").classList.add("active");
+}else{
+document.getElementById("suggestionTab").classList.add("active");
 }
 
-/* NAVIGATION */
+}
+
+
+/* GO TO REPORT PAGE */
 
 function goReport(){
 window.location.href="report.html";
-}
-
-function openDashboard(){
-window.location.href="farmerdashboard.html";
 }
 
 </script>
