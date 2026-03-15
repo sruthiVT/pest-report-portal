@@ -45,13 +45,18 @@ font-size:14px;
 color:green;
 }
 
-/* BUTTON */
+/* NAV BUTTONS */
+
+.nav{
+display:flex;
+gap:10px;
+}
 
 .nav button{
 background:#2d7ef7;
 color:white;
 border:none;
-padding:10px 20px;
+padding:10px 18px;
 border-radius:6px;
 font-size:15px;
 cursor:pointer;
@@ -124,6 +129,8 @@ emailjs.init("3oTB5lj9pKw_10I6R");
 
 <body>
 
+<!-- HEADER -->
+
 <div class="header">
 
 <div class="logoBox">
@@ -135,10 +142,16 @@ SMART MONITORING PEST SYSTEM
 </div>
 
 <div class="nav">
+
+<button onclick="goSuggestion()">Farmer Suggestion</button>
+
 <button onclick="openReport()">Pest Report</button>
+
 </div>
 
 </div>
+
+<!-- BACKGROUND -->
 
 <div class="hero">
 
@@ -206,7 +219,7 @@ SMART MONITORING PEST SYSTEM
 
 <script>
 
-/* OPEN FORM */
+/* OPEN REPORT FORM */
 
 function openReport(){
 
@@ -222,6 +235,12 @@ box.style.transform="scale(1)";
 box.style.opacity="1";
 },50);
 
+}
+
+/* GO TO FARMER SUGGESTION PAGE */
+
+function goSuggestion(){
+window.location.href="farmer-suggestion.html";
 }
 
 /* PEST INFO */
