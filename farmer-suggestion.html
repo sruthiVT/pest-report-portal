@@ -18,7 +18,7 @@ align-items:center;
 .container{
 background:white;
 width:90%;
-max-width:1000px;
+max-width:1100px;
 padding:25px;
 border-radius:12px;
 box-shadow:0 0 20px rgba(0,0,0,0.2);
@@ -71,7 +71,6 @@ float:right;
 <th>Village</th>
 <th>Crop</th>
 <th>Pest Type</th>
-<th>Period</th>
 <th>Level</th>
 <th>Problem</th>
 <th>Status</th>
@@ -96,10 +95,9 @@ let row = table.insertRow();
 row.insertCell(0).innerText = c.village;
 row.insertCell(1).innerText = c.crop;
 row.insertCell(2).innerText = c.pestType;
-row.insertCell(3).innerText = c.period;
-row.insertCell(4).innerText = c.level;
-row.insertCell(5).innerText = c.problem;
-row.insertCell(6).innerText = c.status;
+row.insertCell(3).innerText = c.level;
+row.insertCell(4).innerText = c.problem;
+row.insertCell(5).innerText = c.status;
 
 });
 
