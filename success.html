@@ -1,52 +1,28 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Submission Successful</title>
+
+<meta charset="UTF-8">
+
+<title>Report Submitted</title>
 
 <style>
 
 body{
-margin:0;
 font-family:Arial;
-background:url("https://images.unsplash.com/photo-1500382017468-9049fed747ef") no-repeat center center/cover;
-min-height:100vh;
+background:#f0f7f0;
 display:flex;
 justify-content:center;
 align-items:center;
+height:100vh;
 }
 
-.container{
-width:420px;
+.box{
 background:white;
-padding:30px;
+padding:40px;
 border-radius:10px;
-box-shadow:0 0 15px rgba(0,0,0,0.3);
+box-shadow:0 0 15px rgba(0,0,0,0.2);
 text-align:center;
-}
-
-h2{
-color:green;
-}
-
-p{
-font-size:16px;
-margin-top:10px;
-}
-
-button{
-margin-top:20px;
-padding:12px;
-width:100%;
-background:green;
-color:white;
-border:none;
-border-radius:5px;
-font-size:16px;
-cursor:pointer;
-}
-
-button:hover{
-background:#006400;
 }
 
 </style>
@@ -55,44 +31,23 @@ background:#006400;
 
 <body>
 
-<div class="container">
+<div class="box">
 
-<h2 id="successTitle">✅ Report Submitted Successfully</h2>
+<h2>✅ Pest Report Submitted Successfully</h2>
 
-<p id="successMsg">
-Your pest complaint has been sent to the agriculture officer.
-You will receive suggestions soon.
-</p>
-
-<button id="backBtn">Thank You</button>
+<p>You will be redirected to login page...</p>
 
 </div>
 
 <script>
 
-/* LANGUAGE SUPPORT */
+/* redirect after 3 seconds */
 
-const lang = localStorage.getItem("farmerLanguage") || "english";
+setTimeout(function(){
 
-if(lang === "tamil"){
+window.location.href="index.html";
 
-document.getElementById("successTitle").innerText =
-"✅ புகார் வெற்றிகரமாக பதிவு செய்யப்பட்டது";
-
-document.getElementById("successMsg").innerText =
-"உங்கள் பூச்சி புகார் விவசாய அலுவலருக்கு அனுப்பப்பட்டுள்ளது. விரைவில் பரிந்துரைகள் கிடைக்கும்.";
-
-document.getElementById("backBtn").innerText="நன்றி";
-
-}
-
-/* RETURN TO LOGIN */
-
-document.getElementById("backBtn").onclick=function(){
-
-window.location.href="login.html";
-
-}
+},3000);
 
 </script>
 
