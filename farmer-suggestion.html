@@ -1,65 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Smart Monitoring Pest System</title>
+<title>Farmer Suggestions</title>
 
 <style>
 
 body{
 margin:0;
 font-family:Arial;
-}
-
-/* HEADER */
-
-.header{
-background:white;
-padding:15px 40px;
-display:flex;
-justify-content:space-between;
-align-items:center;
-box-shadow:0 2px 5px rgba(0,0,0,0.1);
-}
-
-/* LOGO */
-
-.logoBox{
-display:flex;
-align-items:center;
-gap:10px;
-}
-
-.logoBox img{
-width:35px;
-}
-
-.logoText{
-font-size:24px;
-font-weight:bold;
-color:#ff5722;
-}
-
-.logoText span{
-display:block;
-font-size:14px;
-color:green;
-}
-
-/* BUTTON */
-
-.nav button{
-background:#2d7ef7;
-color:white;
-border:none;
-padding:10px 20px;
-border-radius:6px;
-font-size:15px;
-cursor:pointer;
-}
-
-/* BACKGROUND */
-
-.hero{
 background:url("https://images.unsplash.com/photo-1500382017468-9049fed747ef") no-repeat center center/cover;
 min-height:100vh;
 display:flex;
@@ -67,266 +15,96 @@ justify-content:center;
 align-items:center;
 }
 
-/* FORM BOX */
-
 .container{
-width:340px;
 background:white;
-padding:18px;
-border-radius:10px;
-box-shadow:0 0 15px rgba(0,0,0,0.2);
-display:none;
+width:90%;
+max-width:1000px;
+padding:25px;
+border-radius:12px;
+box-shadow:0 0 20px rgba(0,0,0,0.2);
 }
 
-/* FORM TITLE */
-
-.title{
-display:flex;
-align-items:center;
-justify-content:center;
-gap:8px;
-font-size:20px;
-margin-bottom:10px;
+h2{
+text-align:center;
+color:#2e7d32;
+margin-bottom:20px;
 }
 
-.title img{
-width:22px;
-}
-
-/* INPUTS */
-
-input,select,textarea{
+table{
 width:100%;
-padding:8px;
-margin:6px 0;
-border-radius:5px;
+border-collapse:collapse;
+}
+
+th,td{
 border:1px solid #ccc;
-font-size:14px;
+padding:10px;
+text-align:center;
 }
 
-button.submitBtn{
-width:100%;
-padding:10px;
+th{
+background:#f5f5f5;
+}
+
+button{
+margin-top:20px;
+padding:10px 20px;
 background:green;
 color:white;
 border:none;
-font-size:15px;
-border-radius:5px;
+border-radius:6px;
 cursor:pointer;
-}
-
-.pestInfo{
-color:green;
-font-weight:bold;
-margin-top:5px;
+float:right;
 }
 
 </style>
-
-<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
-
-<script>
-(function(){
-emailjs.init("3oTB5lj9pKw_10I6R");
-})();
-</script>
-
 </head>
 
 <body>
 
-<!-- HEADER -->
+<div class="container">
 
-<div class="header">
+<h2>🌾 Your Submitted Cases</h2>
 
-<div class="logoBox">
-<img src="https://cdn-icons-png.flaticon.com/512/415/415733.png">
+<table id="casesTable">
 
-<div class="logoText">
-SMART MONITORING PEST SYSTEM
-<span>Agriculture Department</span>
-</div>
+<tr>
+<th>Village</th>
+<th>Crop</th>
+<th>Pest Type</th>
+<th>Period</th>
+<th>Level</th>
+<th>Problem</th>
+<th>Status</th>
+</tr>
 
-</div>
+</table>
 
-<div class="nav">
-<button onclick="openReport()">Pest Report</button>
-</div>
-
-</div>
-
-
-<!-- BACKGROUND -->
-
-<div class="hero">
-
-<div class="container" id="reportContainer">
-
-<h2 class="title">
-<img src="https://cdn-icons-png.flaticon.com/512/2909/2909762.png">
-Farmer Pest Report
-</h2>
-
-<form id="pestForm" onsubmit="uploadImage(event)">
-
-<label>Village</label>
-<select id="village">
-<option>Pollachi</option>
-<option>Udumalpet</option>
-<option>Avinashi</option>
-<option>Tiruppur</option>
-</select>
-
-<label>Crop Type</label>
-<select id="crop">
-<option>Paddy</option>
-<option>Maize</option>
-<option>Cotton</option>
-<option>Groundnut</option>
-</select>
-
-<label>Cultivation Period</label>
-<select id="period">
-<option>0 - 30 Days</option>
-<option>30 - 60 Days</option>
-<option>60 - 90 Days</option>
-</select>
-
-<label>Pest Type</label>
-<select id="pestType" onchange="showPestInfo()">
-
-<option>Leaf Folder</option>
-<option>Stem Borer</option>
-<option>Brown Plant Hopper</option>
-<option>Armyworm</option>
-
-</select>
-
-<p id="pestDescription" class="pestInfo"></p>
-
-<label>Infected Level</label>
-<select id="level">
-<option>Low</option>
-<option>Medium</option>
-<option>High</option>
-</select>
-
-<label>Upload Crop Image</label>
-<input type="file" id="imageUpload" required>
-
-<label>Description</label>
-<textarea id="description"></textarea>
-
-<button class="submitBtn">Submit Report</button>
-
-</form>
+<button onclick="finish()">Submit & Finish</button>
 
 </div>
-
-</div>
-
 
 <script>
 
-/* OPEN FORM */
-
-function openReport(){
-
-let box=document.getElementById("reportContainer");
-
-box.style.display="block";
-box.style.transform="scale(0.9)";
-box.style.opacity="0";
-
-setTimeout(()=>{
-box.style.transition="all 0.3s ease";
-box.style.transform="scale(1)";
-box.style.opacity="1";
-},50);
-
-}
-
-
-/* PEST INFO */
-
-function showPestInfo(){
-
-let pest=document.getElementById("pestType").value;
-let text="";
-
-if(pest=="Leaf Folder")
-text="Damages rice leaves by folding them.";
-
-else if(pest=="Stem Borer")
-text="Bores inside crop stems.";
-
-else if(pest=="Brown Plant Hopper")
-text="Sucks sap from rice plants.";
-
-else if(pest=="Armyworm")
-text="Consumes leaves quickly.";
-
-document.getElementById("pestDescription").innerText=text;
-
-}
-
-
-/* SUBMIT REPORT */
-
-async function uploadImage(event){
-
-event.preventDefault();
-
-const file=document.getElementById("imageUpload").files[0];
-
-const apiKey="9d9a3054573db11bcb75e2a3da97e3de";
-
-let formData=new FormData();
-formData.append("image",file);
-
-let res=await fetch(`https://api.imgbb.com/1/upload?key=${apiKey}`,{
-method:"POST",
-body:formData
-});
-
-let data=await res.json();
-
-let imageURL=data.data.url;
-
-/* SAVE CASE */
-
 let cases = JSON.parse(localStorage.getItem("cases")) || [];
 
-let newCase = {
+let table = document.getElementById("casesTable");
 
-village:document.getElementById("village").value,
-crop:document.getElementById("crop").value,
-period:document.getElementById("period").value,
-pestType:document.getElementById("pestType").value,
-level:document.getElementById("level").value,
-problem:document.getElementById("description").value,
-image:imageURL,
-status:"Pending"
+cases.forEach(function(c){
 
-};
+let row = table.insertRow();
 
-cases.push(newCase);
-
-localStorage.setItem("cases",JSON.stringify(cases));
-
-/* EMAIL */
-
-emailjs.send("service_5be3jfq","template_f6nyiit",{
-
-pest_type:newCase.pestType,
-village:newCase.village
+row.insertCell(0).innerText = c.village;
+row.insertCell(1).innerText = c.crop;
+row.insertCell(2).innerText = c.pestType;
+row.insertCell(3).innerText = c.period;
+row.insertCell(4).innerText = c.level;
+row.insertCell(5).innerText = c.problem;
+row.insertCell(6).innerText = c.status;
 
 });
 
-/* REDIRECT */
-
-window.location.href="farmer-suggestion.html";
-
+function finish(){
+window.location.href="success.html";
 }
 
 </script>
