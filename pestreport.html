@@ -21,8 +21,6 @@ align-items:center;
 box-shadow:0 2px 5px rgba(0,0,0,0.1);
 }
 
-/* LOGO */
-
 .logoBox{
 display:flex;
 align-items:center;
@@ -44,8 +42,6 @@ display:block;
 font-size:14px;
 color:green;
 }
-
-/* NAV BUTTONS */
 
 .nav{
 display:flex;
@@ -72,7 +68,7 @@ justify-content:center;
 align-items:center;
 }
 
-/* FORM BOX */
+/* FORM */
 
 .container{
 width:340px;
@@ -85,8 +81,6 @@ display:none;
 
 h2{
 text-align:center;
-margin-bottom:12px;
-font-size:20px;
 }
 
 input,select,textarea{
@@ -95,16 +89,14 @@ padding:8px;
 margin:6px 0;
 border-radius:5px;
 border:1px solid #ccc;
-font-size:14px;
 }
 
-button.submitBtn{
+.submitBtn{
 width:100%;
 padding:10px;
 background:green;
 color:white;
 border:none;
-font-size:15px;
 border-radius:5px;
 cursor:pointer;
 }
@@ -112,24 +104,13 @@ cursor:pointer;
 .pestInfo{
 color:green;
 font-weight:bold;
-margin-top:5px;
 }
 
 </style>
 
-<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
-
-<script>
-(function(){
-emailjs.init("3oTB5lj9pKw_10I6R");
-})();
-</script>
-
 </head>
 
 <body>
-
-<!-- HEADER -->
 
 <div class="header">
 
@@ -142,16 +123,11 @@ SMART MONITORING PEST SYSTEM
 </div>
 
 <div class="nav">
-
 <button onclick="goSuggestion()">Farmer Suggestion</button>
-
 <button onclick="openReport()">Pest Report</button>
-
 </div>
 
 </div>
-
-<!-- BACKGROUND -->
 
 <div class="hero">
 
@@ -159,7 +135,7 @@ SMART MONITORING PEST SYSTEM
 
 <h2>🌾 Farmer Pest Report</h2>
 
-<form id="pestForm" onsubmit="uploadImage(event)">
+<form onsubmit="submitReport(event)">
 
 <label>Village</label>
 <select id="village">
@@ -169,7 +145,7 @@ SMART MONITORING PEST SYSTEM
 <option>Tiruppur</option>
 </select>
 
-<label>Crop Type</label>
+<label>Crop</label>
 <select id="crop">
 <option>Paddy</option>
 <option>Maize</option>
@@ -177,34 +153,22 @@ SMART MONITORING PEST SYSTEM
 <option>Groundnut</option>
 </select>
 
-<label>Cultivation Period</label>
-<select id="period">
-<option>0 - 30 Days</option>
-<option>30 - 60 Days</option>
-<option>60 - 90 Days</option>
-</select>
-
 <label>Pest Type</label>
 <select id="pestType" onchange="showPestInfo()">
-
 <option>Leaf Folder</option>
 <option>Stem Borer</option>
 <option>Brown Plant Hopper</option>
 <option>Armyworm</option>
-
 </select>
 
 <p id="pestDescription" class="pestInfo"></p>
 
-<label>Infected Level</label>
+<label>Level</label>
 <select id="level">
 <option>Low</option>
 <option>Medium</option>
 <option>High</option>
 </select>
-
-<label>Upload Crop Image</label>
-<input type="file" id="imageUpload" required>
 
 <label>Description</label>
 <textarea id="description"></textarea>
@@ -219,31 +183,13 @@ SMART MONITORING PEST SYSTEM
 
 <script>
 
-/* OPEN REPORT FORM */
-
 function openReport(){
-
-let box=document.getElementById("reportContainer");
-
-box.style.display="block";
-box.style.transform="scale(0.9)";
-box.style.opacity="0";
-
-setTimeout(()=>{
-box.style.transition="all 0.3s ease";
-box.style.transform="scale(1)";
-box.style.opacity="1";
-},50);
-
+document.getElementById("reportContainer").style.display="block";
 }
-
-/* GO TO FARMER SUGGESTION PAGE */
 
 function goSuggestion(){
 window.location.href="farmer-suggestion.html";
 }
-
-/* PEST INFO */
 
 function showPestInfo(){
 
@@ -266,61 +212,26 @@ document.getElementById("pestDescription").innerText=text;
 
 }
 
-/* SUBMIT REPORT */
+function submitReport(e){
 
-async function uploadImage(event){
-
-event.preventDefault();
-
-const file=document.getElementById("imageUpload").files[0];
-
-const apiKey="9d9a3054573db11bcb75e2a3da97e3de";
-
-let formData=new FormData();
-formData.append("image",file);
-
-let res=await fetch(`https://api.imgbb.com/1/upload?key=${apiKey}`,{
-method:"POST",
-body:formData
-});
-
-let data=await res.json();
-
-let imageURL=data.data.url;
-
-/* SAVE CASE */
+e.preventDefault();
 
 let cases = JSON.parse(localStorage.getItem("cases")) || [];
 
-let newCase = {
-
+let newCase={
 village:document.getElementById("village").value,
 crop:document.getElementById("crop").value,
-period:document.getElementById("period").value,
 pestType:document.getElementById("pestType").value,
 level:document.getElementById("level").value,
 problem:document.getElementById("description").value,
-image:imageURL,
 status:"Pending"
-
 };
 
 cases.push(newCase);
 
 localStorage.setItem("cases",JSON.stringify(cases));
 
-/* EMAIL */
-
-emailjs.send("service_5be3jfq","template_f6nyiit",{
-
-pest_type:newCase.pestType,
-village:newCase.village
-
-});
-
-/* REDIRECT */
-
-window.location.href="farmer-suggestion.html";
+window.location.href="success.html";
 
 }
 
