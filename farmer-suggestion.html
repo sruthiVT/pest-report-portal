@@ -1,109 +1,168 @@
 <!DOCTYPE html>
 <html>
 <head>
+
+<meta charset="UTF-8">
 <title>Farmer Suggestions</title>
 
 <style>
 
 body{
-margin:0;
 font-family:Arial;
-background:url("https://images.unsplash.com/photo-1500382017468-9049fed747ef") no-repeat center center/cover;
-min-height:100vh;
-display:flex;
-justify-content:center;
-align-items:center;
+margin:0;
+background:#f4f4f4;
 }
+
+/* HEADER */
+
+.header{
+background:white;
+padding:15px 40px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+box-shadow:0 2px 5px rgba(0,0,0,0.1);
+}
+
+.nav button{
+background:#2d7ef7;
+color:white;
+border:none;
+padding:10px 15px;
+border-radius:5px;
+cursor:pointer;
+}
+
+/* TABLE */
 
 .container{
-background:white;
-width:90%;
-max-width:1100px;
-padding:25px;
-border-radius:12px;
-box-shadow:0 0 20px rgba(0,0,0,0.2);
-}
-
-h2{
-text-align:center;
-color:#2e7d32;
-margin-bottom:20px;
+padding:30px;
 }
 
 table{
 width:100%;
 border-collapse:collapse;
+background:white;
 }
 
 th,td{
-border:1px solid #ccc;
 padding:10px;
+border:1px solid #ddd;
 text-align:center;
 }
 
 th{
-background:#f5f5f5;
+background:#2d7ef7;
+color:white;
 }
 
-button{
-margin-top:20px;
-padding:10px 20px;
-background:green;
-color:white;
-border:none;
-border-radius:6px;
-cursor:pointer;
-float:right;
+img{
+width:80px;
+border-radius:5px;
+}
+
+textarea{
+width:100%;
 }
 
 </style>
+
 </head>
 
 <body>
 
+<div class="header">
+<h2>🌾 Farmer Submitted Cases</h2>
+<div class="nav">
+<button onclick="goBack()">Back</button>
+</div>
+</div>
+
 <div class="container">
 
-<h2>🌾 Your Submitted Cases</h2>
+<table>
 
-<table id="casesTable">
-
+<thead>
 <tr>
 <th>Village</th>
 <th>Crop</th>
-<th>Pest Type</th>
+<th>Pest</th>
 <th>Level</th>
 <th>Problem</th>
+<th>Image</th>
+<th>Officer Suggestion</th>
 <th>Status</th>
 </tr>
+</thead>
+
+<tbody id="tableData"></tbody>
 
 </table>
-
-<button onclick="finish()">Submit & Finish</button>
 
 </div>
 
 <script>
 
+/* LOAD DATA */
+
+function loadCases(){
+
 let cases = JSON.parse(localStorage.getItem("cases")) || [];
 
-let table = document.getElementById("casesTable");
+let table="";
 
-cases.forEach(function(c){
+cases.forEach((c,index)=>{
 
-let row = table.insertRow();
+table += `
+<tr>
+<td>${c.village}</td>
+<td>${c.crop}</td>
+<td>${c.pestType}</td>
+<td>${c.level}</td>
+<td>${c.problem}</td>
+<td><img src="${c.image}"></td>
 
-row.insertCell(0).innerText = c.village;
-row.insertCell(1).innerText = c.crop;
-row.insertCell(2).innerText = c.pestType;
-row.insertCell(3).innerText = c.level;
-row.insertCell(4).innerText = c.problem;
-row.insertCell(5).innerText = c.status;
+<td>
+<textarea onchange="saveSuggestion(${index}, this.value)">
+${c.suggestion || ""}
+</textarea>
+</td>
+
+<td>${c.status}</td>
+
+</tr>
+`;
 
 });
 
-function finish(){
-window.location.href="success.html";
+document.getElementById("tableData").innerHTML=table;
+
 }
+
+/* SAVE OFFICER SUGGESTION */
+
+function saveSuggestion(index,value){
+
+let cases = JSON.parse(localStorage.getItem("cases"));
+
+cases[index].suggestion = value;
+cases[index].status = "Reviewed";
+
+localStorage.setItem("cases",JSON.stringify(cases));
+
+alert("Suggestion saved");
+
+}
+
+/* BACK BUTTON */
+
+function goBack(){
+window.location.href="pestreport.html";
+}
+
+/* AUTO LOAD */
+
+loadCases();
 
 </script>
 
