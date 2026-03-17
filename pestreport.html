@@ -198,20 +198,17 @@ SMART MONITORING PEST SYSTEM
 
 <script>
 
-/* OPEN REPORT FORM */
-
+/* OPEN FORM */
 function openReport(){
 document.getElementById("reportContainer").style.display="block";
 }
 
-/* GO TO FARMER SUGGESTION PAGE */
-
+/* NAVIGATION */
 function goSuggestion(){
 window.location.href="farmer-suggestion.html";
 }
 
-/* SHOW PEST INFO */
-
+/* PEST INFO */
 function showPestInfo(){
 
 let pest=document.getElementById("pestType").value;
@@ -234,7 +231,6 @@ document.getElementById("pestDescription").innerText=text;
 }
 
 /* SUBMIT REPORT */
-
 async function submitReport(e){
 
 e.preventDefault();
@@ -249,7 +245,6 @@ return;
 }
 
 /* IMAGEBB UPLOAD */
-
 const apiKey="9d9a3054573db11bcb75e2a3da97e3de";
 
 let formData=new FormData();
@@ -269,8 +264,7 @@ return;
 
 let imageURL=result.data.url;
 
-/* SAVE CASE */
-
+/* SAVE DATA */
 let cases = JSON.parse(localStorage.getItem("cases")) || [];
 
 let newCase={
@@ -284,11 +278,11 @@ status:"Pending"
 };
 
 cases.push(newCase);
-
 localStorage.setItem("cases",JSON.stringify(cases));
 
-/* EMAILJS SEND */
+console.log("Saved:",newCase);
 
+/* EMAIL SEND */
 emailjs.send("service_5be3jfq","template_f6nyiit",{
 
 village:newCase.village,
@@ -297,19 +291,25 @@ crop:newCase.crop,
 level:newCase.level
 
 }).then(function(){
+
 console.log("Email sent");
-}).catch(function(error){
-console.log("Email error:",error);
-});
 
-/* REDIRECT */
-
+/* DELAY REDIRECT */
+setTimeout(function(){
 window.location.href="success.html";
+},2000);
+
+}).catch(function(error){
+
+console.log("Email error:",error);
+alert("Email failed");
+
+});
 
 }catch(err){
 
 console.log(err);
-alert("Error submitting report");
+alert("Something went wrong");
 
 }
 
