@@ -1,191 +1,88 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<title>SMART MONITORING PEST SYSTEM</title>
+<title>Farmer Login</title>
+
 <style>
-body{
-  margin:0;
-  font-family: Arial;
-  background:url("https://images.unsplash.com/photo-1500382017468-9049fed747ef") no-repeat center center/cover;
-  background-size: cover;
-  min-height:100vh;
-}
-
-/* Header */
-.header{
-  background:white;
-  width:100%;
-  padding:15px 40px;
-  display:flex;
-  align-items:center;
-  box-shadow:0 2px 5px rgba(0,0,0,0.2);
-}
-
-.logo{
-  width:50px;
-  margin-right:15px;
-}
-
-.title{
-  font-size:22px;
-  font-weight:bold;
-  color:#f4511e;
-}
-
-.subtitle{
-  font-size:14px;
-  color:#2e7d32;
-}
-
-/* Center box */
-.container{
-  width:420px;
-  background:white;
-  padding:30px;
-  border-radius:10px;
-  box-shadow:0 0 15px rgba(0,0,0,0.3);
-  text-align:center;
-  margin:80px auto;
-}
-
-/* Inputs */
-input,select,button{
-  width:100%;
-  padding:10px;
-  margin:10px 0;
-  border-radius:5px;
-  border:1px solid #ccc;
-  font-size:14px;
-}
-
-/* Buttons */
-button{
-  background:#2e7dff;
-  color:white;
-  font-weight:bold;
-  border:none;
-  cursor:pointer;
-}
-
-button:hover{
-  background:#1b5fcc;
-}
-
-/* Role buttons */
-.roleBtns{
-  display:flex;
-  justify-content:space-between;
-  gap:15px;
-}
-
-.roleBtns button{
-  width:48%;
-  padding:12px;
-}
+body {font-family: Arial; background: #f4f4f4; text-align: center; padding: 60px;}
+.container {background: white; width: 420px; margin: auto; padding: 30px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1);}
+input {width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ccc; border-radius: 5px;}
+button {background: green; color: white; padding: 12px; border: none; width: 100%; border-radius: 5px; font-size: 16px;}
+select {width: 100%; padding: 10px; margin-bottom: 15px;}
 </style>
-</head>
-<body>
-
-<!-- Header -->
-<div class="header">
-<img src="https://cdn-icons-png.flaticon.com/512/628/628283.png" class="logo">
-<div>
-  <div class="title">SMART MONITORING PEST SYSTEM</div>
-  <div class="subtitle">Agriculture Department</div>
-</div>
-</div>
-
-<!-- Container -->
-<div class="container">
-
-  <!-- ROLE SELECTION -->
-  <div id="roleSection">
-    <h2>Select Role</h2>
-    <div class="roleBtns">
-      <button onclick="selectRole('admin')">Admin / Officer</button>
-      <button onclick="selectRole('farmer')">Farmer / User</button>
-    </div>
-  </div>
-
-  <!-- LOGIN FORM -->
-  <div id="loginSection" style="display:none;">
-    <h2 id="loginTitle">🌾 Login</h2>
-    
-    <!-- Language -->
-    <select id="languageSelect" onchange="setLanguage(this.value)">
-      <option value="english">English</option>
-      <option value="tamil">தமிழ்</option>
-    </select>
-
-    <!-- Email & Password -->
-    <input id="userEmail" type="email" placeholder="Email" required>
-    <input id="userPassword" type="password" placeholder="Password" required>
-
-    <button onclick="loginUser()">Login</button>
-  </div>
-
-</div>
 
 <script>
-// Language translations
-const translations = {
-  english:{
-    loginTitle:"🌾 Login",
-    email:"Email",
-    password:"Password"
-  },
-  tamil:{
-    loginTitle:"🌾 உள்நுழைவு",
-    email:"மின்னஞ்சல்",
-    password:"கடவுச்சொல்"
-  }
-};
 
-let selectedRole="";
+function changeLanguage() {
 
-// Role selection
-function selectRole(role){
-  selectedRole = role;
-  localStorage.setItem("userRole",role);
-  document.getElementById("roleSection").style.display="none";
-  document.getElementById("loginSection").style.display="block";
+let lang=document.getElementById("language").value;
+
+if(lang=="tamil"){
+
+document.getElementById("title").innerHTML="🌾 விவசாயி உள்நுழைவு";
+document.getElementById("name").placeholder="விவசாயி பெயர்";
+document.getElementById("email").placeholder="மின்னஞ்சல்";
+document.getElementById("phone").placeholder="தொலைபேசி எண்";
+document.getElementById("loginbtn").innerHTML="உள்நுழைவு";
+
+}else{
+
+document.getElementById("title").innerHTML="🌾 Farmer Login";
+document.getElementById("name").placeholder="Farmer Name";
+document.getElementById("email").placeholder="Email";
+document.getElementById("phone").placeholder="Phone Number";
+document.getElementById("loginbtn").innerHTML="Login";
+
 }
 
-// Language
-function setLanguage(lang){
-  localStorage.setItem("farmerLanguage",lang);
-  const t = translations[lang];
-  document.getElementById("loginTitle").innerText = t.loginTitle;
-  document.getElementById("userEmail").placeholder = t.email;
-  document.getElementById("userPassword").placeholder = t.password;
 }
 
-// Load saved language
-setLanguage(localStorage.getItem("farmerLanguage") || "english");
+function saveData(){
 
-// Login
-function loginUser(){
-  const email = document.getElementById("userEmail").value;
-  const password = document.getElementById("userPassword").value;
+localStorage.setItem("farmerLanguage",
+document.getElementById("language").value);
 
-  if(!email || !password){
-    alert("Please fill all fields!");
-    return;
-  }
+localStorage.setItem("farmerName",
+document.getElementById("name").value);
 
-  if(selectedRole==="farmer"){
-    localStorage.setItem("farmerEmail", email);
-    localStorage.setItem("farmerPassword", password);
-    window.location.href="pestreport.html";
-  }
+localStorage.setItem("farmerEmail",
+document.getElementById("email").value);
 
-  if(selectedRole==="admin"){
-    localStorage.setItem("adminEmail", email);
-    localStorage.setItem("adminPassword", password);
-    window.location.href="admin.html";
-  }
+localStorage.setItem("farmerPhone",
+document.getElementById("phone").value);
+
 }
+
 </script>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<select id="language" onchange="changeLanguage()">
+<option value="english">English</option>
+<option value="tamil">தமிழ்</option>
+</select>
+
+<h2 id="title">🌾 Farmer Login</h2>
+
+<form action="report.html" onsubmit="saveData();">
+
+<input id="name" type="text" placeholder="Farmer Name" required>
+
+<input id="email" type="email" placeholder="Email" required>
+
+<input id="phone" type="text" placeholder="Phone Number" required>
+
+<button id="loginbtn" type="submit">Login</button>
+
+</form>
+
+</div>
 
 </body>
 </html>
+index code
