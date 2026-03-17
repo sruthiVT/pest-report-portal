@@ -85,84 +85,16 @@ value="https://sruthivt.github.io/pest-report-portal/success.html">
 <select name="Village__c">
 <option>Pollachi</option>
 <option>Udumalpet</option>
-<option>Kinathukadavu</option>
-<option>Valparai</option>
-<option>Perundurai</option>
-<option>Gobichettipalayam</option>
-<option>Sathyamangalam</option>
-<option>Bhavani</option>
-<option>Anthiyur</option>
-<option>Nambiyur</option>
-<option>Kodumudi</option>
 <option>Avinashi</option>
 <option>Tiruppur</option>
-<option>Dharapuram</option>
-<option>Kangeyam</option>
-<option>Palladam</option>
-<option>Thanjavur</option>
-<option>Kumbakonam</option>
-<option>Orathanadu</option>
-<option>Pattukkottai</option>
-<option>Mayiladuthurai</option>
-<option>Sirkazhi</option>
-<option>Nagapattinam</option>
-<option>Velankanni</option>
-<option>Cuddalore</option>
-<option>Panruti</option>
-<option>Chidambaram</option>
-<option>Villupuram</option>
-<option>Tindivanam</option>
-<option>Salem</option>
-<option>Attur</option>
-<option>Omalur</option>
-<option>Edappadi</option>
-<option>Mettur</option>
-<option>Namakkal</option>
-<option>Rasipuram</option>
-<option>Tiruchengode</option>
-<option>Erode</option>
-<option>Karur</option>
-<option>Kulithalai</option>
-<option>Trichy</option>
-<option>Musiri</option>
-<option>Lalgudi</option>
-<option>Madurai</option>
-<option>Usilampatti</option>
-<option>Dindigul</option>
-<option>Palani</option>
-<option>Oddanchatram</option>
-<option>Theni</option>
-<option>Periyakulam</option>
-<option>Bodinayakanur</option>
-<option>Virudhunagar</option>
-<option>Sivakasi</option>
-<option>Rajapalayam</option>
-<option>Tirunelveli</option>
-<option>Ambasamudram</option>
-<option>Tenkasi</option>
-<option>Thoothukudi</option>
-<option>Kovilpatti</option>
-<option>Kanyakumari</option>
-<option>Nagercoil</option>
 </select>
 
 <label id="cropLabel">Crop Type</label>
 <select name="Product__c">
-<option>Paddy (Rice)</option>
+<option>Paddy</option>
 <option>Maize</option>
-<option>Ragi</option>
-<option>Sorghum</option>
-<option>Sugarcane</option>
 <option>Cotton</option>
 <option>Groundnut</option>
-<option>Sunflower</option>
-<option>Banana</option>
-<option>Coconut</option>
-<option>Tomato</option>
-<option>Chilli</option>
-<option>Onion</option>
-<option>Brinjal</option>
-<option>Potato</option>
 </select>
 
 <label id="periodLabel">Cultivation Period</label>
@@ -170,20 +102,14 @@ value="https://sruthivt.github.io/pest-report-portal/success.html">
 <option>0 - 30 Days</option>
 <option>30 - 60 Days</option>
 <option>60 - 90 Days</option>
-<option>90 - 120 Days</option>
-<option>120+ Days</option>
 </select>
 
 <label id="pestLabel">Pest Type</label>
 <select name="subject" id="pestType" onchange="showPestInfo()">
-
 <option>Leaf Folder</option>
 <option>Stem Borer</option>
 <option>Brown Plant Hopper</option>
 <option>Armyworm</option>
-<option>Aphids</option>
-<option>Whiteflies</option>
-
 </select>
 
 <p id="pestDescription" class="pestInfo"></p>
@@ -209,89 +135,113 @@ value="https://sruthivt.github.io/pest-report-portal/success.html">
 
 <script>
 
+/* GET FARMER DATA */
 let farmerName = localStorage.getItem("farmerName");
 let farmerEmail = localStorage.getItem("farmerEmail");
 let farmerPhone = localStorage.getItem("farmerPhone");
 
+/* SET HIDDEN FIELDS */
 document.getElementById("farmerName").value = farmerName;
 document.getElementById("farmerEmail").value = farmerEmail;
 document.getElementById("farmerPhone").value = farmerPhone;
 
+/* LANGUAGE SUPPORT */
 let lang = localStorage.getItem("farmerLanguage");
 
 if(lang=="tamil"){
-
 document.getElementById("title").innerHTML="🌾 பூச்சி புகார் பதிவு";
 document.getElementById("villageLabel").innerHTML="கிராமம்";
 document.getElementById("cropLabel").innerHTML="பயிர் வகை";
 document.getElementById("periodLabel").innerHTML="சாகுபடி காலம்";
 document.getElementById("pestLabel").innerHTML="பூச்சி வகை";
 document.getElementById("severityLabel").innerHTML="பாதிப்பு அளவு";
-document.getElementById("imageLabel").innerHTML="பயிர் படம்";
+document.getElementById("imageLabel").innerHTML="படம்";
 document.getElementById("descLabel").innerHTML="விளக்கம்";
-document.getElementById("submitBtn").innerHTML="புகார் சமர்ப்பிக்க";
-
+document.getElementById("submitBtn").innerHTML="சமர்ப்பிக்க";
 }
 
+/* PEST INFO */
 function showPestInfo(){
 
 let pest=document.getElementById("pestType").value;
 let text="";
 
 if(pest=="Leaf Folder")
-text="Damages rice leaves by folding them and feeding inside.";
+text="Damages rice leaves.";
 
 else if(pest=="Stem Borer")
-text="Attacks crops like rice and maize by boring into stems.";
+text="Bores inside stems.";
 
 else if(pest=="Brown Plant Hopper")
-text="Major pest in rice fields that sucks plant sap.";
+text="Sucks plant sap.";
 
 else if(pest=="Armyworm")
-text="Eats large areas of crops such as maize and grasses.";
-
-else if(pest=="Aphids")
-text="Small insects that suck sap from plants like cotton and vegetables.";
-
-else if(pest=="Whiteflies")
-text="Spread plant viruses and damage crops like tomato and cotton.";
+text="Eats leaves quickly.";
 
 document.getElementById("pestDescription").innerText=text;
-
 }
 
+/* MAIN FUNCTION */
 async function uploadImage(event){
 
 event.preventDefault();
 
-const file=document.getElementById("imageUpload").files[0];
+const file = document.getElementById("imageUpload").files[0];
+
+if(!file){
+alert("Upload image");
+return;
+}
 
 const apiKey="9d9a3054573db11bcb75e2a3da97e3de";
 
 let formData=new FormData();
 formData.append("image",file);
 
-let res=await fetch(`https://api.imgbb.com/1/upload?key=${apiKey}`,{
+try{
+
+/* UPLOAD IMAGE */
+let res = await fetch(`https://api.imgbb.com/1/upload?key=${apiKey}`,{
 method:"POST",
 body:formData
 });
 
-let data=await res.json();
+let data = await res.json();
+let imageURL = data.data.url;
 
-let imageURL=data.data.url;
+/* SET IMAGE URL */
+document.getElementById("imageURL").value = imageURL;
 
-document.getElementById("imageURL").value=imageURL;
-
-emailjs.send("service_5be3jfq","template_f6nyiit",{
-
-farmer_name:farmerName,
-farmer_email:farmerEmail,
-pest_type:document.querySelector("[name='subject']").value,
-village:document.querySelector("[name='Village__c']").value
-
+/* SEND EMAIL */
+await emailjs.send("service_5be3jfq","template_f6nyiit",{
+farmer_name: farmerName,
+farmer_email: farmerEmail,
+pest_type: document.querySelector("[name='subject']").value,
+village: document.querySelector("[name='Village__c']").value,
+image_url: imageURL
 });
 
+/* SAVE TO LOCAL STORAGE */
+let cases = JSON.parse(localStorage.getItem("cases")) || [];
+
+cases.push({
+name: farmerName,
+email: farmerEmail,
+phone: farmerPhone,
+pest: document.querySelector("[name='subject']").value,
+village: document.querySelector("[name='Village__c']").value,
+image: imageURL,
+status: "Pending"
+});
+
+localStorage.setItem("cases", JSON.stringify(cases));
+
+/* SUBMIT TO SALESFORCE */
 document.getElementById("pestForm").submit();
+
+}catch(err){
+alert("Error: "+err.message);
+}
 
 }
 
