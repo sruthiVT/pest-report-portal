@@ -1,55 +1,74 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-
-<meta charset="UTF-8">
-
 <title>Report Submitted</title>
+<meta charset="UTF-8">
 
 <style>
 
 body{
 font-family:Arial;
-background:#f0f7f0;
-display:flex;
-justify-content:center;
-align-items:center;
-height:100vh;
+background:#f4f4f4;
+text-align:center;
+padding:60px;
 }
 
-.box{
+.container{
 background:white;
-padding:40px;
+width:420px;
+margin:auto;
+padding:30px;
 border-radius:10px;
-box-shadow:0 0 15px rgba(0,0,0,0.2);
-text-align:center;
+box-shadow:0 0 10px rgba(0,0,0,0.1);
+}
+
+button{
+background:green;
+color:white;
+padding:12px;
+border:none;
+border-radius:5px;
+font-size:16px;
+cursor:pointer;
 }
 
 </style>
+
+<script>
+
+window.onload=function(){
+
+let lang = localStorage.getItem("farmerLanguage");
+
+if(lang=="tamil"){
+
+document.getElementById("title").innerHTML="✅ புகார் வெற்றிகரமாக சமர்ப்பிக்கப்பட்டது";
+document.getElementById("msg").innerHTML="உங்கள் பூச்சி புகார் வெற்றிகரமாக பதிவு செய்யப்பட்டது.";
+document.getElementById("btn").innerHTML="முகப்புக்கு திரும்ப";
+
+}
+
+}
+
+</script>
 
 </head>
 
 <body>
 
-<div class="box">
+<div class="container">
 
-<h2>✅ Pest Report Submitted Successfully</h2>
+<h2 id="title">✅ Report Submitted Successfully</h2>
 
-<p>You will be redirected to login page...</p>
+<p id="msg">Your pest complaint has been received.</p>
+
+<button id="btn" onclick="window.location.href='index.html'">
+Back to Home
+</button>
 
 </div>
 
-<script>
-
-/* redirect after 3 seconds */
-
-setTimeout(function(){
-
-window.location.href="index.html";
-
-},3000);
-
-</script>
-
 </body>
 </html>
+success page
