@@ -70,26 +70,33 @@ onsubmit="uploadImage(event)"
 method="POST"
 action="https://webto.salesforce.com/servlet/servlet.WebToCase?encoding=UTF-8">
 
+<!-- Salesforce Org -->
 <input type="hidden" name="orgid" value="00DdM00000iSfdB">
 
+<!-- Redirect -->
 <input type="hidden" name="retURL"
 value="https://sruthivt.github.io/pest-report-portal/success.html">
 
-<input type="hidden" name="suppliedname" id="farmerName">
-<input type="hidden" name="suppliedemail" id="farmerEmail">
-<input type="hidden" name="suppliedphone" id="farmerPhone">
+<!-- ✅ FIXED FIELD NAMES (IMPORTANT) -->
+<input type="hidden" name="suppliedName" id="farmerName">
+<input type="hidden" name="suppliedEmail" id="farmerEmail">
+<input type="hidden" name="suppliedPhone" id="farmerPhone">
 
+<!-- IMAGE -->
 <input type="hidden" name="Crop_Image_URL__c" id="imageURL">
 
-<label id="villageLabel">Village</label>
-<select name="Village__c">
+<!-- ✅ LOCATION FIELD ADDED -->
+<input type="hidden" name="Location__c" id="location">
+
+<label>Village</label>
+<select name="Village__c" id="village">
 <option>Pollachi</option>
 <option>Udumalpet</option>
 <option>Avinashi</option>
 <option>Tiruppur</option>
 </select>
 
-<label id="cropLabel">Crop Type</label>
+<label>Crop Type</label>
 <select name="Product__c">
 <option>Paddy</option>
 <option>Maize</option>
@@ -97,14 +104,14 @@ value="https://sruthivt.github.io/pest-report-portal/success.html">
 <option>Groundnut</option>
 </select>
 
-<label id="periodLabel">Cultivation Period</label>
+<label>Cultivation Period</label>
 <select name="Cultivation_Period__c">
 <option>0 - 30 Days</option>
 <option>30 - 60 Days</option>
 <option>60 - 90 Days</option>
 </select>
 
-<label id="pestLabel">Pest Type</label>
+<label>Pest Type</label>
 <select name="subject" id="pestType" onchange="showPestInfo()">
 <option>Leaf Folder</option>
 <option>Stem Borer</option>
@@ -114,20 +121,20 @@ value="https://sruthivt.github.io/pest-report-portal/success.html">
 
 <p id="pestDescription" class="pestInfo"></p>
 
-<label id="severityLabel">Infected Level</label>
+<label>Severity Level</label>
 <select name="Severity_Level__c">
 <option>Low</option>
 <option>Medium</option>
 <option>High</option>
 </select>
 
-<label id="imageLabel">Upload Crop Image</label>
+<label>Upload Crop Image</label>
 <input type="file" id="imageUpload" required>
 
-<label id="descLabel">Description</label>
+<label>Description</label>
 <textarea name="description"></textarea>
 
-<button type="submit" id="submitBtn">Submit Report</button>
+<button type="submit">Submit Report</button>
 
 </form>
 
@@ -140,43 +147,29 @@ let farmerName = localStorage.getItem("farmerName");
 let farmerEmail = localStorage.getItem("farmerEmail");
 let farmerPhone = localStorage.getItem("farmerPhone");
 
-/* SET HIDDEN FIELDS */
-document.getElementById("farmerName").value = farmerName;
-document.getElementById("farmerEmail").value = farmerEmail;
-document.getElementById("farmerPhone").value = farmerPhone;
+/* SAFE FALLBACKS */
+document.getElementById("farmerName").value = farmerName || "Unknown Farmer";
+document.getElementById("farmerEmail").value = farmerEmail || "unknown@email.com";
+document.getElementById("farmerPhone").value = farmerPhone || "0000000000";
 
-/* LANGUAGE SUPPORT */
-let lang = localStorage.getItem("farmerLanguage");
+/* LOCATION MAPPING (IMPORTANT FIX) */
+document.getElementById("location").value =
+document.getElementById("village").value;
 
-if(lang=="tamil"){
-document.getElementById("title").innerHTML="🌾 பூச்சி புகார் பதிவு";
-document.getElementById("villageLabel").innerHTML="கிராமம்";
-document.getElementById("cropLabel").innerHTML="பயிர் வகை";
-document.getElementById("periodLabel").innerHTML="சாகுபடி காலம்";
-document.getElementById("pestLabel").innerHTML="பூச்சி வகை";
-document.getElementById("severityLabel").innerHTML="பாதிப்பு அளவு";
-document.getElementById("imageLabel").innerHTML="படம்";
-document.getElementById("descLabel").innerHTML="விளக்கம்";
-document.getElementById("submitBtn").innerHTML="சமர்ப்பிக்க";
-}
+/* UPDATE LOCATION WHEN VILLAGE CHANGES */
+document.getElementById("village").addEventListener("change", function(){
+document.getElementById("location").value = this.value;
+});
 
 /* PEST INFO */
 function showPestInfo(){
-
 let pest=document.getElementById("pestType").value;
 let text="";
 
-if(pest=="Leaf Folder")
-text="Damages rice leaves.";
-
-else if(pest=="Stem Borer")
-text="Bores inside stems.";
-
-else if(pest=="Brown Plant Hopper")
-text="Sucks plant sap.";
-
-else if(pest=="Armyworm")
-text="Eats leaves quickly.";
+if(pest=="Leaf Folder") text="Damages rice leaves.";
+else if(pest=="Stem Borer") text="Bores inside stems.";
+else if(pest=="Brown Plant Hopper") text="Sucks plant sap.";
+else if(pest=="Armyworm") text="Eats leaves quickly.";
 
 document.getElementById("pestDescription").innerText=text;
 }
@@ -200,7 +193,6 @@ formData.append("image",file);
 
 try{
 
-/* UPLOAD IMAGE */
 let res = await fetch(`https://api.imgbb.com/1/upload?key=${apiKey}`,{
 method:"POST",
 body:formData
@@ -209,10 +201,9 @@ body:formData
 let data = await res.json();
 let imageURL = data.data.url;
 
-/* SET IMAGE URL */
 document.getElementById("imageURL").value = imageURL;
 
-/* SEND EMAIL */
+/* EMAIL */
 await emailjs.send("service_5be3jfq","template_f6nyiit",{
 farmer_name: farmerName,
 farmer_email: farmerEmail,
@@ -221,28 +212,12 @@ village: document.querySelector("[name='Village__c']").value,
 image_url: imageURL
 });
 
-/* SAVE TO LOCAL STORAGE */
-let cases = JSON.parse(localStorage.getItem("cases")) || [];
-
-cases.push({
-name: farmerName,
-email: farmerEmail,
-phone: farmerPhone,
-pest: document.querySelector("[name='subject']").value,
-village: document.querySelector("[name='Village__c']").value,
-image: imageURL,
-status: "Pending"
-});
-
-localStorage.setItem("cases", JSON.stringify(cases));
-
-/* SUBMIT TO SALESFORCE */
+/* SUBMIT */
 document.getElementById("pestForm").submit();
 
 }catch(err){
 alert("Error: "+err.message);
 }
-
 }
 
 </script>
