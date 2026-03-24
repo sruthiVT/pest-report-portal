@@ -9,7 +9,6 @@ font-family:Arial;
 background:#f4f4f4;
 padding:30px;
 }
-
 .container{
 max-width:700px;
 margin:auto;
@@ -18,11 +17,8 @@ padding:30px;
 border-radius:10px;
 box-shadow:0 0 10px rgba(0,0,0,0.1);
 }
-
 h2{text-align:center;}
-
 label{font-weight:bold;}
-
 input,select,textarea{
 width:100%;
 padding:12px;
@@ -30,7 +26,6 @@ margin:8px 0;
 border-radius:5px;
 border:1px solid #ccc;
 }
-
 button{
 width:100%;
 padding:12px;
@@ -41,16 +36,9 @@ font-size:16px;
 border-radius:5px;
 cursor:pointer;
 }
-
-.pestInfo{
-color:green;
-font-weight:bold;
-margin-top:5px;
-}
 </style>
 
 <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
-
 <script>
 (function(){
 emailjs.init("3oTB5lj9pKw_10I6R");
@@ -63,7 +51,7 @@ emailjs.init("3oTB5lj9pKw_10I6R");
 
 <div class="container">
 
-<h2 id="title">🌾 Farmer Pest Report</h2>
+<h2>🌾 Farmer Pest Report</h2>
 
 <form id="pestForm"
 onsubmit="uploadImage(event)"
@@ -75,133 +63,53 @@ action="https://webto.salesforce.com/servlet/servlet.WebToCase?encoding=UTF-8">
 <input type="hidden" name="retURL"
 value="https://sruthivt.github.io/pest-report-portal/success.html">
 
-<input type="hidden" name="suppliedname" id="farmerName">
-<input type="hidden" name="suppliedemail" id="farmerEmail">
-<input type="hidden" name="suppliedphone" id="farmerPhone">
+<!-- ✅ CUSTOM FIELDS -->
+<input type="hidden" name="Farmer_Name__c" id="farmerName">
+<input type="hidden" name="Email__c" id="farmerEmail">
+<input type="hidden" name="Mobile_Number__c" id="farmerPhone">
+<input type="hidden" name="Location__c" id="locationField">
 
 <input type="hidden" name="Crop_Image_URL__c" id="imageURL">
 
-<label id="villageLabel">Village</label>
-<select name="Village__c">
+<label>Village</label>
+<select name="Village__c" id="villageSelect">
 <option>Pollachi</option>
 <option>Udumalpet</option>
-<option>Kinathukadavu</option>
-<option>Valparai</option>
-<option>Perundurai</option>
-<option>Gobichettipalayam</option>
-<option>Sathyamangalam</option>
-<option>Bhavani</option>
-<option>Anthiyur</option>
-<option>Nambiyur</option>
-<option>Kodumudi</option>
-<option>Avinashi</option>
 <option>Tiruppur</option>
-<option>Dharapuram</option>
-<option>Kangeyam</option>
-<option>Palladam</option>
-<option>Thanjavur</option>
-<option>Kumbakonam</option>
-<option>Orathanadu</option>
-<option>Pattukkottai</option>
-<option>Mayiladuthurai</option>
-<option>Sirkazhi</option>
-<option>Nagapattinam</option>
-<option>Velankanni</option>
-<option>Cuddalore</option>
-<option>Panruti</option>
-<option>Chidambaram</option>
-<option>Villupuram</option>
-<option>Tindivanam</option>
-<option>Salem</option>
-<option>Attur</option>
-<option>Omalur</option>
-<option>Edappadi</option>
-<option>Mettur</option>
-<option>Namakkal</option>
-<option>Rasipuram</option>
-<option>Tiruchengode</option>
 <option>Erode</option>
-<option>Karur</option>
-<option>Kulithalai</option>
-<option>Trichy</option>
-<option>Musiri</option>
-<option>Lalgudi</option>
-<option>Madurai</option>
-<option>Usilampatti</option>
-<option>Dindigul</option>
-<option>Palani</option>
-<option>Oddanchatram</option>
-<option>Theni</option>
-<option>Periyakulam</option>
-<option>Bodinayakanur</option>
-<option>Virudhunagar</option>
-<option>Sivakasi</option>
-<option>Rajapalayam</option>
-<option>Tirunelveli</option>
-<option>Ambasamudram</option>
-<option>Tenkasi</option>
-<option>Thoothukudi</option>
-<option>Kovilpatti</option>
-<option>Kanyakumari</option>
-<option>Nagercoil</option>
+<option>Coimbatore</option>
 </select>
 
-<label id="cropLabel">Crop Type</label>
+<label>Crop Type</label>
 <select name="Product__c">
-<option>Paddy (Rice)</option>
+<option>Paddy</option>
 <option>Maize</option>
-<option>Ragi</option>
-<option>Sorghum</option>
-<option>Sugarcane</option>
 <option>Cotton</option>
 <option>Groundnut</option>
-<option>Sunflower</option>
-<option>Banana</option>
-<option>Coconut</option>
-<option>Tomato</option>
-<option>Chilli</option>
-<option>Onion</option>
-<option>Brinjal</option>
-<option>Potato</option>
 </select>
 
-<label id="periodLabel">Cultivation Period</label>
-<select name="Cultivation_Period__c">
-<option>0 - 30 Days</option>
-<option>30 - 60 Days</option>
-<option>60 - 90 Days</option>
-<option>90 - 120 Days</option>
-<option>120+ Days</option>
-</select>
-
-<label id="pestLabel">Pest Type</label>
-<select name="subject" id="pestType" onchange="showPestInfo()">
-
+<label>Pest Type</label>
+<select name="subject">
 <option>Leaf Folder</option>
 <option>Stem Borer</option>
 <option>Brown Plant Hopper</option>
 <option>Armyworm</option>
-<option>Aphids</option>
-<option>Whiteflies</option>
-
 </select>
 
-<p id="pestDescription" class="pestInfo"></p>
-
-<label id="severityLabel">Infected Level</label>
+<label>Severity</label>
 <select name="Severity_Level__c">
 <option>Low</option>
 <option>Medium</option>
 <option>High</option>
 </select>
 
-<label id="imageLabel">Upload Crop Image</label>
+<label>Upload Image</label>
 <input type="file" id="imageUpload" required>
 
-<label id="descLabel">Description</label>
+<label>Description</label>
 <textarea name="description"></textarea>
 
-<button type="submit" id="submitBtn">Submit Report</button>
+<button type="submit">Submit Report</button>
 
 </form>
 
@@ -209,63 +117,30 @@ value="https://sruthivt.github.io/pest-report-portal/success.html">
 
 <script>
 
+// ✅ GET DATA FROM LOCAL STORAGE
 let farmerName = localStorage.getItem("farmerName");
 let farmerEmail = localStorage.getItem("farmerEmail");
 let farmerPhone = localStorage.getItem("farmerPhone");
 
-document.getElementById("farmerName").value = farmerName;
-document.getElementById("farmerEmail").value = farmerEmail;
-document.getElementById("farmerPhone").value = farmerPhone;
+// ✅ SET VALUES
+document.getElementById("farmerName").value = farmerName || "Unknown";
+document.getElementById("farmerEmail").value = farmerEmail || "test@gmail.com";
+document.getElementById("farmerPhone").value = farmerPhone || "9999999999";
 
-let lang = localStorage.getItem("farmerLanguage");
+// ✅ SET LOCATION FROM VILLAGE
+document.getElementById("villageSelect").addEventListener("change", function(){
+document.getElementById("locationField").value = this.value;
+});
 
-if(lang=="tamil"){
-
-document.getElementById("title").innerHTML="🌾 பூச்சி புகார் பதிவு";
-document.getElementById("villageLabel").innerHTML="கிராமம்";
-document.getElementById("cropLabel").innerHTML="பயிர் வகை";
-document.getElementById("periodLabel").innerHTML="சாகுபடி காலம்";
-document.getElementById("pestLabel").innerHTML="பூச்சி வகை";
-document.getElementById("severityLabel").innerHTML="பாதிப்பு அளவு";
-document.getElementById("imageLabel").innerHTML="பயிர் படம்";
-document.getElementById("descLabel").innerHTML="விளக்கம்";
-document.getElementById("submitBtn").innerHTML="புகார் சமர்ப்பிக்க";
-
-}
-
-function showPestInfo(){
-
-let pest=document.getElementById("pestType").value;
-let text="";
-
-if(pest=="Leaf Folder")
-text="Damages rice leaves by folding them and feeding inside.";
-
-else if(pest=="Stem Borer")
-text="Attacks crops like rice and maize by boring into stems.";
-
-else if(pest=="Brown Plant Hopper")
-text="Major pest in rice fields that sucks plant sap.";
-
-else if(pest=="Armyworm")
-text="Eats large areas of crops such as maize and grasses.";
-
-else if(pest=="Aphids")
-text="Small insects that suck sap from plants like cotton and vegetables.";
-
-else if(pest=="Whiteflies")
-text="Spread plant viruses and damage crops like tomato and cotton.";
-
-document.getElementById("pestDescription").innerText=text;
-
-}
+// default set
+document.getElementById("locationField").value =
+document.getElementById("villageSelect").value;
 
 async function uploadImage(event){
 
 event.preventDefault();
 
 const file=document.getElementById("imageUpload").files[0];
-
 const apiKey="9d9a3054573db11bcb75e2a3da97e3de";
 
 let formData=new FormData();
@@ -277,20 +152,17 @@ body:formData
 });
 
 let data=await res.json();
-
 let imageURL=data.data.url;
 
 document.getElementById("imageURL").value=imageURL;
 
+// ✅ SEND EMAIL
 emailjs.send("service_5be3jfq","template_f6nyiit",{
-
-farmer_name:farmerName,
-farmer_email:farmerEmail,
-pest_type:document.querySelector("[name='subject']").value,
-village:document.querySelector("[name='Village__c']").value
-
+farmer_name: farmerName,
+farmer_email: farmerEmail
 });
 
+// ✅ SUBMIT FORM
 document.getElementById("pestForm").submit();
 
 }
@@ -299,4 +171,3 @@ document.getElementById("pestForm").submit();
 
 </body>
 </html>
-report code
