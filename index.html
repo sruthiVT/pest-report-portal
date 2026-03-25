@@ -58,7 +58,7 @@ if(lang=="tamil"){
 
 document.getElementById("title").innerHTML="🌾 விவசாயி உள்நுழைவு";
 document.getElementById("name").placeholder="விவசாயி பெயர்";
-document.getElementById("email").placeholder="மின்னஞ்சல் (விருப்பம்)";
+document.getElementById("email").placeholder="மின்னஞ்சல்";
 document.getElementById("phone").placeholder="தொலைபேசி எண்";
 document.getElementById("loginbtn").innerHTML="உள்நுழைவு";
 
@@ -66,7 +66,7 @@ document.getElementById("loginbtn").innerHTML="உள்நுழைவு";
 
 document.getElementById("title").innerHTML="🌾 Farmer Login";
 document.getElementById("name").placeholder="Farmer Name";
-document.getElementById("email").placeholder="Email (Optional)";
+document.getElementById("email").placeholder="Email";
 document.getElementById("phone").placeholder="Phone Number";
 document.getElementById("loginbtn").innerHTML="Login";
 
@@ -92,9 +92,9 @@ let name=document.getElementById("name").value;
 let email=document.getElementById("email").value;
 let phone=document.getElementById("phone").value;
 
-/* VALIDATION (only name & phone required) */
-if(name=="" || phone==""){
-alert("Please fill required fields (Name & Phone)");
+/* VALIDATION (ALL REQUIRED) */
+if(name=="" || email=="" || phone==""){
+alert("Please fill all fields");
 return false;
 }
 
@@ -103,11 +103,7 @@ localStorage.setItem("farmerLanguage",
 document.getElementById("language").value);
 
 localStorage.setItem("farmerName",name);
-
-if(email.trim() !== ""){
 localStorage.setItem("farmerEmail",email);
-}
-
 localStorage.setItem("farmerPhone",phone);
 
 /* REDIRECT TO REPORT PAGE */
@@ -135,7 +131,7 @@ return false;
 
 <input id="name" type="text" placeholder="Farmer Name" required>
 
-<input id="email" type="email" placeholder="Email (Optional)">
+<input id="email" type="email" placeholder="Email" required>
 
 <input id="phone" type="text" placeholder="Phone Number" required>
 
